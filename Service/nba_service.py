@@ -29,11 +29,4 @@ def get_player_career_stats(player_id):
     career = playercareerstats.PlayerCareerStats(player_id=player_id)
     return career.get_data_frames()[0].to_json(orient='records', lines=True)
 
-print(get_player_career_stats(203076))
-
- # Anthony Davis
-# career = playercareerstats.PlayerCareerStats(player_id="203076")
-# career.get_data_frames()[0]
-#
-# print(career.get_data_frames()[0].head(1))
 
