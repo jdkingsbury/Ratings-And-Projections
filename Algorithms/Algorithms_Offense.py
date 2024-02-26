@@ -16,8 +16,8 @@ def Calculate_Offensive_Rebound_Percentage(offensive_rebounds, team_minutes_play
     return offensivereboundpercentage
 
 def Calculate_Effective_Field_Goal_Percentage(field_goals, three_point_field_goals, field_goals_attempted):
-        effectivefieldgoalpercentage = (field_goals + 0.5 * three_point_field_goals) / field_goals_attempted
-        return effectivefieldgoalpercentage
+    effectivefieldgoalpercentage = (field_goals + 0.5 * three_point_field_goals) / field_goals_attempted
+    return effectivefieldgoalpercentage
 
 def Calculate_True_Shooting_Percentage(points, field_goals_attempted, free_throws_attempted):
     trueshootingpercentage = points / (2 * (field_goals_attempted + 0.44 * free_throws_attempted))

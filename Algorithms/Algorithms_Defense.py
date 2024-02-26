@@ -2,6 +2,7 @@
 import math
 import numpy as np
 
+# Might not need any of these functions
 def Calculate_Steal_Percentage(steals, team_minutes_played, minutes_played, opponents_possessions):
     stealpercentage = 100 * (steals * (team_minutes_played / 5)) / (minutes_played * opponents_possessions)
     return stealpercentage
