@@ -1,6 +1,6 @@
 import json
 
-def load_players_data(file_path):
+def read_json_file(file_path):
     try:
         with open(file_path, 'r') as file:
             json_data = json.load(file)
