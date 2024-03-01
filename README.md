@@ -9,6 +9,7 @@ The Goal of the project is to train an AI on how to grade players and show their
 - numpy
 - matplotlib
 
+It is recommended to create a virtual environment before installing packages.
 Run pip install -r requirements.txt to install all necessary packages.  
 
-The Project will use Prostgres as the database.  
+I am using Postgres as the database for the project.
