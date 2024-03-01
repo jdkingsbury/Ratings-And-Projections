@@ -22,3 +22,9 @@
   - [ ] Check national broadcasted games.
   - [ ] Check how well they match up between certain players.
   - [ ] Check team rivalries and must win games.
+
+## Command Cheat Sheet
+- Start Postgres server:
+    - brew services start postgresql
+- Stop Postgres server:
+    - brew services stop postgresql
