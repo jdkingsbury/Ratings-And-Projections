@@ -2,7 +2,7 @@ from db_operations import connect_to_database
 from json_reader import read_json_file
 
 def main():
-    players_data = read_json_file('players.json')
+    players_data = read_json_file('../data/nba_players.json')
     if players_data is None:
         return
     conn = connect_to_database()
@@ -20,8 +20,25 @@ def main():
         '''
 
         for player in players_data:
-            cursor.execute(insert_query, player)
-
+            player_values = (
+                player["PERSON_ID"],
+                player["DISPLAY_LAST_COMMA_FIRST"],
+                player["DISPLAY_FIRST_LAST"],
+                player["ROSTERSTATUS"],
+                player["FROM_YEAR"],
+                player["TO_YEAR"],
+                player["PLAYERCODE"],
+                player["PLAYER_SLUG"],
+                player["TEAM_ID"],
+                player["TEAM_CITY"],
+                player["TEAM_NAME"],
+                player["TEAM_ABBREVIATION"],
+                player["TEAM_SLUG"],
+                player["TEAM_CODE"],
+                player["GAMES_PLAYED_FLAG"],
+                player["OTHERLEAGUE_EXPERIENCE_CH"]
+            )
+            cursor.execute(insert_query, player_values)
         conn.commit()
 
         cursor.close()
