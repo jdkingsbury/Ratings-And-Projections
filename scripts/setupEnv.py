@@ -20,22 +20,34 @@ def check_postgresql():
         subprocess.check_call(['psql', '--version'])
         print("PostgreSQL is installed")
     except subprocess.CalledProcessError:
-        print(f"PostgreSQL is not installed or not added to Path.")
+        print("PostgreSQL is not installed or not added to Path. Please install PostgreSQL.")
         sys.exit(1)
 
 
 def create_database(dbname, user, password, host):
+    connection = None
     try:
-        connection = psycopg2.connect(dbname='postgres', user=user, password=password, host=host)
+        conn_str = f"dbname=postgres user={user} host={host}"
+        if password:
+            conn_str += f" password={password}"
+        connection = psycopg2.connect(conn_str)
         connection.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
         cursor = connection.cursor()
         cursor.execute(f"CREATE DATABASE {dbname}")
         cursor.close()
         connection.close()
         print(f"Database {dbname} created successfully")
+    except psycopg2.OperationalError as e:
+        print(f"OperationalError: {e}")
+        print("Attempting to connect with default settings may have failed due to missing password.")
+        print("Consider setting a password for the 'postgres' user or adjusting pg_hba.conf for trust authentication.")
+        sys.exit(1)
     except psycopg2.Error as e:
         print(f"Failed to create database: {e}")
         sys.exit(1)
+    finally:
+        if connection is not None:
+            connection.close()
 
 def setup_environment():
     create_tables()
