@@ -1,6 +1,6 @@
 DATABASE_CONFIG = {
     'dbname': 'nba_data',
-    'user': 'jerrykingsbury',
+    'user': 'postgres',
     'password': '',
     'host': 'localhost',
 }

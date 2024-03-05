@@ -1,5 +1,5 @@
-from db_operations import connect_to_database
-from json_reader import read_json_file
+from .db_operations import connect_to_database
+from .json_reader import read_json_file
 
 def main():
     players_data = read_json_file('../data/nba_players.json')
