@@ -1,8 +1,14 @@
 from .db_operations import connect_to_database
 from .json_reader import read_json_file
+from pathlib import Path
 
 def main():
-    players_data = read_json_file('../data/nba_players.json')
+    current_script_dir = Path(__file__).parent
+    json_file_path = current_script_dir / '../data/nba_players.json'
+    absolute_json_file_path = json_file_path.resolve()
+
+    players_data = read_json_file(str(absolute_json_file_path))
+
     if players_data is None:
         return
     conn = connect_to_database()
