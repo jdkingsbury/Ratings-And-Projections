@@ -31,7 +31,5 @@ def get_player_career_stats(player_id):
     return career.get_data_frames()[0].to_json(orient='records', lines=True)
 
 
-# with open('player.json', 'w') as file:
-#     json.dump(get_player_career_stats(1630173), file)
 
 
