@@ -1,6 +1,7 @@
 import json
 import nba_api.stats.endpoints as CommonAllPlayers
 import nba_api.stats.endpoints as playercareerstats
+import nba_api.stats.endpoints as playergamelog
 
 # LeagueID: 00 = NBA, 10 = WNBA, 20 = G-League
 
@@ -30,7 +31,7 @@ def get_player_career_stats(player_id):
     return career.get_data_frames()[0].to_json(orient='records', lines=True)
 
 
-with open('player.json', 'w') as file:
-    json.dump(get_player_career_stats(1630173), file)
+# with open('player.json', 'w') as file:
+#     json.dump(get_player_career_stats(1630173), file)
 
 
