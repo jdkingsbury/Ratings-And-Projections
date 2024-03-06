@@ -8,6 +8,15 @@
   - We will need to rank the players they are matched up against
 - Players and teams play style will need to be taken into account
 
+## NBA API Endpoints 
+
+- teamvsplayer
+- playervsplayer 
+- playergamelogs?
+- playerestimatedmetrics
+- commonallplayers
+- defensehub?
+
 ## Weight Differential
 
 - Offense will outweigh defense

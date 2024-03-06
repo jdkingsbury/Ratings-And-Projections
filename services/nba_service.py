@@ -30,6 +30,3 @@ def get_player_career_stats(player_id):
     career = playercareerstats.PlayerCareerStats(player_id=player_id)
     return career.get_data_frames()[0].to_json(orient='records', lines=True)
 
-
-
-
