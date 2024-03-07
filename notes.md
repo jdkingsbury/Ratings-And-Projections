@@ -37,3 +37,27 @@
     - brew services start postgresql
 - Stop Postgres server:
     - brew services stop postgresql
+
+### Basic Formula
+
+An example set of weights could be:
+a=4 (Points are heavily valued)
+b=2 (Rebounds contribute to both offense and defense)
+c=3 (Assists foster team play and scoring opportunities)
+d=1.5 (Steals can indicate defensive prowess and lead to easy points)
+e=1.5 (Blocks are an essential part of defense)
+f=−2 (Turnovers are negative and thus subtract from the grade)
+g=1, h=1, and i=1 (Efficiency in shooting is fundamental)
+
+Player Grade=(a×PPG)+(b×RPG)+(c×APG)+(d×SPG)+(e×BPG)−(f×TOV)+(g×FG%)+(h×3P%)+(i×FT%)
+
+PPG = Points Per Game
+RPG = Rebounds Per Game
+APG = Assists Per Game
+SPG = Steals Per Game
+BPG = Blocks Per Game
+TOV = Turnovers Per Game
+FG% = Field Goal Percentage
+3P% = Three-Point Percentage
+FT% = Free Throw Percentage
+a through i = weights assigned to each statistic based on their perceived importance.
