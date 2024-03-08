@@ -8,10 +8,10 @@
   - We will need to rank the players they are matched up against
 - Players and teams play style will need to be taken into account
 
-## NBA API Endpoints 
+## NBA API Endpoints
 
 - teamvsplayer
-- playervsplayer 
+- playervsplayer
 - playergamelogs?
 - playerestimatedmetrics
 - commonallplayers
@@ -23,20 +23,23 @@
 
 ## Todos
 
-- [ ] Rewrite and remove unnecessary algorithms.
+- [x] Rewrite and remove unnecessary algorithms.
 - [ ] Determine if we need to change or add more api calls.
 - [ ] Need to create a base algorithm to create a grade.
+  - [ ] need to retrieve the needed stats for the player grade
   - [ ] Create layers to include other factors which can increase or decrease a players score.
+
 - [ ] Attempt to factor in a players ego.
   - [ ] Check national broadcasted games.
   - [ ] Check how well they match up between certain players.
   - [ ] Check team rivalries and must win games.
 
 ## Command Cheat Sheet
+
 - Start Postgres server:
-    - brew services start postgresql
+  - brew services start postgresql
 - Stop Postgres server:
-    - brew services stop postgresql
+  - brew services stop postgresql
 
 ### Basic Formula
 
@@ -49,7 +52,9 @@ e=1.5 (Blocks are an essential part of defense)
 f=−2 (Turnovers are negative and thus subtract from the grade)
 g=1, h=1, and i=1 (Efficiency in shooting is fundamental)
 
+```python
 Player Grade=(a×PPG)+(b×RPG)+(c×APG)+(d×SPG)+(e×BPG)−(f×TOV)+(g×FG%)+(h×3P%)+(i×FT%)
+```
 
 PPG = Points Per Game
 RPG = Rebounds Per Game
