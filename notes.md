@@ -66,3 +66,13 @@ FG% = Field Goal Percentage
 3P% = Three-Point Percentage
 FT% = Free Throw Percentage
 a through i = weights assigned to each statistic based on their perceived importance.
+
+Example on how to use the functions in nba_service to get json data
+- If you create file and it has a player id then it will create the json file with the function name of the function you used in nba_service and the playerid 
+- All files are treated as modules should you should use the command python -m and then services.create_json and then the function name you want to use and the player id
+
+Example of shell command to use to get the career stats for the player with player id 2544
+```shell
+python -m services.create_json get_player_career_stats 2544
+```
+
