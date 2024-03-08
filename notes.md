@@ -25,6 +25,7 @@
 
 - [x] Rewrite and remove unnecessary algorithms.
 - [ ] Determine if we need to change or add more api calls.
+    - [x] Create a file that will create json files for each nba_service function so we will be able to automate making api calls to get the correct data
 - [ ] Need to create a base algorithm to create a grade.
   - [ ] need to retrieve the needed stats for the player grade
   - [ ] Create layers to include other factors which can increase or decrease a players score.
