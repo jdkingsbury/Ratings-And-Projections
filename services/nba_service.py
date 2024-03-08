@@ -13,7 +13,7 @@ def get_all_players(season_year):
         season=season_year
     )
     df_common_all_players = common_all_players.get_data_frames()[0]
-    return df_common_all_players.to_json(orient='records', lines=True)
+    return df_common_all_players.to_json(orient='records')
 
 # Get player id from player name
 def get_player_id(player_name):
@@ -23,10 +23,13 @@ def get_player_id(player_name):
     )
     df_common_all_players = common_all_players.get_data_frames()[0]
     player_id = df_common_all_players[df_common_all_players['DISPLAY_FIRST_LAST'] == player_name]['PERSON_ID']
-    return player_id.to_json(orient='records', lines=True)
+    return player_id.to_json(orient='records')
 
 # Get player career stats
 def get_player_career_stats(player_id):
     career = playercareerstats.PlayerCareerStats(player_id=player_id)
-    return career.get_data_frames()[0].to_json(orient='records', lines=True)
+    player_career = career.get_data_frames()[0]
+    return player_career.to_json(orient='records')
 
+with open('data/player_career.json', 'w') as file:
+    json.dump(get_player_career_stats(2544), file)
