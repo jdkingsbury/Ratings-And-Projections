@@ -2,7 +2,6 @@
 ppg = 25
 rpg = 10
 apg = 5
-spg = 1.5
 bpg = 1
 tov = 3
 fg_percent = 50
