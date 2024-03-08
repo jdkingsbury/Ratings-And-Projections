@@ -1,11 +1,9 @@
-import json
 import nba_api.stats.endpoints as CommonAllPlayers
 import nba_api.stats.endpoints as playercareerstats
-import nba_api.stats.endpoints as playergamelog
 
-# LeagueID: 00 = NBA, 10 = WNBA, 20 = G-League
+# NOTE: LeagueID: 00 = NBA, 10 = WNBA, 20 = G-League
 
-# Grab all active players from NBA
+# NOTE: Grabs all active players from NBA
 def get_all_players(season_year):
     common_all_players = CommonAllPlayers.CommonAllPlayers(
         is_only_current_season=1,
@@ -15,7 +13,7 @@ def get_all_players(season_year):
     df_common_all_players = common_all_players.get_data_frames()[0]
     return df_common_all_players.to_json(orient='records')
 
-# Get player id from player name
+# NOTE: Gets player id from player name
 def get_player_id(player_name):
     common_all_players = CommonAllPlayers.CommonAllPlayers(
         is_only_current_season=1,
@@ -25,7 +23,7 @@ def get_player_id(player_name):
     player_id = df_common_all_players[df_common_all_players['DISPLAY_FIRST_LAST'] == player_name]['PERSON_ID']
     return player_id.to_json(orient='records')
 
-# Get player career stats
+# NOTE: Get player career stats
 def get_player_career_stats(player_id):
     career = playercareerstats.PlayerCareerStats(player_id=player_id)
     player_career = career.get_data_frames()[0]

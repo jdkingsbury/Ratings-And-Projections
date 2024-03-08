@@ -1,6 +1,5 @@
 import os
 import sys
-import json
 from .nba_service import get_player_career_stats, get_player_id, get_all_players
 
 def create_json_file(data, file_name):
@@ -12,7 +11,8 @@ def create_json_file(data, file_name):
     with open(file_path, 'w') as file:
         file.write(data)
 
-# Mapping of command-line arguments to functions in nba_service
+# NOTE: Mapping of command-line arguments to functions in nba_service
+# Add new functions here when created so that we can create json files for those functions in nba_service.py
 function_mapping = {
     'get_all_players': get_all_players,
     'get_player_career_stats': get_player_career_stats,

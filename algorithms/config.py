@@ -1,4 +1,4 @@
-# Define weights
+# NOTE: Define weights
 CUSTOM_WEIGHTS = {
     "ppg": 4,
     "rpg": 2,

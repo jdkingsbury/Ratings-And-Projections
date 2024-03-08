@@ -1,6 +1,7 @@
 import psycopg2
 from .config import DATABASE_CONFIG
 
+# NOTE: This function connects to the database and returns the connection object.
 def connect_to_database():
     try:
         conn = psycopg2.connect(**DATABASE_CONFIG)

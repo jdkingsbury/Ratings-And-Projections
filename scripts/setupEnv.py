@@ -6,6 +6,7 @@ import psycopg2
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT 
 from db.main import main as create_tables
 
+# NOTE: This function installs the dependencies from requirements.txt
 def install_dependencies():
     try:
         subprocess.check_call([sys.executable, '-m', 'pip', 'install', '-r', 'requirements.txt'])
@@ -15,6 +16,7 @@ def install_dependencies():
         sys.exit(1)
     
 
+# NOTE: This function checks if PostgreSQL is installed and added to Path
 def check_postgresql():
     try:
         subprocess.check_call(['psql', '--version'])
@@ -23,7 +25,7 @@ def check_postgresql():
         print("PostgreSQL is not installed or not added to Path. Please install PostgreSQL.")
         sys.exit(1)
 
-
+# NOTE: This function creates a database
 def create_database(dbname, user, password, host):
     connection = None
     try:
@@ -49,9 +51,11 @@ def create_database(dbname, user, password, host):
         if connection is not None:
             connection.close()
 
+# NOTE: This function sets up the environment
 def setup_environment():
     create_tables()
 
+# NOTE: This function is the entry point of the script
 def main():
     check_postgresql()
     install_dependencies()

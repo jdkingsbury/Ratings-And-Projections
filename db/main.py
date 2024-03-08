@@ -2,6 +2,7 @@ from .db_operations import connect_to_database
 from .json_reader import read_json_file
 from pathlib import Path
 
+
 def main():
     current_script_dir = Path(__file__).parent
     json_file_path = current_script_dir / '../data/nba_players.json'
@@ -16,7 +17,7 @@ def main():
     if conn is not None:
         cursor = conn.cursor()
 
-        # SQL statement to create the players table
+        # NOTE: SQL statement to create the players table
         create_table_query = '''
         CREATE TABLE IF NOT EXISTS players (
             person_id SERIAL PRIMARY KEY,
@@ -39,7 +40,7 @@ def main():
         '''
         cursor.execute(create_table_query)
 
-        # SQL statement to insert data into the players table
+        # NOTE: SQL statement to insert data into the players table
         insert_query = '''
         INSERT INTO players (
             person_id, display_last_comma_first, display_first_last, rosterstatus, from_year, 

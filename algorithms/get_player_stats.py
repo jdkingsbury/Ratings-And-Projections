@@ -1,4 +1,4 @@
-# Example player stats
+# NOTE: Example player stats
 ppg = 25
 rpg = 10
 apg = 5

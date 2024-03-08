@@ -9,7 +9,7 @@ def calculate_player_grade(ppg, rpg, apg, spg, bpg, tov, fg_percent, three_point
     return player_grade
 
 
-# Example player stats
+# NOTE: Example player stats
 ppg = 25
 rpg = 10
 apg = 5
@@ -20,7 +20,7 @@ fg_percent = 50
 three_point_percent = 35
 ft_percent = 85
 
-# Calculate the player's grade with custom weights
+# NOTE: Calculate the player's grade with custom weights
 player_grade = calculate_player_grade(ppg, rpg, apg, spg, bpg, tov, fg_percent, three_point_percent, ft_percent, CUSTOM_WEIGHTS)
 
 print(f"Player Grade: {player_grade}")
