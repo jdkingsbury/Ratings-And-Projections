@@ -68,5 +68,5 @@ def insert_player_career_stats(conn, data):
 # Add new functions here as needed
 function_mapping = {
     "get_player_career_stats": insert_player_career_stats,
-    "nba_players": insert_nba_players,
+    "get_all_players": insert_nba_players,
 }
