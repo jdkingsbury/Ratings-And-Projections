@@ -57,7 +57,6 @@ def insert_nba_players(conn, players_data):
         conn.commit()
 
         cursor.close()
-        conn.close()
 
 
 def insert_player_career_stats(conn, data):
