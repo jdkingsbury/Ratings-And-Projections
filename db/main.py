@@ -12,7 +12,7 @@ def main():
     
     function_identifier, arg = sys.argv[1], sys.argv[2]
     current_script_path = Path(__file__).parent
-    json_file_name = f"{function_identifier}_{arg}.json"
+    json_file_name = f"{arg}.json"
     print(f"json_file_name: {json_file_name}")
     json_file_path = current_script_path / f'../data/{json_file_name}'
     print(f"json_file_path: {json_file_path}")
