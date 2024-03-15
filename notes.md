@@ -74,6 +74,11 @@ Example on how to use the functions in nba_service to get json data
 - If you create file and it has a player id then it will create the json file with the function name of the function you used in nba_service and the playerid
 - All files are treated as modules should you should use the command python -m and then services.create_json and then the function name you want to use and the player id
 
+Example of shell command to use to insert all players from a json into the database. The json file is created with the function name of get_all_players in the nba_service file followed by the season year. 
+``` shell
+python -m db.main get_all_players 2023-24
+```
+
 Example of shell command to use to get the career stats for the player with player id 2544
 
 ```shell
