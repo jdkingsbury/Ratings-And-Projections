@@ -57,6 +57,7 @@ def insert_nba_players(conn, players_data):
         conn.commit()
 
 
+# TODO: Test to see if the data insertion works
 def insert_player_career_stats(conn, career_stats_data):
     cursor = conn.cursor()
 
