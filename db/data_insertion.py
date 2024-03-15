@@ -2,7 +2,7 @@ def insert_nba_players(conn, players_data):
     cursor = conn.cursor()
 
     # NOTE: SQL statement to create the players table
-    create_table_query = '''
+    create_table_query = """
         CREATE TABLE IF NOT EXISTS players (
             person_id SERIAL PRIMARY KEY,
             display_last_comma_first VARCHAR(255),
@@ -21,18 +21,18 @@ def insert_nba_players(conn, players_data):
             games_played_flag CHAR(1),
             otherleague_experience_ch CHAR(2)
         );
-        '''
+        """
     cursor.execute(create_table_query)
 
     # NOTE: SQL statement to insert data into the players table
-    insert_query = '''
+    insert_query = """
         INSERT INTO players (
             person_id, display_last_comma_first, display_first_last, rosterstatus, from_year, 
             to_year, playercode, player_slug, team_id, team_city, team_name, 
             team_abbreviation, team_slug, team_code, games_played_flag, otherleague_experience_ch
         ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         ON CONFLICT (person_id) DO NOTHING;
-        '''
+        """
 
     for player in players_data:
         player_values = (
@@ -51,14 +51,119 @@ def insert_nba_players(conn, players_data):
             player["TEAM_SLUG"],
             player["TEAM_CODE"],
             player["GAMES_PLAYED_FLAG"],
-            player["OTHERLEAGUE_EXPERIENCE_CH"]
+            player["OTHERLEAGUE_EXPERIENCE_CH"],
         )
         cursor.execute(insert_query, player_values)
         conn.commit()
 
 
-def insert_player_career_stats(conn, data):
-    pass
+def insert_player_career_stats(conn, career_stats_data):
+    cursor = conn.cursor()
+
+    # NOTE: SQL statement to create the players table
+    create_table_query = """
+        CREATE TABLE IF NOT EXISTS player_career_stats (
+            player_id INT,
+            season_id INT,
+            league_id VARCHAR(5),
+            team_id INT,
+            team_abbreviation VARCHAR(10),
+            player_age DECIMAL,
+            gp INT,
+            gs INT,
+            min DECIMAL,
+            fgm INT,
+            fga INT,
+            fg_pct DECIMAL,
+            fg3m INT,
+            fg3a INT,
+            fg3_pct DECIMAL,
+            ftm INT,
+            fta INT,
+            ft_pct DECIMAL,
+            oreb INT,
+            dreb INT,
+            reb INT,
+            ast INT,
+            stl INT,
+            blk INT,
+            tov INT,
+            pf INT,
+            pts INT,
+            PRIMARY KEY (player_id, season_id),
+            FOREIGN KEY (player_id) REFERENCES players(person_id)
+        );
+        """
+    cursor.execute(create_table_query)
+
+    # NOTE: SQL statement to insert data into the players table
+    inser_query = """
+        INSERT INTO player_career_stats (
+            player_id, season_id, league_id, team_id, team_abbreviation, player_age, 
+            gp, gs, min, fgm, fga, fg_pct, fg3m, fg3a, fg3_pct, ftm, fta, ft_pct, 
+            oreb, dreb, reb, ast, stl, blk, tov, pf, pts
+        ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        ON CONFLICT (player_id, season_id) DO UPDATE 
+        SET 
+            league_id = EXCLUDED.league_id, 
+            team_id = EXCLUDED.team_id,
+            team_abbreviation = EXCLUDED.team_abbreviation, 
+            player_age = EXCLUDED.player_age, 
+            gp = EXCLUDED.gp, 
+            gs = EXCLUDED.gs, 
+            min = EXCLUDED.min, 
+            fgm = EXCLUDED.fgm, 
+            fga = EXCLUDED.fga, 
+            fg_pct = EXCLUDED.fg_pct, 
+            fg3m = EXCLUDED.fg3m, 
+            fg3a = EXCLUDED.fg3a, 
+            fg3_pct = EXCLUDED.fg3_pct, 
+            ftm = EXCLUDED.ftm, 
+            fta = EXCLUDED.fta, 
+            ft_pct = EXCLUDED.ft_pct, 
+            oreb = EXCLUDED.oreb, 
+            dreb = EXCLUDED.dreb, 
+            reb = EXCLUDED.reb, 
+            ast = EXCLUDED.ast, 
+            stl = EXCLUDED.stl, 
+            blk = EXCLUDED.blk, 
+            tov = EXCLUDED.tov, 
+            pf = EXCLUDED.pf, 
+            pts = EXCLUDED.pts;
+        """
+
+    for stat in career_stats_data:
+        player_career_stat_values = (
+            stat["PLAYER_ID"],
+            stat["SEASON_ID"],
+            stat["LEAGUE_ID"],
+            stat["TEAM_ID"],
+            stat["TEAM_ABBREVIATION"],
+            stat["PLAYER_AGE"],
+            stat["GP"],
+            stat["GS"],
+            stat["MIN"],
+            stat["FGM"],
+            stat["FGA"],
+            stat["FG_PCT"],
+            stat["FG3M"],
+            stat["FG3A"],
+            stat["FG3_PCT"],
+            stat["FTM"],
+            stat["FTA"],
+            stat["FT_PCT"],
+            stat["OREB"],
+            stat["DREB"],
+            stat["REB"],
+            stat["AST"],
+            stat["STL"],
+            stat["BLK"],
+            stat["TOV"],
+            stat["PF"],
+            stat["PTS"],
+        )
+        cursor.execute(inser_query, player_career_stat_values)
+        conn.commit()
 
 
 # NOTE: Function mapping for data insertion
