@@ -65,7 +65,7 @@ def insert_player_career_stats(conn, career_stats_data):
     create_table_query = """
         CREATE TABLE IF NOT EXISTS player_career_stats (
             player_id INT,
-            season_id INT,
+            season_id VARCHAR(10),
             league_id VARCHAR(5),
             team_id INT,
             team_abbreviation VARCHAR(10),

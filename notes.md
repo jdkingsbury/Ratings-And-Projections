@@ -25,9 +25,11 @@
 
 - [x] Rewrite and remove unnecessary algorithms.
 - [ ] Determine if we need to change or add more api calls.
+
   - [x] Create a file that will create json files for each nba_service function so we will be able to automate making api calls to get the correct data
 
 - [ ] Need to create a base algorithm to create a grade.
+
   - [ ] need to retrieve the needed stats for the player grade
   - [ ] Create layers to include other factors which can increase or decrease a players score.
 
@@ -74,8 +76,9 @@ Example on how to use the functions in nba_service to get json data
 - If you create file and it has a player id then it will create the json file with the function name of the function you used in nba_service and the playerid
 - All files are treated as modules should you should use the command python -m and then services.create_json and then the function name you want to use and the player id
 
-Example of shell command to use to insert all players from a json into the database. The json file is created with the function name of get_all_players in the nba_service file followed by the season year. 
-``` shell
+Example of shell command to use to insert all players from a json into the database. The json file is created with the function name of get_all_players in the nba_service file followed by the season year.
+
+```shell
 python -m db.main get_all_players 2023-24
 ```
 
