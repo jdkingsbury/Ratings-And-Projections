@@ -88,8 +88,9 @@ Example of shell command to use to get the career stats for the player with play
 ```shell
 python -m services.create_json get_player_career_stats 2544
 ```
+
 Example of shell command to get all the game logs for a season for a particular player
+
 ```shell
  python3 -m services.create_json get_player_game_log 2544 2023-24
 ```
-
