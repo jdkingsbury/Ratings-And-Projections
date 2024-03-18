@@ -203,7 +203,6 @@ def insert_player_game_log(conn, game_log_data):
             pf INT,
             pts INT,
             plus_minus INT,
-            video_available BOOLEAN
         );
         """
     cursor.execute(create_table_query)
@@ -212,11 +211,11 @@ def insert_player_game_log(conn, game_log_data):
         INSERT INTO player_game_stats (
             season_id, player_id, game_id, game_date, matchup, wl, min, 
             fgm, fga, fg_pct, fg3m, fg3a, fg3_pct, ftm, fta, ft_pct, 
-            oreb, dreb, reb, ast, stl, blk, tov, pf, pts, plus_minus, video_available
+            oreb, dreb, reb, ast, stl, blk, tov, pf, pts, plus_minus 
         ) VALUES (
             %s, %s, %s, %s, %s, %s, %s, 
             %s, %s, %s, %s, %s, %s, %s, %s, %s, 
-            %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
+            %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
         )
         """
 
@@ -248,7 +247,6 @@ def insert_player_game_log(conn, game_log_data):
             data["PF"],
             data["PTS"],
             data["PLUS_MINUS"],
-            data["VIDEO_AVAILABLE"],
         )
         cursor.execute(insert_query, data_values)
         conn.commit()
