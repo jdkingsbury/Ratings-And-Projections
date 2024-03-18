@@ -1,3 +1,6 @@
+# Description: This file contains the functions to insert data into the database
+
+# NOTE: Function to insert NBA players
 def insert_nba_players(conn, players_data):
     cursor = conn.cursor()
 
@@ -57,7 +60,7 @@ def insert_nba_players(conn, players_data):
         conn.commit()
 
 
-# TODO: Test to see if the data insertion works
+# NOTE: Function to insert player career stats
 def insert_player_career_stats(conn, career_stats_data):
     cursor = conn.cursor()
 
@@ -167,9 +170,93 @@ def insert_player_career_stats(conn, career_stats_data):
         conn.commit()
 
 
+# TODO: Test this function
+# NOTE: Function to insert player game logs
+def insert_player_game_log(conn, game_log_data):
+    cursor = conn.cursor()
+
+    create_table_query = """
+        CREATE TABLE IF NOT EXISTS player_game_stats (
+            season_id VARCHAR(10),
+            player_id INT,
+            game_id VARCHAR(15),
+            game_date DATE,
+            matchup VARCHAR(15),
+            wl CHAR(1),
+            min INT,
+            fgm INT,
+            fga INT,
+            fg_pct FLOAT,
+            fg3m INT,
+            fg3a INT,
+            fg3_pct FLOAT,
+            ftm INT,
+            fta INT,
+            ft_pct FLOAT,
+            oreb INT,
+            dreb INT,
+            reb INT,
+            ast INT,
+            stl INT,
+            blk INT,
+            tov INT,
+            pf INT,
+            pts INT,
+            plus_minus INT,
+            video_available BOOLEAN
+        );
+        """
+    cursor.execute(create_table_query)
+
+    insert_query = """
+        INSERT INTO player_game_stats (
+            season_id, player_id, game_id, game_date, matchup, wl, min, 
+            fgm, fga, fg_pct, fg3m, fg3a, fg3_pct, ftm, fta, ft_pct, 
+            oreb, dreb, reb, ast, stl, blk, tov, pf, pts, plus_minus, video_available
+        ) VALUES (
+            %s, %s, %s, %s, %s, %s, %s, 
+            %s, %s, %s, %s, %s, %s, %s, %s, %s, 
+            %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
+        )
+        """
+
+    for data in game_log_data:
+        data_values = (
+            data["SEASON_ID"],
+            data["Player_ID"],
+            data["Game_ID"],
+            data["GAME_DATE"],
+            data["MATCHUP"],
+            data["WL"],
+            data["MIN"],
+            data["FGM"],
+            data["FGA"],
+            data["FG_PCT"],
+            data["FG3M"],
+            data["FG3A"],
+            data["FG3_PCT"],
+            data["FTM"],
+            data["FTA"],
+            data["FT_PCT"],
+            data["OREB"],
+            data["DREB"],
+            data["REB"],
+            data["AST"],
+            data["STL"],
+            data["BLK"],
+            data["TOV"],
+            data["PF"],
+            data["PTS"],
+            data["PLUS_MINUS"],
+            data["VIDEO_AVAILABLE"],
+        )
+        cursor.execute(insert_query, data_values)
+        conn.commit()
+
+
 # NOTE: Function mapping for data insertion
-# Add new functions here as needed
 function_mapping = {
     "get_player_career_stats": insert_player_career_stats,
     "get_all_players": insert_nba_players,
+    "get_player_game_log": insert_player_game_log,
 }
