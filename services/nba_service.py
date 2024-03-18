@@ -41,6 +41,10 @@ def get_player_game_log(player_id, season_year):
         player_id=player_id, season=season_year, season_type_all_star="Regular Season"
     )
     player_game_log = game_log.get_data_frames()[0]
+
+    if 'VIDEO_AVAILABLE' in player_game_log.columns:
+        player_game_log = player_game_log.drop(columns=['VIDEO_AVAILABLE'])
+
     return player_game_log.to_json(orient="records")
 
 
