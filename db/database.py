@@ -4,7 +4,7 @@ import psycopg2
 conn = psycopg2.connect(
     database="nba_data",
     host="localhost",
-    user="jerrykingsbury",
+    user="postgres",
     port="5432",
 )
 
