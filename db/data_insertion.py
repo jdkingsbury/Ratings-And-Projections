@@ -37,27 +37,32 @@ def insert_nba_players(conn, players_data):
         ON CONFLICT (person_id) DO NOTHING;
         """
 
-    for player in players_data:
-        player_values = (
-            player["PERSON_ID"],
-            player["DISPLAY_LAST_COMMA_FIRST"],
-            player["DISPLAY_FIRST_LAST"],
-            player["ROSTERSTATUS"],
-            player["FROM_YEAR"],
-            player["TO_YEAR"],
-            player["PLAYERCODE"],
-            player["PLAYER_SLUG"],
-            player["TEAM_ID"],
-            player["TEAM_CITY"],
-            player["TEAM_NAME"],
-            player["TEAM_ABBREVIATION"],
-            player["TEAM_SLUG"],
-            player["TEAM_CODE"],
-            player["GAMES_PLAYED_FLAG"],
-            player["OTHERLEAGUE_EXPERIENCE_CH"],
-        )
-        cursor.execute(insert_query, player_values)
+    try:
+        for player in players_data:
+            player_values = (
+                player["PERSON_ID"],
+                player["DISPLAY_LAST_COMMA_FIRST"],
+                player["DISPLAY_FIRST_LAST"],
+                player["ROSTERSTATUS"],
+                player["FROM_YEAR"],
+                player["TO_YEAR"],
+                player["PLAYERCODE"],
+                player["PLAYER_SLUG"],
+                player["TEAM_ID"],
+                player["TEAM_CITY"],
+                player["TEAM_NAME"],
+                player["TEAM_ABBREVIATION"],
+                player["TEAM_SLUG"],
+                player["TEAM_CODE"],
+                player["GAMES_PLAYED_FLAG"],
+                player["OTHERLEAGUE_EXPERIENCE_CH"],
+            )
+            cursor.execute(insert_query, player_values)
         conn.commit()
+    except Exception as e:
+        conn.rollback()  # Rollback the transaction on error
+        print(f"An error occurred: {e}")
+
 
 
 # NOTE: Function to insert player career stats
@@ -136,38 +141,43 @@ def insert_player_career_stats(conn, career_stats_data):
             pts = EXCLUDED.pts;
         """
 
-    for stat in career_stats_data:
-        player_career_stat_values = (
-            stat["PLAYER_ID"],
-            stat["SEASON_ID"],
-            stat["LEAGUE_ID"],
-            stat["TEAM_ID"],
-            stat["TEAM_ABBREVIATION"],
-            stat["PLAYER_AGE"],
-            stat["GP"],
-            stat["GS"],
-            stat["MIN"],
-            stat["FGM"],
-            stat["FGA"],
-            stat["FG_PCT"],
-            stat["FG3M"],
-            stat["FG3A"],
-            stat["FG3_PCT"],
-            stat["FTM"],
-            stat["FTA"],
-            stat["FT_PCT"],
-            stat["OREB"],
-            stat["DREB"],
-            stat["REB"],
-            stat["AST"],
-            stat["STL"],
-            stat["BLK"],
-            stat["TOV"],
-            stat["PF"],
-            stat["PTS"],
-        )
-        cursor.execute(inser_query, player_career_stat_values)
+    try:
+        for stat in career_stats_data:
+            player_career_stat_values = (
+                stat["PLAYER_ID"],
+                stat["SEASON_ID"],
+                stat["LEAGUE_ID"],
+                stat["TEAM_ID"],
+                stat["TEAM_ABBREVIATION"],
+                stat["PLAYER_AGE"],
+                stat["GP"],
+                stat["GS"],
+                stat["MIN"],
+                stat["FGM"],
+                stat["FGA"],
+                stat["FG_PCT"],
+                stat["FG3M"],
+                stat["FG3A"],
+                stat["FG3_PCT"],
+                stat["FTM"],
+                stat["FTA"],
+                stat["FT_PCT"],
+                stat["OREB"],
+                stat["DREB"],
+                stat["REB"],
+                stat["AST"],
+                stat["STL"],
+                stat["BLK"],
+                stat["TOV"],
+                stat["PF"],
+                stat["PTS"],
+            )
+            cursor.execute(inser_query, player_career_stat_values)
         conn.commit()
+    except Exception as e:
+            conn.rollback()  # Rollback the transaction on error
+            print(f"An error occurred: {e}")
+
 
 
 # TODO: Test this function
@@ -202,9 +212,9 @@ def insert_player_game_log(conn, game_log_data):
             tov INT,
             pf INT,
             pts INT,
-            plus_minus INT,
+            plus_minus INT
         );
-        """
+    """
     cursor.execute(create_table_query)
 
     insert_query = """
@@ -217,39 +227,44 @@ def insert_player_game_log(conn, game_log_data):
             %s, %s, %s, %s, %s, %s, %s, %s, %s, 
             %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
         )
-        """
+    """
 
-    for data in game_log_data:
-        data_values = (
-            data["SEASON_ID"],
-            data["Player_ID"],
-            data["Game_ID"],
-            data["GAME_DATE"],
-            data["MATCHUP"],
-            data["WL"],
-            data["MIN"],
-            data["FGM"],
-            data["FGA"],
-            data["FG_PCT"],
-            data["FG3M"],
-            data["FG3A"],
-            data["FG3_PCT"],
-            data["FTM"],
-            data["FTA"],
-            data["FT_PCT"],
-            data["OREB"],
-            data["DREB"],
-            data["REB"],
-            data["AST"],
-            data["STL"],
-            data["BLK"],
-            data["TOV"],
-            data["PF"],
-            data["PTS"],
-            data["PLUS_MINUS"],
-        )
-        cursor.execute(insert_query, data_values)
+    try:
+        for data in game_log_data:
+            data_values = (
+                data["SEASON_ID"],
+                data["Player_ID"],
+                data["Game_ID"],
+                data["GAME_DATE"],
+                data["MATCHUP"],
+                data["WL"],
+                data["MIN"],
+                data["FGM"],
+                data["FGA"],
+                data["FG_PCT"],
+                data["FG3M"],
+                data["FG3A"],
+                data["FG3_PCT"],
+                data["FTM"],
+                data["FTA"],
+                data["FT_PCT"],
+                data["OREB"],
+                data["DREB"],
+                data["REB"],
+                data["AST"],
+                data["STL"],
+                data["BLK"],
+                data["TOV"],
+                data["PF"],
+                data["PTS"],
+                data["PLUS_MINUS"],
+            )
+            cursor.execute(insert_query, data_values)
+
         conn.commit()
+    except Exception as e:
+        conn.rollback()  # Rollback the transaction on error
+        print(f"An error occurred: {e}")
 
 
 # NOTE: Function mapping for data insertion
