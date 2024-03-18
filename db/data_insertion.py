@@ -1,5 +1,6 @@
 # Description: This file contains the functions to insert data into the database
 
+
 # NOTE: Function to insert NBA players
 def insert_nba_players(conn, players_data):
     cursor = conn.cursor()
@@ -62,7 +63,6 @@ def insert_nba_players(conn, players_data):
     except Exception as e:
         conn.rollback()  # Rollback the transaction on error
         print(f"An error occurred: {e}")
-
 
 
 # NOTE: Function to insert player career stats
@@ -175,16 +175,15 @@ def insert_player_career_stats(conn, career_stats_data):
             cursor.execute(inser_query, player_career_stat_values)
         conn.commit()
     except Exception as e:
-            conn.rollback()  # Rollback the transaction on error
-            print(f"An error occurred: {e}")
+        conn.rollback()  # Rollback the transaction on error
+        print(f"An error occurred: {e}")
 
 
-
-# TODO: Test this function
 # NOTE: Function to insert player game logs
 def insert_player_game_log(conn, game_log_data):
     cursor = conn.cursor()
 
+    # NOTE: SQL statement to create the players table
     create_table_query = """
         CREATE TABLE IF NOT EXISTS player_game_stats (
             season_id VARCHAR(10),
@@ -217,6 +216,7 @@ def insert_player_game_log(conn, game_log_data):
     """
     cursor.execute(create_table_query)
 
+    # NOTE: SQL statement to insert data into the players table
     insert_query = """
         INSERT INTO player_game_stats (
             season_id, player_id, game_id, game_date, matchup, wl, min, 

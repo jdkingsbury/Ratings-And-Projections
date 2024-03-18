@@ -4,13 +4,14 @@ The project is still in development.
 The Goal of the project is to train an AI on how to grade players and show their future projections.
 
 ### To use the project you will need to have these packages installed:
+
 - NBA_API
 - pandas
-- Scikit-learn 
+- Scikit-learn
 - numpy
 - matplotlib
 
-Run pip install -r requirements.txt to install all necessary packages.  
+Run pip install -r requirements.txt to install all necessary packages.
 
 To create a json file from one of the functions in nba_service use the shell command python -m services.create_json followed by the function name and playerid
 
