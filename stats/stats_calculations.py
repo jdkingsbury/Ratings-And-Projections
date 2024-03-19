@@ -70,4 +70,11 @@ def calculate_three_point_percent(data):
 # NOTE: Mapping of calculation functions
 calculation_function_mapping = {
     "ppg": calculate_ppg,
+    "rpg": calculate_rpg,
+    "apg": calculate_apg,
+    "spg": calculate_spg,
+    "bpg": calculate_bpg,
+    "tov": calculate_tov,
+    "fg_percent": calculate_fg_percent,
+    "three_point_percent": calculate_three_point_percent,
 }
