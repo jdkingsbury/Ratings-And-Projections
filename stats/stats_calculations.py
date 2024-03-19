@@ -4,7 +4,7 @@
 # NOTE: Function to calculate points per game
 def calculate_ppg(data):
     if len(data) == 2:
-        games_played, total_points = data
+        total_points, games_played = data
         return total_points / games_played if games_played else 0
     else:
         raise ValueError("Data does not contain expected elements")

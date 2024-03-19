@@ -13,7 +13,10 @@ def get_total_points_and_games_played(conn, player_id, season_id):
     """
 
     cursor.execute(query, (player_id, season_id))
-    return cursor.fetchone()
+    result = cursor.fetchone()
+    cursor.close()
+
+    return result
 
 
 retrieval_function_mapping = {
