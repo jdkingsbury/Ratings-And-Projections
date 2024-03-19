@@ -1,6 +1,7 @@
 # Description: This file contains the functions to retrieve data from the database
 
 
+# WARNING: This function doesn't work and needs to be looked into to fix it
 def get_total_points_and_games_played(conn, player_id, season_id):
     cursor = conn.cursor()
 
