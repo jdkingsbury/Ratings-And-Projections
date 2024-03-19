@@ -5,7 +5,7 @@ sys.path.append("../")
 import subprocess
 import psycopg2
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
-from db.main import main as create_tables
+from db.insert_data import main as create_tables
 
 
 # NOTE: This function installs the dependencies from requirements.txt

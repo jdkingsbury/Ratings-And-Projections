@@ -5,9 +5,7 @@ from stats.stats_calculations import calculation_function_mapping
 
 def main():
     if len(sys.argv) < 3:
-        print(
-            "Usage: python retrieve_data.py <retrieval_function> <calculation_function> [args]"
-        )
+        print("Usage: python retrieve_data.py <retrieval_function> <calculation_function> [args]")
         return
 
     retrieval_function_identifier = sys.argv[1]
