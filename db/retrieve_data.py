@@ -1,8 +1,7 @@
 import sys
 from .db_operations import connect_to_database
 from .data_retrieval import retrieval_function_mapping
-from ..stats.stats_calculations import calculation_function_mapping
-
+from stats.stats_calculations import calculation_function_mapping
 
 def main():
     if len(sys.argv) < 3:
@@ -24,15 +23,11 @@ def main():
             result = calculation_function_mapping[calculation_function_identifier](data)
             print(f"Calculation Result: {result}")
         else:
-            print(
-                f"Calculation function identifier '{calculation_function_identifier}' not recognized."
-            )
+            print(f"Calculation function identifier '{calculation_function_identifier}' not recognized.")
 
         conn.close()
     else:
-        print(
-            f"Retrieval function identifier '{retrieval_function_identifier}' not recognized or connection failed."
-        )
+        print(f"Retrieval function identifier '{retrieval_function_identifier}' not recognized or connection failed.")
 
 
 if __name__ == "__main__":
