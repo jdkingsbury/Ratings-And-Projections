@@ -2,8 +2,8 @@ import sys
 from pathlib import Path
 from .db_operations import connect_to_database
 from .json_reader import read_json_file
-from .data_insertion import function_mapping
-
+from .data_insertion import insert_function_mapping
+ 
 
 def main():
     if len(sys.argv) < 3:
@@ -26,8 +26,8 @@ def main():
 
     conn = connect_to_database()
 
-    if conn is not None and function_identifier in function_mapping:
-        insertion_function = function_mapping[function_identifier]
+    if conn is not None and function_identifier in insert_function_mapping:
+        insertion_function = insert_function_mapping[function_identifier]
         insertion_function(conn, data)
         conn.close()
     else:

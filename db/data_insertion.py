@@ -268,7 +268,7 @@ def insert_player_game_log(conn, game_log_data):
 
 
 # NOTE: Function mapping for data insertion
-function_mapping = {
+insert_function_mapping = {
     "get_player_career_stats": insert_player_career_stats,
     "get_all_players": insert_nba_players,
     "get_player_game_log": insert_player_game_log,
