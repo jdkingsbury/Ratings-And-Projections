@@ -1,7 +1,7 @@
 # Description: This file contains the functions to retrieve data from the database
 
 def get_total_points_and_games_played(conn, player_id, season_id):
-    cursor = conn.cursor
+    cursor = conn.cursor()
 
     query = """
         SELECT SUM(pts) AS total_points, COUNT(game_id) AS games_played
