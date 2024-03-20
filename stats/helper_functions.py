@@ -12,7 +12,7 @@ def calculate_percentage_stat(made, attempted, precision=1):
 
 def validate_stat_data(data, stat_name):
     if isinstance(data, (int, float)):
-        return data, 1
+        return data
 
     if isinstance(data, (tuple, list)) and len(data) == 2 and all(isinstance(x, (int, float)) for x in data):
         return data
