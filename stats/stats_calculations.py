@@ -45,19 +45,16 @@ def calculate_tov(data):
         return calculate_per_game_stat(total_turnovers, games_played)
 
 def calculate_fg_percent(data):
-    if not isinstance(data, (tuple, list)) or len(data) != 2:
-        raise ValueError("FG% data is invalid or does not contain expected elements")
-    return data
+    fg_pct = validate_stat_data(data, "FG%")
+    return fg_pct
 
 def calculate_three_point_percent(data):
-    if not isinstance(data, (tuple, list)) or len(data) != 2:
-        raise ValueError("FG% data is invalid or does not contain expected elements")
-    return data
+    three_point_pct = validate_stat_data(data, "3P%")
+    return three_point_pct
 
 def calculate_ft_percent(data):
-    if not isinstance(data, (tuple, list)) or len(data) != 2:
-        raise ValueError("FG% data is invalid or does not contain expected elements")
-    return data
+    ft_pct = validate_stat_data(data, "FT%")
+    return ft_pct
 
 
 # NOTE: Mapping of calculation functions

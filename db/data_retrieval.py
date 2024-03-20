@@ -105,7 +105,6 @@ def get_season_average_field_goal_percentage(conn, player_id, season_id):
     cursor.execute(query, (player_id, season_id))
     result = cursor.fetchone()
     cursor.close()
-
     return float(result[0]) if result else None
 
 
@@ -120,7 +119,6 @@ def get_season_average_three_point_percentage(conn, player_id, season_id):
     cursor.execute(query, (player_id, season_id))
     result = cursor.fetchone()
     cursor.close()
-
     return float(result[0]) if result else None
 
 
@@ -135,7 +133,6 @@ def get_season_average_free_throw_percentage(conn, player_id, season_id):
     cursor.execute(query, (player_id, season_id))
     result = cursor.fetchone()
     cursor.close()
-
     return float(result[0]) if result else None
 
 
