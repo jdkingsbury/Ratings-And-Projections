@@ -95,28 +95,27 @@ def get_total_turnovers_and_games_played(conn, player_id, season_id):
 
 
 # NOTE: Function to get total field goals made and attempted
-def get_total_field_goals_made_and_attempted(conn, player_id, season_id):
+def get_season_average_field_goal_percentage(conn, season_id):
     cursor = conn.cursor()
     query = """
-        SELECT SUM(fgm) AS total_field_goals_made, SUM(fga) AS total_field_goals_attempted
+        SELECT AVG(fg_pct) AS season_average_field_goal_percentage
         FROM player_game_stats
-        WHERE player_id = %s AND season_id = %s
-        GROUP BY player_id
+        WHERE season_id = %s
     """
-    cursor.execute(query, (player_id, season_id))
+    cursor.execute(query, (season_id,))
     result = cursor.fetchone()
     cursor.close()
-    return result
+
+    return result[0] if result else None
 
 
 # NOTE: Function to get total three pointers made and attempted
-def get_total_three_pointers_made_and_attempted(conn, player_id, season_id):
+def get_season_average_three_point_percentage(conn, player_id, season_id):
     cursor = conn.cursor()
     query = """
-        SELECT SUM(fg3m) AS total_three_pointers_made, SUM(fg3a) AS total_three_pointers_attempted
+        SELECT SUM(fg3_pct) AS season_average_three_point_percentage
         FROM player_game_stats
-        WHERE player_id = %s AND season_id = %s
-        GROUP BY player_id
+        WHERE season_id = %s
     """
     cursor.execute(query, (player_id, season_id))
     result = cursor.fetchone()
@@ -125,13 +124,12 @@ def get_total_three_pointers_made_and_attempted(conn, player_id, season_id):
 
 
 # NOTE: Function to get total free throws made and attempted
-def get_total_free_throws_made_and_attempted(conn, player_id, season_id):
+def get_season_average_free_throw_percentage(conn, player_id, season_id):
     cursor = conn.cursor()
     query = """
-        SELECT SUM(ftm) AS total_free_throws_made, SUM(fta) AS total_free_throws_attempted
+        SELECT SUM(ft_pct) AS season_average_free_throw_percentage
         FROM player_game_stats
-        WHERE player_id = %s AND season_id = %s
-        GROUP BY player_id
+        WHERE season_id = %s
     """
     cursor.execute(query, (player_id, season_id))
     result = cursor.fetchone()
@@ -146,7 +144,7 @@ retrieval_function_mapping = {
     "get_total_steals_and_games_played": get_total_steals_and_games_played,
     "get_total_blocks_and_games_played": get_total_blocks_and_games_played,
     "get_total_turnovers_and_games_played": get_total_turnovers_and_games_played,
-    "get_total_field_goals_made_and_attempted": get_total_field_goals_made_and_attempted,
-    "get_total_three_pointers_made_and_attempted": get_total_three_pointers_made_and_attempted,
-    "get_total_free_throws_made_and_attempted": get_total_free_throws_made_and_attempted,
+    "get_season_average_field_goal_percentage": get_season_average_field_goal_percentage,
+    "get_season_average_three_point_percentage": get_season_average_three_point_percentage,
+    "get_season_average_free_throw_percentage": get_season_average_free_throw_percentage,
 }
