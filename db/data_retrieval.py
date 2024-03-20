@@ -95,14 +95,14 @@ def get_total_turnovers_and_games_played(conn, player_id, season_id):
 
 
 # NOTE: Function to get total field goals made and attempted
-def get_season_average_field_goal_percentage(conn, season_id):
+def get_season_average_field_goal_percentage(conn, player_id, season_id):
     cursor = conn.cursor()
     query = """
         SELECT AVG(fg_pct) AS season_average_field_goal_percentage
         FROM player_game_stats
-        WHERE season_id = %s
+        WHERE player_id = %s and season_id = %s 
     """
-    cursor.execute(query, (season_id,))
+    cursor.execute(query, (player_id, season_id,))
     result = cursor.fetchone()
     cursor.close()
 
@@ -115,7 +115,7 @@ def get_season_average_three_point_percentage(conn, player_id, season_id):
     query = """
         SELECT SUM(fg3_pct) AS season_average_three_point_percentage
         FROM player_game_stats
-        WHERE season_id = %s
+        WHERE player_id = %s and season_id = %s 
     """
     cursor.execute(query, (player_id, season_id))
     result = cursor.fetchone()
@@ -129,7 +129,7 @@ def get_season_average_free_throw_percentage(conn, player_id, season_id):
     query = """
         SELECT SUM(ft_pct) AS season_average_free_throw_percentage
         FROM player_game_stats
-        WHERE season_id = %s
+        WHERE player_id = %s and season_id = %s 
     """
     cursor.execute(query, (player_id, season_id))
     result = cursor.fetchone()
