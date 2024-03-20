@@ -45,16 +45,22 @@ def calculate_tov(data):
         return calculate_per_game_stat(total_turnovers, games_played)
 
 def calculate_fg_percent(data):
-    fg_pct = validate_stat_data(data, "FG%")
+    fg_pct = data
+    if not isinstance(fg_pct, (float, int)):
+        raise ValueError("FG% data must be a float or an integer")
     return fg_pct
 
 def calculate_three_point_percent(data):
-    three_point_pct = validate_stat_data(data, "3P%")
+    three_point_pct = data
+    if not isinstance(three_point_pct, (float, int)):
+        raise ValueError("3P% data must be a float or an integer")
     return three_point_pct
 
 def calculate_ft_percent(data):
-    ft_pct = validate_stat_data(data, "FT%")
-    return ft_pct
+    ft_percent = data
+    if not isinstance(ft_percent, (float, int)):
+        raise ValueError("FT% data must be a float or an integer")
+    return ft_percent
 
 
 # NOTE: Mapping of calculation functions
