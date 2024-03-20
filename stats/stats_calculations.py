@@ -44,26 +44,20 @@ def calculate_tov(data):
         total_turnovers, games_played = validate_stat_data(data, "TOV")
         return calculate_per_game_stat(total_turnovers, games_played)
 
-
-# NOTE: Function to calculate field goal percentage
 def calculate_fg_percent(data):
-    if len(data) == 2:
-        fg_made, fg_attempted = validate_stat_data(data, "FG%")
-        return calculate_percentage_stat(fg_made, fg_attempted)
+    if not isinstance(data, (tuple, list)) or len(data) != 2:
+        raise ValueError("FG% data is invalid or does not contain expected elements")
+    return data
 
-
-# NOTE: Function to calculate three point percentage
 def calculate_three_point_percent(data):
-    if len(data) == 2:
-        three_point_made, three_point_attempted = validate_stat_data(data, "3P%")
-        return calculate_percentage_stat(three_point_made, three_point_attempted)
+    if not isinstance(data, (tuple, list)) or len(data) != 2:
+        raise ValueError("FG% data is invalid or does not contain expected elements")
+    return data
 
-
-# NOTE: Function to calculate free throw percentage
 def calculate_ft_percent(data):
-    if len(data) == 2:
-        ft_made, ft_attempted = validate_stat_data(data, "FT%")
-        return calculate_percentage_stat(ft_made, ft_attempted)
+    if not isinstance(data, (tuple, list)) or len(data) != 2:
+        raise ValueError("FG% data is invalid or does not contain expected elements")
+    return data
 
 
 # NOTE: Mapping of calculation functions
