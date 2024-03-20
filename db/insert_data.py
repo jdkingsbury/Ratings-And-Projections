@@ -3,12 +3,33 @@ from pathlib import Path
 from .db_operations import connect_to_database
 from .json_reader import read_json_file
 from .data_insertion import insert_function_mapping
- 
 
-def main():
+
+# NOTE: This function inserts data into the database based on the function identifier and the data provided
+def insert_data(function_identifier, data):
+    conn = connect_to_database()
+    if conn is None:
+        print("Database connection failed")
+        return
+
+    try:
+        if function_identifier in insert_function_mapping:
+            insertion_function = insert_function_mapping[function_identifier]
+            insertion_function(conn, data)
+        else:
+            raise ValueError(f"Function identifier '{function_identifier}' not recognized.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+    finally:
+        conn.close()
+
+
+# NOTE: This is a simple command-line interface to the insert_data function
+#      It is not part of the main application and is only used for testing
+if __name__ == "__main__":
     if len(sys.argv) < 3:
         print("Usage: python main.py <json_file_path> <table_name>")
-        return
+        sys.exit(1)
 
     function_identifier = sys.argv[1]
     args = sys.argv[2:]
@@ -22,17 +43,6 @@ def main():
 
     if data is None:
         print(f"Error: File {json_file_path} not found")
-        return
+        sys.exit(1)
 
-    conn = connect_to_database()
-
-    if conn is not None and function_identifier in insert_function_mapping:
-        insertion_function = insert_function_mapping[function_identifier]
-        insertion_function(conn, data)
-        conn.close()
-    else:
-        print(f"Function identifier '{function_identifier}' not recognized.")
-
-
-if __name__ == "__main__":
-    main()
+    insert_data(function_identifier, data)

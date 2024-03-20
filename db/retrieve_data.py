@@ -1,7 +1,9 @@
+import sys
 from .db_operations import connect_to_database
 from .data_retrieval import retrieval_function_mapping
 from stats.stats_calculations import calculation_function_mapping
 
+# Note: This function retrieves data from the database and then calculates a result based on the retrieved data
 def retrieve_and_calculate_data(retrieval_function_identifier, calculation_function_identifier, *args):
     conn = connect_to_database()
     if not conn:
@@ -20,11 +22,9 @@ def retrieve_and_calculate_data(retrieval_function_identifier, calculation_funct
                 raise ValueError(f"Calculation function identifier '{calculation_function_identifier}' not recognized.")
         else:
             raise ValueError(f"Retrieval function identifier '{retrieval_function_identifier}' not recognized.")
-
     except Exception as e:
         print(f"An error occurred: {e}")
         return None
-
     finally:
         conn.close()
 
@@ -32,8 +32,6 @@ def retrieve_and_calculate_data(retrieval_function_identifier, calculation_funct
 # NOTE: This is a simple command-line interface to the retrieve_and_calculate_data function
 #      It is not part of the main application and is only used for testing
 if __name__ == "__main__":
-    import sys
-
     def main():
         if len(sys.argv) < 4:
             print("Usage: python -m db.retrieve_data <retrieval_function> <calculation_function> <args>")
