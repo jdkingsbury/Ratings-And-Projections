@@ -113,7 +113,7 @@ def get_total_field_goals_made_and_attempted(conn, player_id, season_id):
 def get_total_three_pointers_made_and_attempted(conn, player_id, season_id):
     cursor = conn.cursor()
     query = """
-        SELECT SUM(three_m) AS total_three_pointers_made, SUM(three_a) AS total_three_pointers_attempted
+        SELECT SUM(fg3m) AS total_three_pointers_made, SUM(fg3a) AS total_three_pointers_attempted
         FROM player_game_stats
         WHERE player_id = %s AND season_id = %s
         GROUP BY player_id
