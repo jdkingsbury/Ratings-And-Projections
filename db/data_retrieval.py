@@ -102,11 +102,11 @@ def get_season_average_field_goal_percentage(conn, player_id, season_id):
         FROM player_game_stats
         WHERE player_id = %s and season_id = %s 
     """
-    cursor.execute(query, (player_id, season_id,))
+    cursor.execute(query, (player_id, season_id))
     result = cursor.fetchone()
     cursor.close()
 
-    return result[0] if result else None
+    return float(result[0]) if result else None
 
 
 # NOTE: Function to get total three pointers made and attempted
@@ -120,7 +120,8 @@ def get_season_average_three_point_percentage(conn, player_id, season_id):
     cursor.execute(query, (player_id, season_id))
     result = cursor.fetchone()
     cursor.close()
-    return result
+
+    return float(result[0]) if result else None
 
 
 # NOTE: Function to get total free throws made and attempted
@@ -134,7 +135,8 @@ def get_season_average_free_throw_percentage(conn, player_id, season_id):
     cursor.execute(query, (player_id, season_id))
     result = cursor.fetchone()
     cursor.close()
-    return result
+
+    return float(result[0]) if result else None
 
 
 retrieval_function_mapping = {

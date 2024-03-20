@@ -11,8 +11,12 @@ def calculate_percentage_stat(made, attempted, precision=1):
 
 
 def validate_stat_data(data, stat_name):
-    if not isinstance(data, tuple) or len(data) != 2 or not all(isinstance(x, (int, float)) for x in data):
+    if not isinstance(data, (tuple, list)) or len(data) != 2:
         raise ValueError(f"{stat_name} data is invalid or does not contain expected elements")
+    
+    if not all(isinstance(x, (int, float)) for x in data):
+        raise ValueError(f"Elements in {stat_name} data are not of type int or float")
+
     return data
 
 
