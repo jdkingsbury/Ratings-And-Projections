@@ -34,4 +34,5 @@ def get_total_rebounds_and_games_played(conn, player_id, season_id):
 
 retrieval_function_mapping = {
     "get_total_points_and_games_played": get_total_points_and_games_played,
+    "get_total_rebounds_and_games_played": get_total_rebounds_and_games_played,
 }
