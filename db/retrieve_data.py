@@ -1,32 +1,53 @@
-import sys
 from .db_operations import connect_to_database
 from .data_retrieval import retrieval_function_mapping
 from stats.stats_calculations import calculation_function_mapping
 
-def main():
-    if len(sys.argv) < 3:
-        print("Usage: python retrieve_data.py <retrieval_function> <calculation_function> [args]")
-        return
-
-    retrieval_function_identifier = sys.argv[1]
-    calculation_function_identifier = sys.argv[2]
-    args = sys.argv[3:]
-
+def retrieve_and_calculate_data(retrieval_function_identifier, calculation_function_identifier, *args):
     conn = connect_to_database()
+    if not conn:
+        raise Exception("Database connection failed")
 
-    if conn and retrieval_function_identifier in retrieval_function_mapping:
-        data = retrieval_function_mapping[retrieval_function_identifier](conn, *args)
+    try:
+        if retrieval_function_identifier in retrieval_function_mapping:
+            retrieval_function = retrieval_function_mapping[retrieval_function_identifier]
+            data = retrieval_function(conn, *args)
 
-        if data and calculation_function_identifier in calculation_function_mapping:
-            result = calculation_function_mapping[calculation_function_identifier](data)
-            print(f"Calculation Result: {result}")
+            if calculation_function_identifier in calculation_function_mapping:
+                calculation_function = calculation_function_mapping[calculation_function_identifier]
+                result = calculation_function(data)
+                return result
+            else:
+                raise ValueError(f"Calculation function identifier '{calculation_function_identifier}' not recognized.")
         else:
-            print(f"Calculation function identifier '{calculation_function_identifier}' not recognized.")
+            raise ValueError(f"Retrieval function identifier '{retrieval_function_identifier}' not recognized.")
 
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return None
+
+    finally:
         conn.close()
-    else:
-        print(f"Retrieval function identifier '{retrieval_function_identifier}' not recognized or connection failed.")
 
 
+# NOTE: This is a simple command-line interface to the retrieve_and_calculate_data function
+#      It is not part of the main application and is only used for testing
 if __name__ == "__main__":
+    import sys
+
+    def main():
+        if len(sys.argv) < 4:
+            print("Usage: python -m db.retrieve_data <retrieval_function> <calculation_function> <args>")
+            sys.exit(1)
+
+        retrieval_function_identifier = sys.argv[1]
+        calculation_function_identifier = sys.argv[2]
+        args = sys.argv[3:]
+
+        try:
+            result = retrieve_and_calculate_data(retrieval_function_identifier, calculation_function_identifier, *args)
+            print(f"Calculation Result: {result}")
+        except Exception as e:
+            print(f"Error occurred: {e}")
+            sys.exit(1)
+
     main()
