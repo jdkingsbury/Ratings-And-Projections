@@ -1,71 +1,70 @@
 # Description: This file contains functions that are used to calculate stats for players.
 
+from stats.helper_functions import (calculate_per_game_stat, calculate_percentage_stat, validate_stat_data,)
+
 
 # NOTE: Function to calculate points per game
 def calculate_ppg(data):
     if len(data) == 2:
-        total_points, games_played = data
-        return total_points / games_played if games_played else 0
-    else:
-        raise ValueError("Data does not contain expected elements")
+        total_points, games_played = validate_stat_data(data, "PPG")
+        return calculate_per_game_stat(total_points, games_played)
 
 
 # NOTE: Function to calculate rebounds per game
 def calculate_rpg(data):
     if len(data) == 2:
-        total_rebounds, games_played = data
-        return total_rebounds / games_played if games_played else 0
-    else:
-        raise ValueError("Data does not contain expected elements")
+        total_rebounds, games_played = validate_stat_data(data, "RPG")
+        return calculate_per_game_stat(total_rebounds, games_played)
 
 
 # NOTE: Function to calculate assists per game
 def calculate_apg(data):
     if len(data) == 2:
-        total_assists, games_played = data
-        return total_assists / games_played if games_played else 0
-    else:
-        raise ValueError("Data does not contain expected elements")
+        total_assists, games_played = validate_stat_data(data, "APG")
+        return calculate_per_game_stat(total_assists, games_played)
+
 
 # NOTE: Function to calculate steals per game
 def calculate_spg(data):
     if len(data) == 2:
-        total_steals, games_played = data
-        return total_steals / games_played if games_played else 0
-    else:
-        raise ValueError("Data does not contain expected elements")
+        total_steals, games_played = validate_stat_data(data, "SPG")
+        return calculate_per_game_stat(total_steals, games_played)
+
 
 # NOTE: Function to calculate blocks per game
 def calculate_bpg(data):
     if len(data) == 2:
-        total_blocks, games_played = data
-        return total_blocks / games_played if games_played else 0
-    else:
-        raise ValueError("Data does not contain expected elements")
+        total_blocks, games_played = validate_stat_data(data, "BPG")
+        return calculate_per_game_stat(total_blocks, games_played)
+
 
 # NOTE: Function to calculate turnovers per game
 def calculate_tov(data):
     if len(data) == 2:
-        total_turnovers, games_played = data
-        return total_turnovers / games_played if games_played else 0
-    else:
-        raise ValueError("Data does not contain expected elements")
+        total_turnovers, games_played = validate_stat_data(data, "TOV")
+        return calculate_per_game_stat(total_turnovers, games_played)
+
 
 # NOTE: Function to calculate field goal percentage
 def calculate_fg_percent(data):
     if len(data) == 2:
-        field_goals_made, field_goals_attempted = data
-        return field_goals_made / field_goals_attempted if field_goals_attempted else 0
-    else:
-        raise ValueError("Data does not contain expected elements")
+        fg_made, fg_attempted = validate_stat_data(data, "FG%")
+        return calculate_percentage_stat(fg_made, fg_attempted)
+
 
 # NOTE: Function to calculate three point percentage
 def calculate_three_point_percent(data):
     if len(data) == 2:
-        three_pointers_made, three_pointers_attempted = data
-        return three_pointers_made / three_pointers_attempted if three_pointers_attempted else 0
-    else:
-        raise ValueError("Data does not contain expected elements")
+        three_point_made, three_point_attempted = validate_stat_data(data, "3P%")
+        return calculate_percentage_stat(three_point_made, three_point_attempted)
+
+
+# NOTE: Function to calculate free throw percentage
+def calculate_ft_percent(data):
+    if len(data) == 2:
+        ft_made, ft_attempted = validate_stat_data(data, "FT%")
+        return calculate_percentage_stat(ft_made, ft_attempted)
+
 
 # NOTE: Mapping of calculation functions
 calculation_function_mapping = {
@@ -77,4 +76,5 @@ calculation_function_mapping = {
     "tov": calculate_tov,
     "fg_percent": calculate_fg_percent,
     "three_point_percent": calculate_three_point_percent,
+    "ft_percent": calculate_ft_percent,
 }
