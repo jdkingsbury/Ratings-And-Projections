@@ -1,12 +1,12 @@
 # NOTE: Define weights
 CUSTOM_WEIGHTS = {
-    "ppg": 4,
-    "rpg": 2,
-    "apg": 3,
-    "spg": 1.5,
-    "bpg": 1.5,
-    "tov": -2,
-    "fg_percent": 1,
-    "three_point_percent": 1,
-    "ft_percent": 1,
+    'ppg': 0.25,
+    'rpg': 0.12,
+    'apg': 0.15,
+    'spg': 0.10,
+    'bpg': 0.08,
+    'tov': -0.10,      
+    'fg_percent': 0.10,
+    'three_point_percent': 0.10,
+    'ft_percent': 0.10,
 }
