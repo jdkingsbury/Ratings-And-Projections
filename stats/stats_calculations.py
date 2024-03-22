@@ -8,6 +8,7 @@ def calculate_ppg(data):
     if len(data) == 2:
         total_points, games_played = validate_stat_data(data, "PPG")
         return calculate_per_game_stat(total_points, games_played)
+    return 0
 
 
 # NOTE: Function to calculate rebounds per game

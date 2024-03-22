@@ -2,24 +2,41 @@ import sys
 from .config import CUSTOM_WEIGHTS
 from stats.get_player_stats import get_player_stats
 
+
+# Normalize the weights
+# Make sure the weights add up to 1
+# The weights are used to calculate the player's grade
+# The player's grade is calculated by multiplying each stat by its weight and summing up the products
+
+
+# Normalize points per game equation would be: (ppg - min_ppg) / (max_ppg - min_ppg)
+# max_ppg = highest ppg in the laeague,
+# min_ppg = 0,
+# ppg = player's ppg
+
+
+def normalize_stat(stat, max_stat):
+    return stat / max_stat if max_stat else 0
+
 # NOTE: Function to calculate player grade
 def calculate_player_grade(player_id, season_id):
     stats = get_player_stats(player_id, season_id)
 
-    player_grade = 0
+    player_rating = 0
 
     for stat, weight in CUSTOM_WEIGHTS.items():
-        stat_value = stats.get(stat, 0)  
+        stat_value = stats.get(stat, 0)
 
         print(f"Stat: {stat}, Weight: {weight}, Value: {stat_value}")
 
         if isinstance(stat_value, (int, float)):
-            player_grade += weight * stat_value
+            player_rating += weight * stat_value
         else:
             print(f"Warning: Stat value for {stat} is not a number for player {player_id} in season {season_id}.")
-    
-    player_grade = max(0, min(player_grade, 100))
+
+    player_grade = max(0, min(player_rating, 100))
     return player_grade
+
 
 # NOTE: The following code is for testing purposes
 if __name__ == "__main__":
@@ -36,4 +53,3 @@ if __name__ == "__main__":
 
     grade = calculate_player_grade(player_id, season_id)
     print(f"Player Grade: {grade}")
-
