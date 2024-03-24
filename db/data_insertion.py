@@ -1,6 +1,60 @@
 # Description: This file contains the functions to insert data into the database
 
 
+# NOTE: Function to insert player stats
+def insert_player_stats(conn, player_stats):
+    cursor = conn.cursor()
+
+    # NOTE: SQL statement to create the player_stats table
+    create_table_query = """
+        CREATE TABLE IF NOT EXISTS player_stats (
+            player_name VARCHAR(255),
+            pts FLOAT,
+            ast FLOAT,
+            reb FLOAT,
+            stl FLOAT,
+            blk FLOAT,
+            tov FLOAT,
+            fg_pct FLOAT,
+            fg3_pct FLOAT,
+            ft_pct FLOAT
+        );
+    """
+    cursor.execute(create_table_query)
+
+    # NOTE: SQL statement to insert data into the player_stats table
+    insert_query = """
+        INSERT INTO player_stats (
+            player_name, pts, ast, reb, stl, blk, tov, fg_pct, fg3_pct, ft_pct
+        ) VALUES (
+            %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
+        )
+    """
+
+    try:
+        for player_stat in player_stats:
+            data_values = (
+                player_stat["PLAYER_NAME"],
+                player_stat["PTS"],
+                player_stat["AST"],
+                player_stat["REB"],
+                player_stat["STL"],
+                player_stat["BLK"],
+                player_stat["TOV"],
+                player_stat["FG_PCT"],
+                player_stat["FG3_PCT"],
+                player_stat["FT_PCT"],
+            )
+            cursor.execute(insert_query, data_values)
+
+        conn.commit()
+    except Exception as e:
+        conn.rollback()  # Rollback the transaction on error
+        print(f"An error occurred: {e}")
+    finally:
+        cursor.close()
+
+
 # NOTE: Function to insert NBA players
 def insert_nba_players(conn, players_data):
     cursor = conn.cursor()

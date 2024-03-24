@@ -14,7 +14,8 @@ def get_player_stats(season_year):
         per_mode_detailed='PerGame'
     )
     player_stats = player_stats.get_data_frames()[0]
-    return player_stats.to_json(orient="records")
+    relevant_columns = player_stats[['PLAYER_NAME', 'PTS', 'AST', 'REB', 'STL', 'BLK', 'TOV', 'FG_PCT', 'FG3_PCT', 'FT_PCT']]
+    return relevant_columns.to_json(orient="records")
 
 # NOTE: Grabs all active players from NBA
 def get_all_players(season_year):
