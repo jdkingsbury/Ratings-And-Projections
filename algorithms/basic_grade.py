@@ -18,6 +18,7 @@ from stats.get_player_stats import get_player_stats
 def normalize_stat(stat, max_stat):
     return stat / max_stat if max_stat else 0
 
+
 # NOTE: Function to calculate player grade
 def calculate_player_grade(player_id, season_id):
     stats = get_player_stats(player_id, season_id)
@@ -26,8 +27,6 @@ def calculate_player_grade(player_id, season_id):
 
     for stat, weight in CUSTOM_WEIGHTS.items():
         stat_value = stats.get(stat, 0)
-
-        print(f"Stat: {stat}, Weight: {weight}, Value: {stat_value}")
 
         if isinstance(stat_value, (int, float)):
             player_rating += weight * stat_value

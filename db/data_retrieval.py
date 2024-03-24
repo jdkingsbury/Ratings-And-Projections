@@ -135,6 +135,68 @@ def get_season_average_free_throw_percentage(conn, player_id, season_id):
     cursor.close()
     return float(result[0]) if result else None
 
+def get_max_player_stats(conn, season_id):
+    cursor = conn.cursor()
+    query = """
+        SELECT 
+        MAX(pts) AS max_points,
+        MAX(reb) AS max_rebounds,
+        MAX(ast) AS max_assists,
+        MAX(stl) AS max_steals,
+        MAX(blk) AS max_blocks,
+        MAX(tov) AS max_turnovers,
+        MAX(fg_pct) AS max_fg_percentage,
+        MAX(fg3_pct) AS max_three_point_percentage,
+        MAX(ft_pct) AS max_free_throw_percentage
+        FROM player_game_stats
+        WHERE season_id = %s
+    """
+    cursor.execute(query, (season_id,))
+    result = cursor.fetchone()
+
+    return {
+        "max_points": result[0],
+        "max_rebounds": result[1],
+        "max_assists": result[2],
+        "max_steals": result[3],
+        "max_blocks": result[4],
+        "max_turnovers": result[5],
+        "max_fg_percentage": result[6],
+        "max_three_point_percentage": result[7],
+        "max_free_throw_percentage": result[8],
+    }
+
+def get_min_player_stats(conn, season_id):
+    cursor = conn.cursor()
+    query = """
+        SELECT 
+        MIN(pts) AS min_points,
+        MIN(reb) AS min_rebounds,
+        MIN(ast) AS min_assists,
+        MIN(stl) AS min_steals,
+        MIN(blk) AS min_blocks,
+        MIN(tov) AS min_turnovers,
+        MIN(fg_pct) AS min_fg_percentage,
+        MIN(fg3_pct) AS min_three_point_percentage,
+        MIN(ft_pct) AS min_free_throw_percentage
+        FROM player_game_stats
+        WHERE season_id = %s
+    """
+    cursor.execute(query, (season_id,))
+    result = cursor.fetchone()
+
+    return {
+        "min_points": result[0],
+        "min_rebounds": result[1],
+        "min_assists": result[2],
+        "min_steals": result[3],
+        "min_blocks": result[4],
+        "min_turnovers": result[5],
+        "min_fg_percentage": result[6],
+        "min_three_point_percentage": result[7],
+        "min_free_throw_percentage": result[8],
+    }
+
 retrieval_function_mapping = {
     "get_total_points_and_games_played": get_total_points_and_games_played,
     "get_total_rebounds_and_games_played": get_total_rebounds_and_games_played,
@@ -145,4 +207,5 @@ retrieval_function_mapping = {
     "get_season_average_field_goal_percentage": get_season_average_field_goal_percentage,
     "get_season_average_three_point_percentage": get_season_average_three_point_percentage,
     "get_season_average_free_throw_percentage": get_season_average_free_throw_percentage,
+    "get_max_player_stats": get_max_player_stats,
 }

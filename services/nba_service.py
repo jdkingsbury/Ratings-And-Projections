@@ -2,10 +2,19 @@ import nba_api.stats.endpoints as CommonAllPlayers
 import nba_api.stats.endpoints as playercareerstats
 import nba_api.stats.endpoints as cumestatsplayer
 import nba_api.stats.endpoints as playergamelog
+import nba_api.stats.endpoints as leaguedashplayerstats
 
 
 # NOTE: LeagueID: 00 = NBA, 10 = WNBA, 20 = G-League
 
+# NOTE: Get player stats for a specific season
+def get_player_stats(season_year):
+    player_stats = leaguedashplayerstats.LeagueDashPlayerStats(
+        season=season_year, 
+        per_mode_detailed='PerGame'
+    )
+    player_stats = player_stats.get_data_frames()[0]
+    return player_stats.to_json(orient="records")
 
 # NOTE: Grabs all active players from NBA
 def get_all_players(season_year):
