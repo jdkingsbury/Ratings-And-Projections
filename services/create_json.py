@@ -6,7 +6,7 @@ from .nba_service import (
     get_all_players,
     get_player_cumulative_stats,
     get_player_game_log,
-    get_player_stats
+    get_player_game_stats
 )
 
 
@@ -28,7 +28,7 @@ function_mapping = {
     "get_player_id": get_player_id,
     "get_player_cumulative_stats": get_player_cumulative_stats,
     "get_player_game_log": get_player_game_log,
-    "get_player_stats": get_player_stats,
+    "get_player_game_stats": get_player_game_stats,
 }
 
 

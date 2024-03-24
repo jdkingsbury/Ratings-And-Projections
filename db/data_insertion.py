@@ -7,7 +7,7 @@ def insert_player_stats(conn, player_stats):
 
     # NOTE: SQL statement to create the player_stats table
     create_table_query = """
-        CREATE TABLE IF NOT EXISTS player_stats (
+        CREATE TABLE IF NOT EXISTS player_game_stats (
             player_name VARCHAR(255),
             pts FLOAT,
             ast FLOAT,
@@ -24,7 +24,7 @@ def insert_player_stats(conn, player_stats):
 
     # NOTE: SQL statement to insert data into the player_stats table
     insert_query = """
-        INSERT INTO player_stats (
+        INSERT INTO player_game_stats (
             player_name, pts, ast, reb, stl, blk, tov, fg_pct, fg3_pct, ft_pct
         ) VALUES (
             %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
