@@ -2,7 +2,7 @@
 
 
 # NOTE: Function to insert player stats
-def insert_player_stats(conn, player_stats):
+def insert_player_game_stats(conn, player_stats):
     cursor = conn.cursor()
 
     # NOTE: SQL statement to create the player_stats table
