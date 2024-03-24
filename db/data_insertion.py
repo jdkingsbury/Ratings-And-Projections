@@ -326,4 +326,5 @@ insert_function_mapping = {
     "get_player_career_stats": insert_player_career_stats,
     "get_all_players": insert_nba_players,
     "get_player_game_log": insert_player_game_log,
+    "get_player_game_stats": insert_player_game_stats,
 }
