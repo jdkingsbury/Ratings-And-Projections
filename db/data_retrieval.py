@@ -208,4 +208,5 @@ retrieval_function_mapping = {
     "get_season_average_three_point_percentage": get_season_average_three_point_percentage,
     "get_season_average_free_throw_percentage": get_season_average_free_throw_percentage,
     "get_max_player_stats": get_max_player_stats,
+    "get_min_player_stats": get_min_player_stats,
 }

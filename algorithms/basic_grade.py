@@ -1,6 +1,6 @@
 import sys
 from .config import CUSTOM_WEIGHTS
-from stats.get_player_stats import get_player_stats
+from stats.get_player_stats import get_player_stats, get_max_stats, get_min_stats
 
 
 # Normalize the weights
@@ -24,6 +24,9 @@ def calculate_player_grade(player_id, season_id):
     stats = get_player_stats(player_id, season_id)
 
     player_rating = 0
+    player_min_stats = get_min_stats(season_id)
+    player_max_stats = get_max_stats(season_id)
+
 
     for stat, weight in CUSTOM_WEIGHTS.items():
         stat_value = stats.get(stat, 0)
