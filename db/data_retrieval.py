@@ -148,7 +148,7 @@ def get_max_player_stats(conn, season_id):
         MAX(fg_pct) AS max_fg_percentage,
         MAX(fg3_pct) AS max_three_point_percentage,
         MAX(ft_pct) AS max_free_throw_percentage
-        FROM player_game_stats
+        FROM player_stats
         WHERE season_id = %s
     """
     cursor.execute(query, (season_id,))
@@ -179,7 +179,7 @@ def get_min_player_stats(conn, season_id):
         MIN(fg_pct) AS min_fg_percentage,
         MIN(fg3_pct) AS min_three_point_percentage,
         MIN(ft_pct) AS min_free_throw_percentage
-        FROM player_game_stats
+        FROM player_stats
         WHERE season_id = %s
     """
     cursor.execute(query, (season_id,))

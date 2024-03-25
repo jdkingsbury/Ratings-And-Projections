@@ -1,5 +1,3 @@
-from stats.get_player_max_stats import get_max_player_stats
-
 # NOTE: Define weights
 CUSTOM_WEIGHTS = {
     'ppg': 0.25,
