@@ -1,11 +1,11 @@
 from db.retrieve_data import retrieve_and_calculate_data
 
-def get_max_stats(season_id):
+def get_max_player_stats(season_id):
     max_stats = retrieve_and_calculate_data("get_max_player_stats", "max_stats", season_id);
     return max_stats
 
-def get_min_stats(season_id):
-    min_stats = retrieve_and_calculate_data("get_min_player_player_player_player_player_player_player_player_player_stats", "min_stats", season_id);
+def get_min_player_stats(season_id):
+    min_stats = retrieve_and_calculate_data("get_min_player_stats", "min_stats", season_id);
     return min_stats
     
 
