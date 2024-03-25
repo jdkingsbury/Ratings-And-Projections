@@ -2,9 +2,8 @@ import sys
 from .db_operations import connect_to_database
 from .data_retrieval import retrieval_function_mapping
 
-def retrieve_data(retrieval_function, *args):
+def retrieve_data(retrieval_function_identifier, *args):
     conn = connect_to_database()
-
     if not conn:
         raise Exception("Database connection failed")
 
