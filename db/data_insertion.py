@@ -2,12 +2,12 @@
 
 
 # NOTE: Function to insert player stats
-def insert_player_game_stats(conn, player_stats):
+def insert_player_stats(conn, player_stats):
     cursor = conn.cursor()
 
     # NOTE: SQL statement to create the player_stats table
     create_table_query = """
-        CREATE TABLE IF NOT EXISTS player_game_stats (
+        CREATE TABLE IF NOT EXISTS player_stats (
             player_name VARCHAR(255),
             pts FLOAT,
             ast FLOAT,
@@ -326,5 +326,5 @@ insert_function_mapping = {
     "get_player_career_stats": insert_player_career_stats,
     "get_all_players": insert_nba_players,
     "get_player_game_log": insert_player_game_log,
-    "get_player_game_stats": insert_player_game_stats,
+    "get_player_stats": insert_player_stats,
 }
