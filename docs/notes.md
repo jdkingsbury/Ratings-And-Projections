@@ -97,5 +97,5 @@ Example of shell command to get all the game logs for a season for a particular 
 
 Example of how to retrieve the average ppg for lebron
 ```shell
-python -m db.retrieve_data get_total_points_and_games_played ppg 2544 22023
+python -m db.retrieve_and_calc_data get_total_points_and_games_played ppg 2544 22023
 ```
