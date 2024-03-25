@@ -24,7 +24,7 @@ def insert_player_stats(conn, player_stats):
 
     # NOTE: SQL statement to insert data into the player_stats table
     insert_query = """
-        INSERT INTO player_game_stats (
+        INSERT INTO player_stats (
             player_name, pts, ast, reb, stl, blk, tov, fg_pct, fg3_pct, ft_pct
         ) VALUES (
             %s, %s, %s, %s, %s, %s, %s, %s, %s, %s
