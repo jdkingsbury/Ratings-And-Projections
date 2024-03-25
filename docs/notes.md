@@ -96,11 +96,13 @@ Example of shell command to get all the game logs for a season for a particular 
 ```
 
 Example of how to retrieve the average ppg for lebron
+
 ```shell
 python -m db.retrieve_and_calc_data get_total_points_and_games_played ppg 2544 22023
 ```
 
 Example of shell command to retrieve max or min stats from player_stats:
-``` shell
+
+```shell
 python -m db.retrieve_data get_max_player_stats 2023-24
 ```

@@ -8,7 +8,7 @@ import nba_api.stats.endpoints as leaguedashplayerstats
 # NOTE: LeagueID: 00 = NBA, 10 = WNBA, 20 = G-League
 
 # NOTE: Get player stats for a specific season
-def get_player_game_stats(season_year):
+def get_player_stats(season_year):
     player_stats = leaguedashplayerstats.LeagueDashPlayerStats(
         season=season_year, 
         per_mode_detailed='PerGame'
