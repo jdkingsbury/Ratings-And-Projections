@@ -8,7 +8,6 @@ def get_max_player_stats(season_id):
 def get_min_player_stats(season_id):
     min_stats = retrieve_data("get_min_player_stats", season_id);
     return min_stats
-    
 
 def get_player_stats(player_id, season_id):
     stats = {

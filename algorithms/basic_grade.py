@@ -25,6 +25,7 @@ def calculate_player_grade(player_id, season_id):
     player_min_stats = get_min_player_stats(season_id)
     player_max_stats = get_max_player_stats(season_id)
 
+    print(f"Stats: {stats}")
     if not stats or not player_min_stats or not player_max_stats:
         print(f"Error retrieving stats for player {player_id} in season {season_id}")
         return 0
