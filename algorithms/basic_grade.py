@@ -32,7 +32,6 @@ def calculate_player_grade(player_id, season_id):
 
     player_rating = 0
 
-
     for stat, weight in CUSTOM_WEIGHTS.items():
         stat_value = stats.get(stat, 0)
 

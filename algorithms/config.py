@@ -1,8 +1,8 @@
 # NOTE: Define weights
 CUSTOM_WEIGHTS = {
-    'ppg': 0.25,
+    'ppg': 0.23,
     'rpg': 0.10,
-    'apg': 0.15,
+    'apg': 0.14,
     'spg': 0.10,
     'bpg': 0.10,
     'tov': -0.10,      
