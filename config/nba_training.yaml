@@ -1,6 +1,4 @@
 input_features:
-  - name: SEASON_ID
-    type: numerical
   - name: Player_ID
     type: numerical
   - name: Game_ID
