@@ -1,16 +1,16 @@
 import os
 import yaml
+import csv
+import pandas as pd
 from ludwig.api import LudwigModel
-from ludwig.utils.data_utils import load_csv
 
 def train_model(config_path, dataset_path, output_directory):
-
     # Load config
     with open(config_path, 'r') as file:
         config = yaml.safe_load(file)
 
     # Load dataset
-    dataset = load_csv(dataset_path)
+    dataset = pd.read_csv(dataset_path)
 
     # Initialize model
     model = LudwigModel(config)
