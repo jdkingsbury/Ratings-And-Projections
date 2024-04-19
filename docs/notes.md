@@ -79,30 +79,36 @@ Example on how to use the functions in nba_service to get json data
 
 Example of shell command to use to insert all players from a json into the database. The json file is created with the function name of get_all_players in the nba_service file followed by the season year.
 
-```shell
+```sh
 python -m db.insert_data get_all_players 2023-24
 ```
 
 Example of shell command to use to get the career stats for the player with player id 2544
 
-```shell
+```sh
 python -m services.create_json get_player_career_stats 2544
 ```
 
 Example of shell command to get all the game logs for a season for a particular player
 
-```shell
+```sh
  python3 -m services.create_json get_player_game_log 2544 2023-24
+```
+
+Example of shell command to create the csv file of the data retrieved 
+
+```sh
+python3 -m services.create_csv get_player_game_log 2544 2023-24 csv
 ```
 
 Example of how to retrieve the average ppg for lebron
 
-```shell
+```sh
 python -m db.retrieve_and_calc_data get_total_points_and_games_played ppg 2544 22023
 ```
 
 Example of shell command to retrieve max or min stats from player_stats:
 
-```shell
+```sh
 python -m db.retrieve_data get_max_player_stats 2023-24
 ```
