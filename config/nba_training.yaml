@@ -2,11 +2,11 @@ input_features:
   - name: SEASON_ID
     type: numerical
     preprocessing:
-      normalization: none
+      normalization: null
   - name: Player_ID
     type: numerical
     preprocessing:
-      normalization: none
+      normalization: null
   - name: Game_ID
     type: numerical
   - name: GAME_DATE

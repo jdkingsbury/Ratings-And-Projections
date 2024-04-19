@@ -1,6 +1,5 @@
 import os
 import yaml
-import csv
 import pandas as pd
 from ludwig.api import LudwigModel
 
@@ -24,9 +23,6 @@ def train_model(config_path, dataset_path, output_directory):
     # Save model
     model_path = os.path.join(output_directory, 'model')
     model.save(model_path)
-
-    # Close model
-    model.close()
 
     return model_path, train_stats
 
