@@ -12,6 +12,9 @@ def train_model(config_path, dataset_path, output_directory):
     # Load dataset
     dataset = load_csv(dataset_path)
 
+    # Initialize model
+    model = LudwigModel(config)
+
     # Train model
     train_stats = model.train(dataset=dataset, output_directory=output_directory)
 
