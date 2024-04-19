@@ -1,4 +1,5 @@
 import os
+import yaml
 from ludwig.api import LudwigModel
 from ludwig.utils.data_utils import load_csv
 
