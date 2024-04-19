@@ -45,7 +45,7 @@ def main():
         sys.exit(1)
 
     if args:
-        data = function_mapping[function_name](*args)
+        data = function_mapping[function_name](*args, 'csv')
         file_name = f"{function_name}_{'_'.join(args)}.csv"
     else:
         data = function_mapping[function_name]()

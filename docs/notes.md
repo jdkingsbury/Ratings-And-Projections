@@ -98,7 +98,7 @@ Example of shell command to get all the game logs for a season for a particular 
 Example of shell command to create the csv file of the data retrieved 
 
 ```sh
-python3 -m services.create_csv get_player_game_log 2544 2023-24 csv
+python3 -m services.create_csv get_player_game_log 2544 2023-24
 ```
 
 Example of how to retrieve the average ppg for lebron
