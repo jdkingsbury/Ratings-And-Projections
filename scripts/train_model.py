@@ -28,7 +28,7 @@ def train_model(config_path, dataset_path, output_directory):
 
 if __name__ == '__main__':
     # Define paths
-    config_path = './config/nba_trainig.yaml'
+    config_path = './config/nba_training.yaml'
     dataset_path = './data/get_player_game_log_2544_2023-24.csv'
     output_directory = './results'
 
