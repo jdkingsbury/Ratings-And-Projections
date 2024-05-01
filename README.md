@@ -1,8 +1,7 @@
 ## NBA Prediction Project
 
 The project is still in development.
-The Goal of the project was to train an AI on how to grade players and show their future projections. 
-I plan to also plan to implement showing live stat line odds and the probability of the player hitting their stat line. 
+The project's goal was to train an AI to grade players and show their future projections. I plan to also implement a system showing live stat line odds and the probability of the player hitting their stat line. 
 
 ### To use the project you will need to have these packages installed:
 
