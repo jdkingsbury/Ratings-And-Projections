@@ -31,7 +31,7 @@
 
 - [ ] Need to create a base algorithm to create a grade.
 
-  - [ ] need to retrieve the needed stats for the player grade
+  - [x] need to retrieve the needed stats for the player grade
   - [ ] Create layers to include other factors which can increase or decrease a players score.
 
 - [ ] Attempt to factor in a players ego.
@@ -95,7 +95,7 @@ Example of shell command to get all the game logs for a season for a particular 
  python3 -m services.create_json get_player_game_log 2544 2023-24
 ```
 
-Example of shell command to create the csv file of the data retrieved 
+Example of shell command to create the csv file of the data retrieved
 
 ```sh
 python3 -m services.create_csv get_player_game_log 2544 2023-24
