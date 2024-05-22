@@ -1,5 +1,13 @@
 import os
 import sys
+
+# Determine if running as a script or module
+if __name__ == "__main__" and __package__ is None:
+    # Set the package to services to allow relative imports
+    sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    __package__ = "services"
+
+
 from .nba_service import (
     get_player_career_stats,
     get_player_id,

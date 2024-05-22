@@ -5,15 +5,15 @@ const cors = require("cors");
 require("dotenv").config();
 
 const app = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(bodyParser.json());
 
 // Import routes
-const fetchDataRoute = require("./routes/fetchData");
+const fetchRoute = require("./routes/fetch");
 // Use routes
-app.use("/fetchData", fetchDataRoute);
+app.use("/fetch", fetchRoute);
 
 app.get("/", (req, res) => {
   res.send("Hello from NBA Prediction API");
