@@ -7,17 +7,18 @@ if __name__ == "__main__" and __package__ is None:
     sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     __package__ = "services"
 
+
 from .nba_service import (
     get_player_career_stats,
     get_player_id,
     get_all_players,
     get_player_cumulative_stats,
     get_player_game_log,
-    get_player_stats
+    get_player_stats,
 )
 
 
-def create_json_file(data, file_name):
+def create_file(data, file_name):
     data_directory = "data"
     file_path = os.path.join(data_directory, file_name)
 
@@ -40,12 +41,17 @@ function_mapping = {
 
 
 def main():
-    if len(sys.argv) < 2:
-        print("Usage: python create_json.py <function> [arguments]")
+    if len(sys.argv) < 3:
+        print("Usage: python create_file.py <function> <file_name> [arguments]")
         sys.exit(1)
 
     function_name = sys.argv[1]
-    args = sys.argv[2:]
+    output_format = sys.argv[2]
+    args = sys.argv[3:]
+
+    print(f"Function: {function_name}")
+    print(f"Output Format: {output_format}")
+    print(f"Arguments: {args}")
 
     if function_name not in function_mapping:
         print(
@@ -54,15 +60,19 @@ def main():
         sys.exit(1)
 
     if args:
-        data = function_mapping[function_name](*args)
-        file_name = f"{function_name}_{'_'.join(args)}.json"
+        data = function_mapping[function_name](*args, output_format)
+        file_name = f"{function_name}_{'_'.join(args)}.{output_format}"
     else:
-        data = function_mapping[function_name]()
-        file_name = f"{function_name}.json"
+        data = function_mapping[function_name](output_format)
+        file_name = f"{function_name}.{output_format}"
+
+    print(f"Constructed file name: {file_name}")
 
     if data is not None:
-        create_json_file(data, file_name)
-        print(f"Data written to {file_name}")
+        create_file(data, file_name)
+        print(f"File created: {file_name}")
+    else:
+        print(f"No data returned for {function_name} with arguments{args}.")
 
 
 if __name__ == "__main__":
