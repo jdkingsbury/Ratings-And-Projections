@@ -101,6 +101,28 @@ Example of shell command to create the csv file of the data retrieved
 python3 -m services.create_csv get_player_game_log 2544 2023-24
 ```
 
+Example of shell command to get all the game logs for a player in json format for a season using create_file
+
+```sh
+ python3 -m services.create_file json get_player_game_log 2544 2023-24
+```
+
+Example of shell command to get all game logs for a player in csv format for a season using create_file
+
+```sh
+python3 -m services.create_file csv get_player_game_log 2544 2023-24
+```
+
+Example of command to make a request to the node server to get all game logs for a player in json or csv format
+
+```
+http://localhost:3000/fetch/get_player_game_log?output_format=json&player_id=2544&season_year=2023-24
+```
+
+Jest test are under `__test__`
+pytest are under tests
+
+### Outdated for now
 Example of how to retrieve the average ppg for lebron
 
 ```sh

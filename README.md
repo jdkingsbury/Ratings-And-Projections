@@ -1,26 +1,92 @@
-## NBA Prediction Project
+# NBA Prediction Application
 
-The project is still in development.
-The project's goal is to train an AI to grade players and show their future projections. 
-The current state of the project includes code that will pull data using the nba_api and store it into a json or csv file. 
-It also includes code to store the data into a postgres database.
+This is an NBA Prediction application, which consists of a backend built with Node.js and Python, and the frontend will be built with React.
 
-### To use the project you will need to have these packages installed:
+## Table of Contents
 
-- NBA_API
-- pandas
-- Scikit-learn
-- numpy
-- matplotlib
+- [Overview](#overview)
+- [Backend](#backend)
+- [Frontend](#frontend)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Running Tests](#running-tests)
+- [Folder Structure](#folder-structure)
 
-Run pip install -r requirements.txt to install all necessary packages.
+## Overview
 
-To create a json file from one of the functions in nba_service use the shell command python -m services.create_json followed by the function name and playerid
+This project aims to provide player grades and projections from data retrieved from the NBA API. Goal is to use the data to be able to train an AI on how to grade players.
 
-Example of shell command to use to get the career stats for the player with player id 2544
+## Backend
 
-```shell
-python -m services.create_json get_player_career_stats 2544
+The backend consists of Node.js for handling HTTP requests and Python for interacting with the NBA API and performing data processing.
+
+For detailed information, please refer to the [Backend README](Backend/README.md).
+
+
+## Installation
+
+### Prerequisites
+
+- Node.js (v14 or later)
+- Python (v.3.8 or later)
+- npm (v6 or later)
+- pip (v20 or later)
+
+### Steps
+
+1. **Clone the repository:**
+```bash
+git clone https://github.com/jdkingsbury/NBA_Prediction.git
+cd NBA_Prediction
 ```
 
-The json file will be created in the data directory and will be formated with function_name_playerid
+2. **Install Backend dependencies:**
+```bash
+cd BackEnd
+npm install
+python -m venv venv
+source venv/bin/activate # On Windows use `venv\Scripts\activate`
+pip install -r requirements.txt
+```
+
+## Usage
+
+### Start the Backend Server
+
+Navigate to the `BackEnd` directory and run:
+
+```bash
+npm start
+```
+
+The server will start on [http://localhost:3000].
+
+## Running Tests
+
+### Backend Tests
+
+Navigate to the BackEnd directory and run:
+
+#### JavaScript Tests
+```bash
+npm test
+```
+
+#### Python Tests
+```bash
+pytest
+```
+
+## API Endpoints
+
+### Example: Get Player Game Log
+
+**In the browser:**
+
+<http://localhost:3000/fetch/get_player_game_log?output_format=json&player_id=2544&season_year=2023-24>
+
+**CLI command:**
+```shell
+ python3 -m services.create_file json get_player_game_log 2544 2023-24
+```
+* Change json to csv if you the data in csv format.
