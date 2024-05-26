@@ -77,40 +77,34 @@ Example on how to use the functions in nba_service to get json data
 - If you create file and it has a player id then it will create the json file with the function name of the function you used in nba_service and the playerid
 - All files are treated as modules should you should use the command python -m and then services.create_json and then the function name you want to use and the player id
 
-Example of shell command to use to insert all players from a json into the database. The json file is created with the function name of get_all_players in the nba_service file followed by the season year.
-
-```sh
-python -m db.insert_data get_all_players 2023-24
-```
-
 Example of shell command to use to get the career stats for the player with player id 2544
 
 ```sh
-python -m services.create_json get_player_career_stats 2544
+python -m services.create_file get_player_career_stats json 2544
 ```
 
 Example of shell command to get all the game logs for a season for a particular player
 
 ```sh
- python3 -m services.create_json get_player_game_log 2544 2023-24
+ python3 -m services.create_file get_player_game_log json 2544 2023-24
 ```
 
 Example of shell command to create the csv file of the data retrieved
 
 ```sh
-python3 -m services.create_csv get_player_game_log 2544 2023-24
+python3 -m services.create_file get_player_game_log csv 2544 2023-24
 ```
 
 Example of shell command to get all the game logs for a player in json format for a season using create_file
 
 ```sh
- python3 -m services.create_file json get_player_game_log 2544 2023-24
+ python3 -m services.create_file get_player_game_log json 2544 2023-24
 ```
 
 Example of shell command to get all game logs for a player in csv format for a season using create_file
 
 ```sh
-python3 -m services.create_file csv get_player_game_log 2544 2023-24
+python3 -m services.create_file get_player_game_log csv 2544 2023-24
 ```
 
 Example of command to make a request to the node server to get all game logs for a player in json or csv format
@@ -123,6 +117,13 @@ Jest test are under `__test__`
 pytest are under tests
 
 ### Outdated for now
+
+Example of shell command to use to insert all players from a json into the database. The json file is created with the function name of get_all_players in the nba_service file followed by the season year.
+
+```sh
+python -m db.insert_data get_all_players 2023-24
+```
+
 Example of how to retrieve the average ppg for lebron
 
 ```sh

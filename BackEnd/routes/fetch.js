@@ -9,14 +9,21 @@ const router = express.Router();
 router.get("/:functionName", (req, res) => {
   const functionName = req.params.functionName;
   const query = req.query;
-  const args = Object.values(query).filter(
-    (arg) => arg !== query.output_format,
-  );
   const format = query.output_format || "json";
+  const args = Object.values(query).filter(arg => arg !== query.output_format);
   const scriptPath = path.join(__dirname, "../services/create_file.py");
 
+  let cleanFunctionName = functionName;
+  if (cleanFunctionName.startsWith("get_")) {
+    cleanFunctionName = cleanFunctionName.slice(4);
+  }
+
+  console.log("Function name:", cleanFunctionName);
+  console.log("Arguments:", args);
+  console.log("Format:", format);
+
   // Construct file name based on function name and arguments
-  const fileName = `${functionName}_${args.join("_")}.${format}`;
+  const fileName = `${cleanFunctionName}_${args.join("_")}.${format}`;
   const filePath = path.join(__dirname, "../data", fileName);
 
   // Check if the file already exists

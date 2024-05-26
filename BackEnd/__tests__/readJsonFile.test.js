@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const readJsonFile = require('../db/read_json');
+const readJsonFile = require('../db/readJson');
 
 describe('readJsonFile', () => {
   const testFilePath = path.join(__dirname, 'testData.json');

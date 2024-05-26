@@ -9,11 +9,11 @@ if __name__ == "__main__" and __package__ is None:
 
 
 from .nba_service import (
-    get_player_career_stats,
-    get_player_id,
     get_all_players,
+    get_player_career_stats,
     get_player_cumulative_stats,
     get_player_game_log,
+    get_player_id,
     get_player_stats,
 )
 
@@ -61,9 +61,11 @@ def main():
 
     if args:
         data = function_mapping[function_name](*args, output_format)
+        function_name = function_name.replace("get_", "")
         file_name = f"{function_name}_{'_'.join(args)}.{output_format}"
     else:
         data = function_mapping[function_name](output_format)
+        function_name = function_name.replace("get_", "")
         file_name = f"{function_name}.{output_format}"
 
     print(f"Constructed file name: {file_name}")
