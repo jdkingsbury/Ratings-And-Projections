@@ -1,5 +1,7 @@
 import os
 import sys
+import csv
+import json
 
 # Determine if running as a script or module
 if __name__ == "__main__" and __package__ is None:
@@ -18,14 +20,23 @@ from .nba_service import (
 )
 
 
-def create_file(data, file_name):
+def create_file(data, file_name, output_format):
     data_directory = "data"
     file_path = os.path.join(data_directory, file_name)
 
     os.makedirs(data_directory, exist_ok=True)
 
-    with open(file_path, "w") as file:
-        file.write(data)
+    if output_format == "json":
+        with open(file_path, "w") as file:
+            json.dump(json.loads(data), file, indent=4)
+    elif output_format == "csv":
+        if isinstance(data, str):
+            data = json.loads(data)
+        keys = data[0].keys() if data else []
+        with open(file_path, "w", newline="") as output_file:
+            dict_writer = csv.DictWriter(output_file, fieldnames=keys)
+            dict_writer.writeheader()
+            dict_writer.writerows(data)
 
 
 # NOTE: Mapping of command-line arguments to functions in nba_service
@@ -53,20 +64,18 @@ def main():
         function_name = function_name.replace("get_", "")
 
     if function_name not in function_mapping:
-        print(
-            f"Invalid function name. Valid options are: {list(function_mapping.keys())}"
-        )
+        print(f"Invalid function name. Valid options are: {list(function_mapping.keys())}")
         sys.exit(1)
 
     if args:
-        data = function_mapping[function_name](*args, output_format)
+        data = function_mapping[function_name](*args)
         file_name = f"{function_name}_{'_'.join(args)}.{output_format}"
     else:
         data = function_mapping[function_name](output_format)
         file_name = f"{function_name}.{output_format}"
 
     if data is not None:
-        create_file(data, file_name)
+        create_file(data, file_name, output_format)
         print(f"File created: {file_name}")
     else:
         print(f"No data returned for {function_name} with arguments{args}.")

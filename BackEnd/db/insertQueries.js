@@ -3,7 +3,7 @@ const pool = require("./db");
 const insertPlayerGameLog = async (data) => {
   // NOTE: SQL query to player_game_stats table
   const createTableQuery = `
-    CREATE TABLE IF NOT EXISTS player_game_logs (
+    CREATE TABLE IF NOT EXISTS player_game_log (
     season_id VARCHAR(10),
     player_id INT,
     game_id VARCHAR(15),
@@ -34,7 +34,7 @@ const insertPlayerGameLog = async (data) => {
   `;
 
   const insertQuery = `
-    INSERT INTO player_game_logs (
+    INSERT INTO player_game_log (
       season_id, player_id, game_id, game_date, matchup, wl, min, 
       fgm, fga, fg_pct, fg3m, fg3a, fg3_pct, ftm, fta, ft_pct, 
       oreb, dreb, reb, ast, stl, blk, tov, pf, pts, plus_minus 

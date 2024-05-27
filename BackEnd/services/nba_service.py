@@ -1,3 +1,5 @@
+import pandas as pd
+
 import nba_api.stats.endpoints as CommonAllPlayers
 import nba_api.stats.endpoints as playercareerstats
 import nba_api.stats.endpoints as cumestatsplayer
@@ -88,7 +90,7 @@ def get_player_game_log(player_id, season_year, output_format="json"):
     if output_format == "csv":
         return player_game_log.to_csv(index=False)
     elif output_format == "json":
-        return player_game_log.to_json(orient="records")
+        return player_game_log.to_json(orient="records", indent=4)
     else:
         raise ValueError("Unsupported format. Please choose 'json' or 'csv'.")
 

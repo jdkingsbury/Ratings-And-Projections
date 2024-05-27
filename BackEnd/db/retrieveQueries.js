@@ -2,7 +2,7 @@ const pool = require("./db");
 
 const retrievePlayerGameLog = async (playerId, season_id) => {
   const query = `
-    SELECT * FROM player_game_logs
+    SELECT * FROM player_game_log
     WHERE player_id = $1 AND season_id = $2;
   `;
 
