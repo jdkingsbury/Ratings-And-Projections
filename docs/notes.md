@@ -113,6 +113,20 @@ Example of command to make a request to the node server to get all game logs for
 http://localhost:3000/fetch/get_player_game_log?output_format=json&player_id=2544&season_year=2023-24
 ```
 
+Example command to insert a single file into the database
+
+```sh
+node insertScript.js player_game_log_2544_2023-24.json
+```
+
+Example command to insert all json files in the data directory into the database
+
+```sh
+node insertScript.js
+```
+
+**Ensure that .env is in BackEnd or that you define the path to it**
+
 Jest test are under `__test__`
 pytest are under tests
 

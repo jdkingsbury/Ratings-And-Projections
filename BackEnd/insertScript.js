@@ -22,7 +22,6 @@ const dataDir = "./data";
 // Function to insert data from JSON files
 const insertDataFromFile = async (file) => {
   const filePath = path.join(dataDir, file);
-  console.log(`Constructed file path: ${filePath}`);
   const fileInfo = parseFileName(file);
 
   if (fileInfo) {
@@ -30,8 +29,8 @@ const insertDataFromFile = async (file) => {
     console.log(`Inserting data from file: ${file}`);
     await insertData(functionIdentifier, filePath);
   } else {
-  console.warn(`Skipping file: ${file} (invalid file name format)`);
-    }
+    console.warn(`Skipping file: ${file} (invalid file name format)`);
+  }
 };
 
 const insertAllData = async () => {
@@ -49,7 +48,6 @@ const insertAllData = async () => {
 
 const main = async () => {
   const args = process.argv.slice(2);
-
   if (args.length === 0) {
     await insertAllData();
   } else {
