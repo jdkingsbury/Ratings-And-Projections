@@ -1,4 +1,4 @@
-const insertFunctionMap = require("./functionMapping");
+const insertFunctionMap = require("./functionMapping").insertFunctionMap;
 const readJsonFile = require("./readJson");
 
 const insertData = async (dataType, filePath) => {
