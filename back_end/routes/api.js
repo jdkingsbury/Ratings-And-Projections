@@ -1,4 +1,4 @@
-// routes/fetch.js
+// routes/api.js
 
 const express = require("express");
 const path = require("path");
@@ -9,7 +9,7 @@ const checkFileSystem = require("../utils/checkFileSystem");
 const createDataFile = require("../utils/createDataFile");
 const insertData = require("../db/insertData");
 
-router.get("/:functionName", async (req, res) => {
+router.get("/data/:functionName", async (req, res) => {
   const functionName = req.params.functionName;
   const query = req.query;
   const format = query.output_format || "json";
