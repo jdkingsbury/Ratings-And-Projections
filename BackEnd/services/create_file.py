@@ -31,12 +31,12 @@ def create_file(data, file_name):
 # NOTE: Mapping of command-line arguments to functions in nba_service
 # Add new functions here when created so that we can create json files for those functions in nba_service.py
 function_mapping = {
-    "get_all_players": get_all_players,
-    "get_player_career_stats": get_player_career_stats,
-    "get_player_id": get_player_id,
-    "get_player_cumulative_stats": get_player_cumulative_stats,
-    "get_player_game_log": get_player_game_log,
-    "get_player_stats": get_player_stats,
+    "all_players": get_all_players,
+    "player_career_stats": get_player_career_stats,
+    "player_id": get_player_id,
+    "player_cumulative_stats": get_player_cumulative_stats,
+    "player_game_log": get_player_game_log,
+    "player_stats": get_player_stats,
 }
 
 
@@ -49,9 +49,8 @@ def main():
     output_format = sys.argv[2]
     args = sys.argv[3:]
 
-    print(f"Function: {function_name}")
-    print(f"Output Format: {output_format}")
-    print(f"Arguments: {args}")
+    if function_name.startswith("get_"):
+        function_name = function_name.replace("get_", "")
 
     if function_name not in function_mapping:
         print(
@@ -61,14 +60,10 @@ def main():
 
     if args:
         data = function_mapping[function_name](*args, output_format)
-        function_name = function_name.replace("get_", "")
         file_name = f"{function_name}_{'_'.join(args)}.{output_format}"
     else:
         data = function_mapping[function_name](output_format)
-        function_name = function_name.replace("get_", "")
         file_name = f"{function_name}.{output_format}"
-
-    print(f"Constructed file name: {file_name}")
 
     if data is not None:
         create_file(data, file_name)

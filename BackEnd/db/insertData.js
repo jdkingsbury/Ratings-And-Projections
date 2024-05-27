@@ -14,7 +14,7 @@ const insertData = async (dataType, filePath) => {
       await insertFunction(data);
       console.log(`Data inserted successfully for ${dataType}`);
     } else {
-      console.error("Unknown data type:", dataType)
+      console.error("Unknown data type:", dataType);
     }
   } catch (err) {
     console.error(`Error inserting data for ${dataType}:`, err);
