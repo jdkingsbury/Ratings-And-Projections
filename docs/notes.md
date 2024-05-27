@@ -127,6 +127,18 @@ node insertScript.js
 
 **Ensure that .env is in BackEnd or that you define the path to it**
 
+Example command to retrieve player game logs from the database
+
+```sh
+node retrieveScript.js player_game_log 2544 22023
+```
+
+**Command line script order:**
+
+1. function name
+2. player_id
+3. seaon_id
+
 Jest test are under `__test__`
 pytest are under tests
 
