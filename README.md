@@ -86,7 +86,7 @@ pytest
 
 **In the browser:**
 
-<http://localhost:4000/api/data/get_player_game_log?output_format=json&player_id=2545&season_year=2023-24>
+<http://localhost:4000/api/data/get_player_game_log?output_format=json&player_id=2544&season_year=2023-24>
 
 **CLI command:**
 
