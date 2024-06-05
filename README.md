@@ -95,19 +95,3 @@ pytest
 ```
 
 - Change json to csv if you the data in csv format.
-
-## Legacy Code
-
-The `legacy_code` directory contains old Python scripts that were previously used for database operations, JSON file reading, and data insertion. These scripts are kept for reference and future use, but are not part of the active codebase.
-
-### Files
-
-- `old_db_operations.py`: Contains old database connection and operation functions.
-- `old_json_reader.py`: Contains old functions for reading JSON files.
-- `old_data_insertion.py`: Contains old data insertion functions.
-- `old_data_retrieval.py`: Contains old data retrieval functions.
-- `old_insert_data.py`: Contains old generic insertion function used in conjunction with function mappings and data insertion functions.
-- `old_retrieve_data.py`: Contains old generic function used in conjunction with function mappings and data retrieval functions.
-- `old_retrieve_and_calc_data`: Contains old generic function similar to retrieve_data but used functions stat calculation functions to calculate results.
-
-These files are not used in the current implementation but may provide useful reference for future updates or migrations.
