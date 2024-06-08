@@ -21,7 +21,7 @@ from .nba_service import (
 
 
 def create_file(data, file_name, output_format):
-    data_directory = "data"
+    data_directory = "../data"
     file_path = os.path.join(data_directory, file_name)
 
     os.makedirs(data_directory, exist_ok=True)
