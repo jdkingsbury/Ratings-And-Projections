@@ -1,4 +1,5 @@
 import { vitePlugin as remix } from "@remix-run/dev";
+import tsconfigPaths from "vite-tsconfig-paths";
 import { defineConfig } from "vite";
 
 export default defineConfig({
@@ -10,5 +11,6 @@ export default defineConfig({
         v3_throwAbortReason: true,
       },
     }),
+    tsconfigPaths(),
   ],
 });

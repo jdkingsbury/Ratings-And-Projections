@@ -1,10 +1,18 @@
 import {
   Links,
+  LiveReload,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
+  useRouteError,
 } from "@remix-run/react";
+import type { LinksFunction } from "@remix-run/node";
+import stylesheet from "~/tailwind.css?url";
+
+export const links: LinksFunction = () => [
+  { rel: "stylesheet", href: stylesheet },
+];
 
 export function Layout({ children }) {
   return (
@@ -19,13 +27,18 @@ export function Layout({ children }) {
         {children}
         <ScrollRestoration />
         <Scripts />
+        <LiveReload />
       </body>
     </html>
   );
 }
 
 export default function App() {
-  return <Outlet />;
+  return (
+    <Layout>
+      <Outlet />
+    </Layout>
+  );
 }
 
 export function ErrorBoundary() {
@@ -39,6 +52,7 @@ export function ErrorBoundary() {
         <Links />
       </head>
       <body>
+        <h1>Something went wrong</h1>
         <Scripts />
       </body>
     </html>
