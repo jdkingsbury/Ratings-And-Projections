@@ -1,8 +1,8 @@
 import { useLoaderData } from "@remix-run/react";
 import { json } from "@remix-run/node";
-// import retrievePlayerGameLog from "~/db/reretrieveQueries";
 import retrievePlayerGameLog from "../../db/retrieveQueries";
 
+// NOTE: This is a mock data loader that returns a static array of player stats.
 // export const loader = async () => {
 //   const playerStats = [
 //     {
@@ -43,17 +43,21 @@ export const loader = async () => {
   const seasonId = "22023";
 
   try {
-    const data = await retrievePlayerGameLog(playerId, seasonId);
-    console.log(data);
-    return json(data);
+    const playerStats = await retrievePlayerGameLog(playerId, seasonId);
+    return json({ playerStats });
   } catch (error) {
-    console.error(error);
+    console.error("Failed to retrieve player game log data", error);
     throw error;
   }
 };
 
 export default function Players() {
   const { playerStats } = useLoaderData();
+  console.log("playerStats", playerStats);
+
+  if (!playerStats) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>
@@ -61,7 +65,7 @@ export default function Players() {
       <ul>
         {playerStats.map((stat, index) => (
           <li key={index}>
-            {`Season: ${stat.SEASON_ID}, Points: ${stat.PTS}, Assists: ${stat.AST}`}
+            {`Season: ${stat.season_id}, Points: ${stat.pts}, Assists: ${stat.ast}`}
           </li>
         ))}
       </ul>
