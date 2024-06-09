@@ -1,8 +1,9 @@
 import pg from "pg";
 import dotenv from "dotenv";
 
-const { Pool } = pg;
 dotenv.config();
+
+const { Pool } = pg;
 
 const pool = new Pool({
   user: process.env.DB_USER,
@@ -20,6 +21,7 @@ pool.on("error", (err) => {
   console.error("Connection error", err.stack);
 });
 
+export default pool;
 export async function queryDatabase(query, params) {
   const client = await pool.connect();
   try {

@@ -38,12 +38,13 @@ import retrievePlayerGameLog from "../../db/retrieveQueries";
 //   return json({ playerStats });
 // }
 
-export const loader = async ({ params }) => {
-  const playerId = params.playerId;
-  const seasonId = params.seasonId;
+export const loader = async () => {
+  const playerId = 2544;
+  const seasonId = "22023";
 
   try {
     const data = await retrievePlayerGameLog(playerId, seasonId);
+    console.log(data);
     return json(data);
   } catch (error) {
     console.error(error);
