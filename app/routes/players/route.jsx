@@ -1,40 +1,55 @@
 import { useLoaderData } from "@remix-run/react";
 import { json } from "@remix-run/node";
+// import retrievePlayerGameLog from "~/db/reretrieveQueries";
+import retrievePlayerGameLog from "../../db/retrieveQueries";
 
-export const loader = async () => {
-  const playerStats = [
-    {
-      "SEASON_ID": "22023",
-      "Player_ID": 2544,
-      "Game_ID": "0022301195",
-      "GAME_DATE": "APR 14, 2024",
-      "MATCHUP": "LAL @ NOP",
-      "WL": "W",
-      "MIN": 38,
-      "FGM": 11,
-      "FGA": 20,
-      "FG_PCT": 0.55,
-      "FG3M": 0,
-      "FG3A": 2,
-      "FG3_PCT": 0.0,
-      "FTM": 6,
-      "FTA": 6,
-      "FT_PCT": 1.0,
-      "OREB": 2,
-      "DREB": 9,
-      "REB": 11,
-      "AST": 17,
-      "STL": 5,
-      "BLK": 1,
-      "TOV": 4,
-      "PF": 0,
-      "PTS": 28,
-      "PLUS_MINUS": 19
-    },
-  ];
+// export const loader = async () => {
+//   const playerStats = [
+//     {
+//       "SEASON_ID": "22023",
+//       "Player_ID": 2544,
+//       "Game_ID": "0022301195",
+//       "GAME_DATE": "APR 14, 2024",
+//       "MATCHUP": "LAL @ NOP",
+//       "WL": "W",
+//       "MIN": 38,
+//       "FGM": 11,
+//       "FGA": 20,
+//       "FG_PCT": 0.55,
+//       "FG3M": 0,
+//       "FG3A": 2,
+//       "FG3_PCT": 0.0,
+//       "FTM": 6,
+//       "FTA": 6,
+//       "FT_PCT": 1.0,
+//       "OREB": 2,
+//       "DREB": 9,
+//       "REB": 11,
+//       "AST": 17,
+//       "STL": 5,
+//       "BLK": 1,
+//       "TOV": 4,
+//       "PF": 0,
+//       "PTS": 28,
+//       "PLUS_MINUS": 19
+//     },
+//   ];
+//
+//   return json({ playerStats });
+// }
 
-  return json({ playerStats });
-}
+export const loader = async ({ params }) => {
+  const playerId = params.playerId;
+  const seasonId = params.seasonId;
+
+  try {
+    const data = await retrievePlayerGameLog(playerId, seasonId);
+    return json(data);
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
 
 export default function Players() {
   const { playerStats } = useLoaderData();

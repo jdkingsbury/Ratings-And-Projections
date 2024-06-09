@@ -1,6 +1,10 @@
-const pool = require("./db");
+import pool from "./db.js";
 
-const retrievePlayerGameLog = async (playerId, season_id) => {
+export default async function retrievePlayerGameLog(playerId, season_id) {
+  if (!pool) {
+    console.error("Database pool is not connected");
+    throw new Error("Database pool is not connected");
+  }
   const query = `
     SELECT * FROM player_game_log
     WHERE player_id = $1 AND season_id = $2;
@@ -13,6 +17,4 @@ const retrievePlayerGameLog = async (playerId, season_id) => {
     console.error(err.message);
     throw err;
   }
-};
-
-module.exports = { retrievePlayerGameLog };
+}
