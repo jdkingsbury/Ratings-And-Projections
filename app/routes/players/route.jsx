@@ -2,42 +2,7 @@ import { useLoaderData } from "@remix-run/react";
 import { json } from "@remix-run/node";
 import retrievePlayerGameLog from "../../db/retrieveQueries";
 
-// NOTE: This is a mock data loader that returns a static array of player stats.
-// export const loader = async () => {
-//   const playerStats = [
-//     {
-//       "SEASON_ID": "22023",
-//       "Player_ID": 2544,
-//       "Game_ID": "0022301195",
-//       "GAME_DATE": "APR 14, 2024",
-//       "MATCHUP": "LAL @ NOP",
-//       "WL": "W",
-//       "MIN": 38,
-//       "FGM": 11,
-//       "FGA": 20,
-//       "FG_PCT": 0.55,
-//       "FG3M": 0,
-//       "FG3A": 2,
-//       "FG3_PCT": 0.0,
-//       "FTM": 6,
-//       "FTA": 6,
-//       "FT_PCT": 1.0,
-//       "OREB": 2,
-//       "DREB": 9,
-//       "REB": 11,
-//       "AST": 17,
-//       "STL": 5,
-//       "BLK": 1,
-//       "TOV": 4,
-//       "PF": 0,
-//       "PTS": 28,
-//       "PLUS_MINUS": 19
-//     },
-//   ];
-//
-//   return json({ playerStats });
-// }
-
+// NOTE: This is a loader function that will be called by Remix to fetch data from the database
 export const loader = async () => {
   const playerId = 2544;
   const seasonId = "22023";
@@ -51,9 +16,9 @@ export const loader = async () => {
   }
 };
 
+// NOTE: This is the React component that will render the data fetched from the database
 export default function Players() {
   const { playerStats } = useLoaderData();
-  console.log("playerStats", playerStats);
 
   if (!playerStats) {
     return <div>Loading...</div>;
