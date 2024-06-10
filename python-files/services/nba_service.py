@@ -1,22 +1,33 @@
-import pandas as pd
-
 import nba_api.stats.endpoints as CommonAllPlayers
 import nba_api.stats.endpoints as playercareerstats
 import nba_api.stats.endpoints as cumestatsplayer
 import nba_api.stats.endpoints as playergamelog
 import nba_api.stats.endpoints as leaguedashplayerstats
-
+import pandas as pd
 
 # NOTE: LeagueID: 00 = NBA, 10 = WNBA, 20 = G-League
+
 
 # NOTE: Get player stats for a specific season
 def get_player_stats(season_year, output_format="json"):
     player_stats = leaguedashplayerstats.LeagueDashPlayerStats(
-        season=season_year, 
-        per_mode_detailed='PerGame'
+        season=season_year, per_mode_detailed="PerGame"
     )
     player_stats = player_stats.get_data_frames()[0]
-    relevant_columns = player_stats[['PLAYER_NAME', 'PTS', 'AST', 'REB', 'STL', 'BLK', 'TOV', 'FG_PCT', 'FG3_PCT', 'FT_PCT']]
+    relevant_columns = player_stats[
+        [
+            "PLAYER_NAME",
+            "PTS",
+            "AST",
+            "REB",
+            "STL",
+            "BLK",
+            "TOV",
+            "FG_PCT",
+            "FG3_PCT",
+            "FT_PCT",
+        ]
+    ]
 
     if output_format == "csv":
         return relevant_columns.to_csv(index=False)
@@ -29,11 +40,20 @@ def get_player_stats(season_year, output_format="json"):
 # NOTE: Grabs all active players from NBA
 def get_all_players(season_year, output_format="json"):
     common_all_players = CommonAllPlayers.CommonAllPlayers(
-        is_only_current_season=1, 
-        league_id="00", 
-        season=season_year
+        is_only_current_season=1, league_id="00", season=season_year
     )
+
     df_common_all_players = common_all_players.get_data_frames()[0]
+
+    # NOTE: Rename PERSON_ID to player_id
+    df_common_all_players = df_common_all_players.rename(
+        columns={"PERSON_ID": "PLAYER_ID"}
+    )
+
+    # NOTE: Add image url to each player
+    df_common_all_players["IMAGE_URL"] = df_common_all_players["PLAYER_ID"].apply(
+        lambda x: f"https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{x}.png"
+    )
 
     if output_format == "csv":
         return df_common_all_players.to_csv(index=False)
@@ -46,8 +66,7 @@ def get_all_players(season_year, output_format="json"):
 # NOTE: Gets player id from player name
 def get_player_id(player_name, output_format="json"):
     common_all_players = CommonAllPlayers.CommonAllPlayers(
-        is_only_current_season=1, 
-        league_id="00"
+        is_only_current_season=1, league_id="00"
     )
     df_common_all_players = common_all_players.get_data_frames()[0]
     player_id = df_common_all_players[
@@ -78,9 +97,7 @@ def get_player_career_stats(player_id, output_format="json"):
 # NOTE: Get player game log
 def get_player_game_log(player_id, season_year, output_format="json"):
     game_log = playergamelog.PlayerGameLog(
-        player_id=player_id, 
-        season=season_year, 
-        season_type_all_star="Regular Season"
+        player_id=player_id, season=season_year, season_type_all_star="Regular Season"
     )
     player_game_log = game_log.get_data_frames()[0]
 
