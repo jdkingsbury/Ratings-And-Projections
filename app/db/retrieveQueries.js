@@ -1,6 +1,6 @@
 import pool from "./db.js";
 
-export default async function retrievePlayerGameLog(playerId, season_id) {
+async function retrievePlayerGameLog(playerId, season_id) {
   if (!pool) {
     console.error("Database pool is not connected");
     throw new Error("Database pool is not connected");
@@ -18,3 +18,7 @@ export default async function retrievePlayerGameLog(playerId, season_id) {
     throw err;
   }
 }
+
+export const retrieveFunctionMap = {
+  retrievePlayerGameLog,
+};

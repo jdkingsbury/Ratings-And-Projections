@@ -1,6 +1,6 @@
 import { useLoaderData } from "@remix-run/react";
 import { json } from "@remix-run/node";
-import retrievePlayerGameLog from "../db/retrieveQueries";
+import { retrieveFunctionMap } from "../db/retrieveQueries";
 
 // NOTE: This is a loader function that will be called by Remix to fetch data from the database
 export const loader = async ({ params }) => {
@@ -8,7 +8,7 @@ export const loader = async ({ params }) => {
   const seasonId = params.seasonId;
 
   try {
-    const playerStats = await retrievePlayerGameLog(playerId, seasonId);
+    const playerStats = await retrieveFunctionMap.retrievePlayerGameLog(playerId, seasonId);
     return json({ playerStats });
   } catch (error) {
     console.error("Failed to retrieve player game log data", error);
@@ -18,7 +18,6 @@ export const loader = async ({ params }) => {
 
 // NOTE: This is the React component that will render the data fetched from the database
 export default function PlayersStatsPage() {
-  console.log("Loader data", useLoaderData());
   const { playerStats } = useLoaderData();
 
   if (!playerStats) {

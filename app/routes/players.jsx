@@ -10,13 +10,13 @@ export default function Players() {
         {players.map((player, index) => (
           <li key={index}>
             <Link to={`/players/${player.playerId}/${player.seasonId}`}>
-              Lebron James
+              View Player Stats
             </Link>
           </li>
         ))}
       </ul>
       {/* NOTE: If you want to render the nested route, you need to use the Outlet */}
-      {/* <Outlet /> */}
+      <Outlet />
     </div>
   );
 }
