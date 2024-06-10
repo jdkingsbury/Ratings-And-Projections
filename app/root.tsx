@@ -1,10 +1,10 @@
 import {
   Links,
-  LiveReload,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
+  isRouteErrorResponse,
   useRouteError,
 } from "@remix-run/react";
 import type { LinksFunction } from "@remix-run/node";
@@ -27,34 +27,33 @@ export function Layout({ children }) {
         {children}
         <ScrollRestoration />
         <Scripts />
-        <LiveReload />
       </body>
     </html>
   );
 }
 
 export default function App() {
-  return (
-    <Layout>
-      <Outlet />
-    </Layout>
-  );
+  return <Outlet />;
 }
 
 export function ErrorBoundary() {
   const error = useRouteError();
-  console.error(error);
+
+  if (isRouteErrorResponse(error)) {
+    return (
+      <>
+        <h1>
+          {error.status} {error.statusText}
+        </h1>
+        <p>{error.data}</p>
+      </>
+    );
+  }
+
   return (
-    <html>
-      <head>
-        <title>Oh no!</title>
-        <Meta />
-        <Links />
-      </head>
-      <body>
-        <h1>Something went wrong</h1>
-        <Scripts />
-      </body>
-    </html>
+    <>
+      <h1>Error!</h1>
+      <p>{error?.message ?? "Unknown error"}</p>
+    </>
   );
 }

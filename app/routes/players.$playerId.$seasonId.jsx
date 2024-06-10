@@ -1,11 +1,11 @@
 import { useLoaderData } from "@remix-run/react";
 import { json } from "@remix-run/node";
-import retrievePlayerGameLog from "../../db/retrieveQueries";
+import retrievePlayerGameLog from "../db/retrieveQueries";
 
 // NOTE: This is a loader function that will be called by Remix to fetch data from the database
-export const loader = async () => {
-  const playerId = 2544;
-  const seasonId = "22023";
+export const loader = async ({ params }) => {
+  const playerId = params.playerId;
+  const seasonId = params.seasonId;
 
   try {
     const playerStats = await retrievePlayerGameLog(playerId, seasonId);
@@ -17,7 +17,8 @@ export const loader = async () => {
 };
 
 // NOTE: This is the React component that will render the data fetched from the database
-export default function Players() {
+export default function PlayersStatsPage() {
+  console.log("Loader data", useLoaderData());
   const { playerStats } = useLoaderData();
 
   if (!playerStats) {
