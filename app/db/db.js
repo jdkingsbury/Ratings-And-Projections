@@ -1,6 +1,6 @@
 import pg from "pg";
 import dotenv from "dotenv";
-import { readJsonFile } from "./readJsonFile.js";
+import { readJsonFile } from "../utils/readJsonFile.js";
 
 dotenv.config();
 

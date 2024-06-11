@@ -1,6 +1,7 @@
+import { insertDatabase, queryDatabase } from "../db/db.js";
 import pool from "./db.js";
 
-// NOTE: THe createTableQuery's will probably be removed eventually and are being used for testing purposes
+// NOTE: The createTableQuery's will probably be removed eventually and are being used for testing purposes
 
 async function insertPlayerGameLog(data) {
   // NOTE: SQL query to player_game_stats table
@@ -83,7 +84,7 @@ async function insertPlayerGameLog(data) {
         item.PTS,
         item.PLUS_MINUS,
       ];
-      const res = await pool.query(insertQuery, values);
+      const res = await insertDatabase(insertQuery, values);
       console.log("Inserted player game log:", res.rows[0]);
     }
 } catch (err) {
@@ -153,7 +154,7 @@ async function getAllPlayers(data) {
         item.OTHERLEAGUE_EXPERIENCE_CH,
         item.IMAGE_URL,
       ];
-      const res = await pool.query(insertQuery, values);
+      const res = await insertDatabase(insertQuery, values);
       console.log("Inserted player data:", res.rows[0]);
     }
   } catch (err) {
