@@ -1,6 +1,8 @@
-const pool = require("./db");
+import pool from "./db.js";
 
-const insertPlayerGameLog = async (data) => {
+// NOTE: THe createTableQuery's will probably be removed eventually and are being used for testing purposes
+
+async function insertPlayerGameLog(data) {
   // NOTE: SQL query to player_game_stats table
   const createTableQuery = `
     CREATE TABLE IF NOT EXISTS player_game_log (
@@ -84,10 +86,83 @@ const insertPlayerGameLog = async (data) => {
       const res = await pool.query(insertQuery, values);
       console.log("Inserted player game log:", res.rows[0]);
     }
-  } catch (err) {
+} catch (err) {
     console.error("Error inserting player game log:", err);
     throw err;
   }
-};
+}
 
-module.exports = { insertPlayerGameLog };
+async function getAllPlayers(data) {
+  const createTableQuery = `
+    CREATE TABLE IF NOT EXISTS players (
+      player_id INT PRIMARY KEY,
+      display_last_comma_first VARCHAR(255),
+      display_first_last VARCHAR(255),
+      rosterstatus INT,
+      from_year varchar(4),
+      to_year varchar(4),
+      playercode varchar(255),
+      player_slug varchar(255),
+      team_id INT,
+      team_city varchar(50),
+      team_name varchar(50),
+      team_abbreviation varchar(10),
+      team_slug varchar(50),
+      team_code varchar(50),
+      games_played_flag varchar(1),
+      other_league_experience_ch varchar(2),
+      image_url blob
+  `;
+
+  const insertQuery = `
+    INSERT INTO players (
+      player_id, display_last_comma_first, display_first_last, rosterstatus, from_year, to_year, playercode, 
+      player_slug, team_id, team_city, team_name, team_abbreviation, team_slug, team_code, 
+      games_played_flag, otherleague_experience_ch, image_url
+    ) VALUES (
+      $1, $2, $3, $4, $5, $6, $7, 
+      $8, $9, $10, $11, $12, $13, $14, 
+      $15, $16
+    )
+    RETURNING *;
+  `;
+
+  try {
+    // NOTE: Create Table if it does not exist 
+    await pool.query(createTableQuery);
+    console.log("Table created or already exitst");
+
+    // NOTE: Insert data into table
+    for (let item of data) {
+      const values = [
+        item.PLAYER_ID,
+        item.DISPLAY_LAST_COMMA_FIRST,
+        item.DISPLAY_FIRST_LAST,
+        item.ROSTERSTATUS,
+        item.FROM_YEAR,
+        item.TO_YEAR,
+        item.PLAYERCODE,
+        item.PLAYER_SLUG,
+        item.TEAM_ID,
+        item.TEAM_CITY,
+        item.TEAM_NAME,
+        item.TEAM_ABBREVIATION,
+        item.TEAM_SLUG,
+        item.TEAM_CODE,
+        item.GAMES_PLAYED_FLAG,
+        item.OTHERLEAGUE_EXPERIENCE_CH,
+        item.IMAGE_URL,
+      ];
+      const res = await pool.query(insertQuery, values);
+      console.log("Inserted player data:", res.rows[0]);
+    }
+  } catch (err) {
+    console.log("Error inserting player data:", err);
+    throw err;
+  }
+}
+
+export const insertFunctionMap = {
+  insertPlayerGameLog,
+  getAllPlayers,
+};

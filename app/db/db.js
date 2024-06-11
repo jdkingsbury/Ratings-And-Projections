@@ -1,5 +1,6 @@
 import pg from "pg";
 import dotenv from "dotenv";
+import { readJsonFile } from "./readJsonFile.js";
 
 dotenv.config();
 
@@ -27,6 +28,23 @@ export async function queryDatabase(query, params) {
   try {
     const res = await client.query(query, params);
     return res.rows;
+  } catch (err) {
+    console.error("Failed to query the database:", err);
+    throw err;
+  } finally {
+    client.release();
+  }
+}
+
+export async function insertDatabase(query, filePath) {
+  const client = await pool.connect();
+  try {
+    const data = await readJsonFile(filePath);
+    const values = Object.values(data);
+    await client.query(query, values);
+  } catch (err) {
+    console.error("Failed to insert data into the database:", err);
+    throw err;
   } finally {
     client.release();
   }
