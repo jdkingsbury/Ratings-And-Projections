@@ -45,6 +45,13 @@ def get_all_players(season_year, output_format="json"):
 
     df_common_all_players = common_all_players.get_data_frames()[0]
 
+    # NOTE: Array of columns that aren't needed
+    remove_cols = ["DISPLAY_LAST_COMMA_FIRST", "PLAYER_SLUG", "TEAM_SLUG"]
+
+    for val in remove_cols:
+        if val in df_common_all_players.columns:
+            df_common_all_players = df_common_all_players.drop(columns=[val])
+
     # NOTE: Rename PERSON_ID to player_id
     df_common_all_players = df_common_all_players.rename(
         columns={"PERSON_ID": "PLAYER_ID"}
