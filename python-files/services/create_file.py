@@ -1,7 +1,7 @@
-import os
-import sys
 import csv
 import json
+import os
+import sys
 
 # Determine if running as a script or module
 if __name__ == "__main__" and __package__ is None:
@@ -64,7 +64,9 @@ def main():
         function_name = function_name.replace("get_", "")
 
     if function_name not in function_mapping:
-        print(f"Invalid function name. Valid options are: {list(function_mapping.keys())}")
+        print(
+            f"Invalid function name. Valid options are: {list(function_mapping.keys())}"
+        )
         sys.exit(1)
 
     if args:

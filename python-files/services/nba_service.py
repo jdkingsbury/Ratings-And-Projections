@@ -37,7 +37,15 @@ def get_player_stats(season_year, output_format="json"):
         raise ValueError("Unsupported format. Please choose 'json' or 'csv'.")
 
 
-# NOTE: Grabs all active players from NBA
+# TODO: Find out if we need to implement flask to call this function
+# or if there is another way we can do this without creating another server
+
+# This function will allow us to get the info of a specific player
+def get_player_info(player_id, output_format="json"):
+    player_info = CommonAllPlayers.CommonPlayerInfo(player_id=player_id)
+
+
+# NOTE: Grabs all active players from NBA but not their info
 def get_all_players(season_year, output_format="json"):
     common_all_players = CommonAllPlayers.CommonAllPlayers(
         is_only_current_season=1, league_id="00", season=season_year
