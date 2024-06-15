@@ -10,8 +10,7 @@ This is an NBA Prediction application, which consists of a backend built with No
 - [Installation](#installation)
 - [Usage](#usage)
 - [Running Tests](#running-tests)
-- [Legacy Code](#legacy-code)
-
+  
 ## Overview
 
 This project aims to provide player grades and projections from data retrieved from the NBA API. Goal is to use the data to be able to train an AI on how to grade players.
@@ -19,8 +18,6 @@ This project aims to provide player grades and projections from data retrieved f
 ## Backend
 
 The backend consists of Node.js for handling HTTP requests and Python for interacting with the NBA API and performing data processing.
-
-For detailed information, please refer to the [Backend README](Backend/README.md).
 
 ## Installation
 
