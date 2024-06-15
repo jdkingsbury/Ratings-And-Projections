@@ -7,6 +7,8 @@ import pandas as pd
 
 # NOTE: LeagueID: 00 = NBA, 10 = WNBA, 20 = G-League
 
+# TODO: Work on implementing fast api into this project so that we can create api endpoints 
+# to use in the application but also allow others to access the data if we make it available to the public
 
 # NOTE: Get player stats for a specific season
 def get_player_stats(season_year, output_format="json"):
@@ -36,9 +38,6 @@ def get_player_stats(season_year, output_format="json"):
     else:
         raise ValueError("Unsupported format. Please choose 'json' or 'csv'.")
 
-
-# TODO: Find out if we need to implement flask to call this function
-# or if there is another way we can do this without creating another server
 
 # This function will allow us to get the info of a specific player
 def get_player_info(player_id, output_format="json"):
