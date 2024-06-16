@@ -5,10 +5,15 @@ import nba_api.stats.endpoints as playergamelog
 import nba_api.stats.endpoints as leaguedashplayerstats
 import pandas as pd
 
+from fastapi import APIRouter
+
+router = APIRouter(prefix="/nba", tags=["nba"])
+
 # NOTE: LeagueID: 00 = NBA, 10 = WNBA, 20 = G-League
 
-# TODO: Work on implementing fast api into this project so that we can create api endpoints 
+# TODO: Work on implementing fast api into this project so that we can create api endpoints
 # to use in the application but also allow others to access the data if we make it available to the public
+
 
 # NOTE: Get player stats for a specific season
 def get_player_stats(season_year, output_format="json"):
@@ -45,6 +50,9 @@ def get_player_info(player_id, output_format="json"):
 
 
 # NOTE: Grabs all active players from NBA but not their info
+
+
+@router.get("/players-all/{season_year}")
 def get_all_players(season_year, output_format="json"):
     common_all_players = CommonAllPlayers.CommonAllPlayers(
         is_only_current_season=1, league_id="00", season=season_year
