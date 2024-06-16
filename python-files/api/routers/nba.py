@@ -1,7 +1,6 @@
 from fastapi import APIRouter
 from nba_api.stats.endpoints import (
     commonallplayers,
-    cumestatsplayer,
     leaguedashplayerstats,
     playercareerstats,
     playergamelog,
@@ -14,7 +13,7 @@ router = APIRouter(prefix="/nba", tags=["nba"])
 # TODO:
 # [] Work on implementing fast api into this project so that we can create api endpoints to use
 # in the application but also allow others to access the data if we make it available to the public
-# [] Clean up file and remove functions we do not need 
+# [] Clean up file and remove functions we do not need
 # [] Refactor functions so that they are cleaner
 
 
@@ -53,8 +52,6 @@ def get_player_info(player_id, output_format="json"):
 
 
 # NOTE: Grabs all active players from NBA but not their info
-
-
 @router.get("/players-all/{season_year}")
 def get_all_players(season_year, output_format="json"):
     common_all_players = commonallplayers.CommonAllPlayers(
@@ -64,11 +61,11 @@ def get_all_players(season_year, output_format="json"):
     df_common_all_players = common_all_players.get_data_frames()[0]
 
     # NOTE: Array of columns that aren't needed
-    remove_cols = ["DISPLAY_LAST_COMMA_FIRST", "PLAYER_SLUG", "TEAM_SLUG"]
+    # remove_cols = ["DISPLAY_LAST_COMMA_FIRST", "PLAYER_SLUG", "TEAM_SLUG"]
 
-    for val in remove_cols:
-        if val in df_common_all_players.columns:
-            df_common_all_players = df_common_all_players.drop(columns=[val])
+    # for val in remove_cols:
+    #     if val in df_common_all_players.columns:
+    #         df_common_all_players = df_common_all_players.drop(columns=[val])
 
     # NOTE: Rename PERSON_ID to player_id
     df_common_all_players = df_common_all_players.rename(
@@ -81,27 +78,9 @@ def get_all_players(season_year, output_format="json"):
     )
 
     if output_format == "csv":
-        return df_common_all_players.to_csv(index=False)
+        return df_common_all_players[["PLAYER_ID"]].to_csv(index=False)
     elif output_format == "json":
-        return df_common_all_players.to_json(orient="records")
-    else:
-        raise ValueError("Unsupported format. Please choose 'json' or 'csv'.")
-
-
-# NOTE: Gets player id from player name
-def get_player_id(player_name, output_format="json"):
-    common_all_players = commonallplayers.CommonAllPlayers(
-        is_only_current_season=1, league_id="00"
-    )
-    df_common_all_players = common_all_players.get_data_frames()[0]
-    player_id = df_common_all_players[
-        df_common_all_players["DISPLAY_FIRST_LAST"] == player_name
-    ]["PERSON_ID"]
-
-    if output_format == "csv":
-        return player_id.to_csv(index=False)
-    elif output_format == "json":
-        return player_id.to_json(orient="records")
+        return df_common_all_players[["PLAYER_ID"]].to_json(orient="records")
     else:
         raise ValueError("Unsupported format. Please choose 'json' or 'csv'.")
 
@@ -133,24 +112,5 @@ def get_player_game_log(player_id, season_year, output_format="json"):
         return player_game_log.to_csv(index=False)
     elif output_format == "json":
         return player_game_log.to_json(orient="records", indent=4)
-    else:
-        raise ValueError("Unsupported format. Please choose 'json' or 'csv'.")
-
-
-# TODO: Find out what game_ids are and how to get them
-def get_player_cumulative_stats(player_id, game_ids, season_year, output_format="json"):
-    stats = cumestatsplayer.CumeStatsPlayer(
-        game_ids=game_ids,
-        league_id="00",
-        player_id=player_id,
-        season=season_year,
-        season_type_all_star="Regular Season",
-    )
-    player_stats = stats.get_data_frames()[0]
-
-    if output_format == "csv":
-        return player_stats.to_csv(index=False)
-    elif output_format == "json":
-        return player_stats.to_json(orient="records")
     else:
         raise ValueError("Unsupported format. Please choose 'json' or 'csv'.")
