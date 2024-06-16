@@ -1,16 +1,25 @@
-import { Link, Outlet } from "@remix-run/react";
+import { Link, Outlet, useLoaderData } from "@remix-run/react";
+
+export const loader = async () => {
+  const response = await fetch("http://127.0.0.1:8000/nba/players");
+  if (!response.ok) {
+    throw new Error("failed to fetch players");
+  }
+  const players = await response.json();
+  return players;
+};
 
 export default function Players() {
-  const players = [{ playerId: 2544, seasonId: "22023" }];
+  const players = useLoaderData();
 
   return (
     <div>
       <h1>Players Page</h1>
       <ul>
-        {players.map((player, index) => (
-          <li key={index}>
-            <Link to={`/players/${player.playerId}/${player.seasonId}`}>
-              View Player Stats
+        {players.map((player) => (
+          <li key={player.id}>
+            <Link to={`/players/${player.playerId}`}>
+              {player.full_name}
             </Link>
           </li>
         ))}
