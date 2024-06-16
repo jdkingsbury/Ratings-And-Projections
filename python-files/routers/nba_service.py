@@ -4,7 +4,6 @@ import nba_api.stats.endpoints as cumestatsplayer
 import nba_api.stats.endpoints as playergamelog
 import nba_api.stats.endpoints as leaguedashplayerstats
 import pandas as pd
-
 from fastapi import APIRouter
 
 router = APIRouter(prefix="/nba", tags=["nba"])

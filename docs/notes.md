@@ -109,7 +109,7 @@ python3 -m services.create_file get_player_game_log csv 2544 2023-24
 
 Example of shell command to get all players for a specific season
 
-```python
+```sh
 python3 -m services.create_file get_all_players json 2023-24
 ```
 
