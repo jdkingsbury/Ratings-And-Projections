@@ -1,7 +1,6 @@
 from fastapi import APIRouter
 from nba_api.stats.endpoints import (
     commonallplayers,
-    commonplayerinfo,
     leaguedashplayerstats,
     playercareerstats,
     playergamelog,
@@ -57,7 +56,10 @@ def get_player_stats(season_year, output_format="json"):
 # Will need to find a way to just retrieve all active players
 @router.get("/players")
 def all_players():
-    return players.get_players()
+    # NOTE: Temporary and used for testing purposes
+    nba_players = players.get_players()
+    active_players = [player for player in nba_players if player["is_active"] == True]
+    return active_players
 
 
 # NOTE: Grabs all active players from NBA but not their info
