@@ -1,7 +1,5 @@
 # NBA Prediction Application
 
-This is an NBA Prediction application, which consists of a backend built with Node.js and Python, and the frontend will be built with React.
-
 ## Table of Contents
 
 - [Overview](#overview)
@@ -9,18 +7,19 @@ This is an NBA Prediction application, which consists of a backend built with No
 - [Frontend](#frontend)
 - [Installation](#installation)
 - [Usage](#usage)
-- [Running Tests](#running-tests)
-- [Legacy Code](#legacy-code)
+- [Creating JSON and CSV Files](#creating-json-and-csv-files)
 
 ## Overview
 
-This project aims to provide player grades and projections from data retrieved from the NBA API. Goal is to use the data to be able to train an AI on how to grade players.
+This project aims to provide player grades and projections from data retrieved from [nba_api](https://github.com/swar/nba_api/tree/master).
+
+## Frontend
+
+The frontend is built using Remix, a React-based framework for building modern web applications.
 
 ## Backend
 
-The backend consists of Node.js for handling HTTP requests and Python for interacting with the NBA API and performing data processing.
-
-For detailed information, please refer to the [Backend README](Backend/README.md).
+The backend uses FastAPI and contains the API endpoints and service files.
 
 ## Installation
 
@@ -35,63 +34,89 @@ For detailed information, please refer to the [Backend README](Backend/README.md
 
 1. **Clone the repository:**
 
-```bash
+```sh
 git clone https://github.com/jdkingsbury/NBA_Prediction.git
 cd NBA_Prediction
 ```
 
-2. **Install Backend dependencies:**
+2. **Install backend dependencies:**
+
+```sh
+python -m venv venv
+source venv/bin/activate
+cd backend
+pip install -r requirements.txt
+```
+
+3. **Install frontend dependencies:**
+
+In the root directory run:
 
 ```bash
-cd BackEnd
 npm install
-python -m venv venv
-source venv/bin/activate # On Windows use `venv\Scripts\activate`
-pip install -r requirements.txt
+```
+
+4. **Set up environment variables by creating a `.env` file in the root directory:**
+
+```env
+# .env file
+DB_USER
+DB_HOST
+DB_DATABASE
+DB_PASSWORD
+DB_PORT
 ```
 
 ## Usage
 
+You need to start both the frontend and backend servers to run the application.
+
 ### Start the Backend Server
 
-Navigate to the `BackEnd` directory and run:
+The backend uses FastAPI to handle API requests from the frontend.
+
+Navigate to the `api` directory in the `backend` directory
+
+To run in a development mode:
+
+```bash
+fastapi dev main.py
+```
+
+To run in production mode:
+
+```bash
+fastapi run main.py
+```
+
+### Start the Frontend Server
+
+The frontend is built using Remix
+
+Navigate to the root directory.
+
+To run in development mode:
+
+```bash
+npm run dev
+```
+
+To run in production mode:
 
 ```bash
 npm start
 ```
 
-The server will start on <http://localhost:4000>.
+## Creating JSON and CSV Files
 
-## Running Tests
-
-### Backend Tests
-
-Navigate to the BackEnd directory and run:
-
-#### JavaScript Tests
-
-```bash
-npm test
-```
-
-#### Python Tests
-
-```bash
-pytest
-```
-
-## API Endpoints
+You can create JSON and CSV files for the NBA functions in `nba.py` located in the `routers` directory.
 
 ### Example: Get Player Game Log
 
-**In the browser:**
-
-<http://localhost:4000/api/data/get_player_game_log?output_format=json&player_id=2544&season_year=2023-24>
-
 **CLI command:**
 
-```shell
+```bash
  python3 -m services.create_file get_player_game_log json 2544 2023-24
 ```
 
-- Change json to csv if you the data in csv format.
+- If you want the file saved as a CSV change json to csv.
