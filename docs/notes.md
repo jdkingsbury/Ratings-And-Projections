@@ -107,6 +107,12 @@ Example of shell command to get all game logs for a player in csv format for a s
 python3 -m services.create_file get_player_game_log csv 2544 2023-24
 ```
 
+Example of shell command to get all players for a specific season
+
+```sh
+python3 -m services.create_file get_all_players json 2023-24
+```
+
 Example of command to make a request to the node server to get all game logs for a player in json or csv format
 
 ```
