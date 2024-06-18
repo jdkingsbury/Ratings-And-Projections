@@ -50,9 +50,8 @@ pip install -r requirements.txt
 
 3. **Install frontend dependencies:**
 
-In the root directory run:
-
 ```bash
+cd frontend
 npm install
 ```
 
@@ -93,7 +92,7 @@ fastapi run main.py
 
 The frontend is built using Remix
 
-Navigate to the root directory.
+Navigate to the `frontend` directory.
 
 To run in development mode:
 
