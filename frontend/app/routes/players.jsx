@@ -1,4 +1,5 @@
 import { Link, Outlet, useLoaderData } from "@remix-run/react";
+import Nav from "../components/Nav";
 
 export const loader = async () => {
   const response = await fetch("http://127.0.0.1:8000/nba/players");
@@ -14,6 +15,7 @@ export default function Players() {
 
   return (
     <div>
+      <Nav />
       <h1>Players Page</h1>
       <ul>
         {players.map((player) => (
