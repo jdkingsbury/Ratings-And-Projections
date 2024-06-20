@@ -8,6 +8,7 @@ from api.routers.nba import (
     get_player_career_stats,
     get_player_game_log,
     get_player_stats,
+    get_all_player_info
 )
 
 # # Determine if running as a script or module
@@ -43,6 +44,7 @@ function_mapping = {
     "player_career_stats": get_player_career_stats,
     "player_game_log": get_player_game_log,
     "player_stats": get_player_stats,
+    "all_player_info": get_all_player_info,
 }
 
 
