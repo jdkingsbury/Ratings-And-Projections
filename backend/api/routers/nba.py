@@ -1,4 +1,5 @@
-import pandas as pd
+import json
+
 from fastapi import APIRouter
 from nba_api.stats.endpoints import (
     commonallplayers,
@@ -49,12 +50,15 @@ def get_player_stats(season_year, output_format="json"):
         raise ValueError("Unsupported format. Please choose 'json' or 'csv'.")
 
 
-# WARNING: testing
 # This function will allow us to get the info of a specific player
 @router.get("/players/{player_id}")
 def get_player_info(player_id, output_format="json"):
     player_info = commonplayerinfo.CommonPlayerInfo(player_id=player_id)
     player_info = player_info.get_data_frames()[0]
+
+    player_info["IMAGE_URL"] = player_info["PERSON_ID"].apply(
+        lambda x: f"https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{x}.png"
+    )
 
     if output_format == "csv":
         return player_info.to_csv(index=False)

@@ -1,3 +1,4 @@
+import { Link } from "@remix-run/react";
 import { NavLink } from "@remix-run/react";
 import { buttonVariants } from "~/components/ui/button";
 import {
@@ -14,33 +15,29 @@ import {
 
 export default function Navbar() {
   return (
-    <div className="flex w-full h-16 sticky top-0">
-      <div className="container mx-auto px-4 h-full">
-        <div className="flex h-full items-center justify-between">
-          <nav className="flex w-full gap-4 py-4">
-            <ul className="hidden md:flex gap-x-6">
-              <li>
-                <NavLink className={buttonVariants({ variant: "ghost" })} to="/">Home</NavLink>
-              </li>
-              <li>
-                <NavigationMenu>
-                  <NavigationMenuList>
-                    <NavigationMenuItem>
-                      <NavigationMenuTrigger>NBA</NavigationMenuTrigger>
-                      <NavigationMenuContent>
-                        <NavLink to="/players">
-                          <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                            Players
-                          </NavigationMenuLink>
-                        </NavLink>
-                      </NavigationMenuContent>
-                    </NavigationMenuItem>
-                  </NavigationMenuList>
-                </NavigationMenu>
-              </li>
-            </ul>
-          </nav>
-        </div>
+    <div className="flex w-full bg-white h-16 sticky top-0 border-b border-gray-100">
+      <div className="container mx-auto px-4 h-full flex items-center justify-between">
+        <ul className="hidden md:flex space-x-6">
+          <li>
+            <Link to="/" className={buttonVariants({ variant: "ghost" })}>Home</Link>
+          </li>
+          <li>
+            <NavigationMenu>
+              <NavigationMenuList>
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger>NBA</NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <Link to="/players">
+                      <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                        Players
+                      </NavigationMenuLink>
+                    </Link>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+              </NavigationMenuList>
+            </NavigationMenu>
+          </li>
+        </ul>
       </div>
     </div>
   );
