@@ -1,6 +1,7 @@
 import { Link, Outlet, useLoaderData } from "@remix-run/react";
-import Nav from "../components/Nav";
+import Navbar from "~/components/navigation/navbar";
 
+// NOTE: Define the shape of the data that will be fetched from the
 interface Player {
   id: number;
   full_name: string;
@@ -24,7 +25,7 @@ export default function Players() {
 
   return (
     <div>
-      <Nav />
+      <Navbar />
       <h1>Players Page</h1>
       <ul>
         {players.map((player: Player) => (

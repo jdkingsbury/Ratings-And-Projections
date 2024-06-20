@@ -1,12 +1,13 @@
 import { Link } from "@remix-run/react";
-import Nav from "../components/Nav";
+import Navbar from "~/components/navigation/navbar";
+import { Button } from "~/components/ui/button";
 
 export default function Index() {
   return (
     <div>
-      <Nav />
+      <Navbar />
       <h1 className="text-3xl font-mono">Home</h1>
-      <Link to="/players">View Player Stats</Link>
+      <Button>Click me</Button>
     </div>
   );
 }
