@@ -4,11 +4,11 @@ import Navbar from "~/components/navigation/navbar";
 
 // NOTE: The loader function is used to fetch data for players info
 export const loader = async ({ params }: LoaderFunctionArgs) => {
-  const playerId = params.playerId;
+  const personId = params.personId;
 
   try {
     const resopnse = await fetch(
-      `http://127.0.0.1:8000/nba/players/${playerId}`
+      `http://127.0.0.1:8000/nba/players/${personId}`
     );
     if (!resopnse.ok) {
       throw new Error("failed to fetch player data");

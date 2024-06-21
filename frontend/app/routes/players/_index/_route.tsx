@@ -37,18 +37,6 @@ export default function ListPlayers() {
           </div>
         ))}
       </div>
-
-      {/* <ul> */}
-      {/*   {players.map((player: Player) => ( */}
-      {/*     <li key={player.id}> */}
-      {/*       <Link to={`/players/${player.id}`}> */}
-      {/*         {player.full_name} */}
-      {/*       </Link> */}
-      {/*     </li> */}
-      {/*   ))} */}
-      {/* </ul> */}
-      {/* NOTE: If you want to render the nested route, you need to use the Outlet */}
-      {/* <Outlet /> */}
     </div>
   );
 }

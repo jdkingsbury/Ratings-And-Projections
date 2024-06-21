@@ -50,9 +50,9 @@ def get_player_stats(season_year, output_format="json"):
 
 
 # This function will allow us to get the info of a specific player
-@router.get("/players/{player_id}")
-def get_player_info(player_id, output_format="json"):
-    player_info = commonplayerinfo.CommonPlayerInfo(player_id=player_id)
+@router.get("/players/{person_id}")
+def get_player_info(person_id, output_format="json"):
+    player_info = commonplayerinfo.CommonPlayerInfo(player_id=person_id)
     player_info_df = player_info.get_data_frames()[0]
 
     player_info_df["IMAGE_URL"] = player_info_df["PERSON_ID"].apply(
@@ -88,16 +88,6 @@ def get_all_players(season_year, output_format="json"):
 
     df_common_all_players = common_all_players.get_data_frames()[0]
 
-    # NOTE: Rename PERSON_ID to player_id
-    df_common_all_players = df_common_all_players.rename(
-        columns={"PERSON_ID": "PLAYER_ID"}
-    )
-
-    # NOTE: Add image url to each player
-    df_common_all_players["IMAGE_URL"] = df_common_all_players["PLAYER_ID"].apply(
-        lambda x: f"https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{x}.png"
-    )
-
     if output_format == "csv":
         return df_common_all_players[["PLAYER_ID"]].to_csv(index=False)
     elif output_format == "json":
@@ -120,9 +110,9 @@ def get_player_career_stats(player_id, output_format="json"):
 
 
 # NOTE: Get player game log
-def get_player_game_log(player_id, season_year, output_format="json"):
+def get_player_game_log(person_id, season_year, output_format="json"):
     game_log = playergamelog.PlayerGameLog(
-        player_id=player_id, season=season_year, season_type_all_star="Regular Season"
+        player_id=person_id, season=season_year, season_type_all_star="Regular Season"
     )
     player_game_log = game_log.get_data_frames()[0]
 
