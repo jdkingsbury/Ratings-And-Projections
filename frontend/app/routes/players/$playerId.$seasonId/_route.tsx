@@ -1,6 +1,6 @@
 import { useLoaderData } from "@remix-run/react";
 import { LoaderFunctionArgs, json } from "@remix-run/node";
-import { retrieveFunctionMap } from "../db/retrieveQueries";
+import { retrieveFunctionMap } from "~/db/retrieveQueries";
 
 // NOTE: Define the shape of the data that will be fetched from the database
 interface PlayerStat {
