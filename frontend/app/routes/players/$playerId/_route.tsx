@@ -2,28 +2,25 @@ import { LoaderFunctionArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import Navbar from "~/components/navigation/navbar";
 
-
 // NOTE: The loader function is used to fetch data for players info
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const playerId = params.playerId;
 
   try {
-    const resopnse = await fetch(`http://127.0.0.1:8000/nba/players/${playerId}`);
+    const resopnse = await fetch(
+      `http://127.0.0.1:8000/nba/players/${playerId}`
+    );
     if (!resopnse.ok) {
       throw new Error("failed to fetch player data");
     }
 
     const playerInfo = await resopnse.json();
-    // NOTE: We need to parse the playerInfo data because it's a string
-    const parsedPlayerInfo = JSON.parse(playerInfo);
-    return parsedPlayerInfo;
-
+    return playerInfo;
   } catch (error) {
     console.error("Failed to retrieve player data", error);
     throw error;
   }
 };
-
 
 // NOTE: The Player component is used to render player info
 export default function Player() {
@@ -33,9 +30,12 @@ export default function Player() {
     <div>
       <Navbar />
       <div>
-        {playerInfo.map(player => (
+        {playerInfo.map((player) => (
           <div key={player.PERSON_ID}>
-            <img src={`https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/${player.PERSON_ID}.png`} alt={player.DISPLAY_FIRST_LAST} />
+            <img
+              src={`https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/${player.PERSON_ID}.png`}
+              alt={player.DISPLAY_FIRST_LAST}
+            />
             <h1>{player.DISPLAY_FIRST_LAST}</h1>
           </div>
         ))}

@@ -1,6 +1,5 @@
-import json
-
-from fastapi import APIRouter
+from fastapi import APIRouter, Response
+from fastapi.responses import JSONResponse
 from nba_api.stats.endpoints import (
     commonallplayers,
     commonplayerinfo,
@@ -54,16 +53,18 @@ def get_player_stats(season_year, output_format="json"):
 @router.get("/players/{player_id}")
 def get_player_info(player_id, output_format="json"):
     player_info = commonplayerinfo.CommonPlayerInfo(player_id=player_id)
-    player_info = player_info.get_data_frames()[0]
+    player_info_df = player_info.get_data_frames()[0]
 
-    player_info["IMAGE_URL"] = player_info["PERSON_ID"].apply(
+    player_info_df["IMAGE_URL"] = player_info_df["PERSON_ID"].apply(
         lambda x: f"https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{x}.png"
     )
 
     if output_format == "csv":
-        return player_info.to_csv(index=False)
+        csv_data = player_info_df.to_csv(index=False)
+        return Response(content=csv_data, media_type="text/csv")
     elif output_format == "json":
-        return player_info.to_json(orient="records")
+        player_info = player_info_df.to_dict(orient="records")
+        return JSONResponse(content=player_info)
     else:
         raise ValueError("Unsupported format. Please choose 'json' or 'csv'.")
 
@@ -75,7 +76,7 @@ def all_players():
     # NOTE: Temporary and used for testing purposes
     nba_players = players.get_players()
     active_players = [player for player in nba_players if player["is_active"] == True]
-    return active_players
+    return JSONResponse(content=active_players)
 
 
 # NOTE: Grabs all active players from NBA but not their info
