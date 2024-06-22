@@ -13,12 +13,16 @@ interface Player {
 
 // NOTE: the loader function is used to fetch all players
 export const loader = async () => {
-  const response = await fetch("http://127.0.0.1:8000/nba/players");
-  if (!response.ok) {
-    throw new Error("failed to fetch players");
+  try {
+    const response = await fetch("http://127.0.0.1:8000/nba/players");
+    if (!response.ok) {
+      throw new Error("failed to fetch players");
+    }
+    const players = await response.json();
+    return players;
+  } catch (error) {
+    throw error;
   }
-  const players = await response.json();
-  return players;
 };
 
 // NOTE: The ListPlayers component is used to render all players

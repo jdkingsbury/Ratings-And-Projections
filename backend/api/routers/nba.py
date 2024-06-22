@@ -12,6 +12,11 @@ from nba_api.stats.static import players
 router = APIRouter(prefix="/nba", tags=["nba"])
 
 # NOTE: LeagueID: 00 = NBA, 10 = WNBA, 20 = G-League
+# person_id and player_id both represent player.
+# The endpoints don't use the same name so I might need to find how I plan to keep it consistent
+
+# NOTE: Possible endpoints
+# Draft History
 
 # TODO:
 # [x] Work on implementing fast api into this project so that we can create api endpoints to use
@@ -55,56 +60,47 @@ def get_player_info(person_id, output_format="json"):
     player_info = commonplayerinfo.CommonPlayerInfo(player_id=person_id)
     player_info_df = player_info.get_data_frames()[0]
 
+    # Add image url to the dataframe
     player_info_df["IMAGE_URL"] = player_info_df["PERSON_ID"].apply(
         lambda x: f"https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{x}.png"
     )
 
     if output_format == "csv":
-        csv_data = player_info_df.to_csv(index=False)
-        return Response(content=csv_data, media_type="text/csv")
+        player_info_csv = player_info_df.to_csv(index=False)
+        return Response(content=player_info_csv, media_type="text/csv")
     elif output_format == "json":
-        player_info = player_info_df.to_dict(orient="records")
-        return JSONResponse(content=player_info)
+        player_info_json = player_info_df.to_dict(orient="records")
+        return JSONResponse(content=player_info_json)
     else:
         raise ValueError("Unsupported format. Please choose 'json' or 'csv'.")
 
 
 # NOTE: Static function that gets basic info for all players
-# Will need to find a way to just retrieve all active players
+# Might change how I retrieve all players
 @router.get("/players")
 def all_players():
-    # NOTE: Temporary and used for testing purposes
     nba_players = players.get_players()
     active_players = [player for player in nba_players if player["is_active"] == True]
     return JSONResponse(content=active_players)
 
 
-# NOTE: Grabs all active players from NBA but not their info
-@router.get("/players-all/{season_year}")
-def get_all_players(season_year, output_format="json"):
-    common_all_players = commonallplayers.CommonAllPlayers(
-        is_only_current_season=1, league_id="00", season=season_year
+# NOTE: Get player career stats
+@router.get("/players/{person_id}/career-stats")
+def get_player_career_stats(person_id, output_format="json"):
+    player_career_stats = playercareerstats.PlayerCareerStats(player_id=person_id)
+    player_career_stats_df = player_career_stats.get_data_frames()[0]
+
+    # NOTE: Rename PLAYER_ID to PERSON_ID
+    player_career_stats_df = player_career_stats_df.rename(
+        columns={"PLAYER_ID": "PERSON_ID"}
     )
 
-    df_common_all_players = common_all_players.get_data_frames()[0]
-
     if output_format == "csv":
-        return df_common_all_players[["PLAYER_ID"]].to_csv(index=False)
+        player_career_stats_csv = player_career_stats_df.to_csv(index=False)
+        return Response(content=player_career_stats_csv, media_type="text/csv")
     elif output_format == "json":
-        return df_common_all_players[["PLAYER_ID"]].to_json(orient="records")
-    else:
-        raise ValueError("Unsupported format. Please choose 'json' or 'csv'.")
-
-
-# NOTE: Get player career stats
-def get_player_career_stats(player_id, output_format="json"):
-    career = playercareerstats.PlayerCareerStats(player_id=player_id)
-    player_career = career.get_data_frames()[0]
-
-    if output_format == "csv":
-        return player_career.to_csv(index=False)
-    elif output_format == "json":
-        return player_career.to_json(orient="records")
+        player_career_stats_json = player_career_stats_df.to_dict(orient="records")
+        return JSONResponse(content=player_career_stats_json)
     else:
         raise ValueError("Unsupported format. Please choose 'json' or 'csv'.")
 

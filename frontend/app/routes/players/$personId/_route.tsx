@@ -1,21 +1,32 @@
 import { LoaderFunctionArgs } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { Await, defer, useLoaderData } from "@remix-run/react";
+import { Suspense } from "react";
 import Navbar from "~/components/navigation/navbar";
+import BasicInfo from "./basicInfo";
+import PlayerCareerStats from "./careerStats";
+
+// TODO: Check to see when we should use Await and defer
 
 // NOTE: The loader function is used to fetch data for players info
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const personId = params.personId;
 
   try {
-    const resopnse = await fetch(
-      `http://127.0.0.1:8000/nba/players/${personId}`
-    );
-    if (!resopnse.ok) {
-      throw new Error("failed to fetch player data");
+    const [playerInfoResponse, careerStatsResponse] = await Promise.all([
+      fetch(`http://127.0.0.1:8000/nba/players/${personId}`),
+      fetch(`http://127.0.0.1:8000/nba/players/${personId}/career-stats`),
+    ]);
+
+    if (!playerInfoResponse.ok || !careerStatsResponse.ok) {
+      throw new Error("Failed to retrieve player data");
     }
 
-    const playerInfo = await resopnse.json();
-    return playerInfo;
+    const [playerInfo, careerStats] = await Promise.all([
+      playerInfoResponse.json(),
+      careerStatsResponse.json(),
+    ]);
+
+    return defer({ playerInfo, careerStats });
   } catch (error) {
     console.error("Failed to retrieve player data", error);
     throw error;
@@ -23,23 +34,20 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 };
 
 // NOTE: The Player component is used to render player info
-export default function Player() {
-  const playerInfo = useLoaderData<typeof loader>();
+export default function PlayerProfile() {
+  const { playerInfo, careerStats } = useLoaderData<typeof loader>();
 
   return (
-    <div>
+    <>
       <Navbar />
-      <div>
-        {playerInfo.map((player) => (
-          <div key={player.PERSON_ID}>
-            <img
-              src={`https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/${player.PERSON_ID}.png`}
-              alt={player.DISPLAY_FIRST_LAST}
-            />
-            <h1>{player.DISPLAY_FIRST_LAST}</h1>
-          </div>
-        ))}
-      </div>
-    </div>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Await resolve={playerInfo}>
+          {(playerInfo) => <BasicInfo player={playerInfo} />}
+        </Await>
+        <Await resolve={careerStats}>
+          {(careerStats) => <PlayerCareerStats player={careerStats} />}
+        </Await>
+      </Suspense>
+    </>
   );
 }
