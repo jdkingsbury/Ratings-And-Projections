@@ -1,4 +1,4 @@
-# NBA Prediction Application
+# Sports Prediction Application
 
 ## Table of Contents
 
@@ -11,7 +11,7 @@
 
 ## Overview
 
-This project aims to provide player grades and projections from data retrieved from [nba_api](https://github.com/swar/nba_api/tree/master).
+This project aims to provide player and team grades and their future projections from data retrieved from [nba_api](https://github.com/swar/nba_api/tree/master). 
 
 ## Frontend
 
