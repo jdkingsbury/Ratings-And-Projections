@@ -117,8 +117,8 @@ def get_player_career_stats(person_id, output_format="json"):
 
 
 # NOTE: Get players game for the season
-@router.get("players/{person_id}/{season_year}/{games}")
-def get_player_game_log(person_id, season_year, games, output_format="json"):
+@router.get("/players/{person_id}/{season_year}/{games}")
+async def get_player_game_log(person_id: int, season_year: str, games: str, output_format="json"):
     game_log = playergamelog.PlayerGameLog(player_id=person_id, season=season_year)
     player_game_log_df = game_log.get_data_frames()[0]
     

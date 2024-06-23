@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import Navbar from "~/components/navigation/navbar";
 import BasicInfo from "./basicInfo";
 import PlayerCareerStats from "./careerStats";
+import PreviousGames from "./previousGames";
 
 // TODO: Check to see when we should use Await and defer
 
@@ -12,21 +13,28 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   const personId = params.personId;
 
   try {
-    const [playerInfoResponse, careerStatsResponse] = await Promise.all([
-      fetch(`http://127.0.0.1:8000/nba/players/${personId}`),
-      fetch(`http://127.0.0.1:8000/nba/players/${personId}/career-stats`),
-    ]);
+    const [playerInfoResponse, careerStatsResponse, lastFiveGamesResponse] =
+      await Promise.all([
+        fetch(`http://127.0.0.1:8000/nba/players/${personId}`),
+        fetch(`http://127.0.0.1:8000/nba/players/${personId}/career-stats`),
+        fetch(`http://127.0.0.1:8000/nba/players/${personId}/2023-24/5`),
+      ]);
 
-    if (!playerInfoResponse.ok || !careerStatsResponse.ok) {
+    if (
+      !playerInfoResponse.ok ||
+      !careerStatsResponse.ok ||
+      !lastFiveGamesResponse.ok
+    ) {
       throw new Error("Failed to retrieve player data");
     }
 
-    const [playerInfo, careerStats] = await Promise.all([
+    const [playerInfo, careerStats, lastFiveGames] = await Promise.all([
       playerInfoResponse.json(),
       careerStatsResponse.json(),
+      lastFiveGamesResponse.json(),
     ]);
 
-    return defer({ playerInfo, careerStats });
+    return defer({ playerInfo, careerStats, lastFiveGames });
   } catch (error) {
     console.error("Failed to retrieve player data", error);
     throw error;
@@ -35,7 +43,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 
 // NOTE: The Player component is used to render player info
 export default function PlayerProfile() {
-  const { playerInfo, careerStats } = useLoaderData<typeof loader>();
+  const { playerInfo, careerStats, lastFiveGames } = useLoaderData<typeof loader>();
 
   return (
     <>
@@ -46,6 +54,9 @@ export default function PlayerProfile() {
         </Await>
         <Await resolve={careerStats}>
           {(careerStats) => <PlayerCareerStats player={careerStats} />}
+        </Await>
+        <Await resolve={lastFiveGames}>
+          {(lastFiveGames) => <PreviousGames games={lastFiveGames} />}
         </Await>
       </Suspense>
     </>

@@ -13,6 +13,8 @@ interface TableProps {
   caption: string;
 }
 
+// TODO: Find a way to fix the size of the table
+
 export default function TableComponent({ data, caption }: TableProps) {
   if (!data || data.length === 0) {
     return <div>No data available</div>;
@@ -21,48 +23,30 @@ export default function TableComponent({ data, caption }: TableProps) {
   const headers = Object.keys(data[0]);
 
   return (
-    <Table className="table-auto w-full">
-      <TableCaption>{caption}</TableCaption>
-      <TableHeader>
-        <TableRow>
-          {headers.map((header, index) => (
-            <TableHead key={index} className="px-4 py-2">{header}</TableHead>
-          ))}
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {data.map((row, index) => (
-          <TableRow key={index} className="border-t">
-            {headers.map((header) => (
-              <TableCell key={header} className="px-4 py-2">{row[header]}</TableCell>
+    <div className="overflow-x-auto">
+      <Table className="table-auto border-collapse border-l border-r border border-gray-300 mx-auto rounded-lg">
+        <TableCaption>{caption}</TableCaption>
+        <TableHeader>
+          <TableRow>
+            {headers.map((header, index) => (
+              <TableHead key={index} className="px-4 py-2">
+                {header}
+              </TableHead>
             ))}
           </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+        </TableHeader>
+        <TableBody>
+          {data.map((row, index) => (
+            <TableRow key={index} className="border-t">
+              {headers.map((header) => (
+                <TableCell key={header} className="px-4 py-2">
+                  {row[header]}
+                </TableCell>
+              ))}
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </div>
   );
 }
-
-// export default function TableComponent({ headers, data, caption }) {
-//   return (
-//     <Table>
-//       <TableCaption>{caption}</TableCaption>
-//       <TableHeader>
-//         <TableRow>
-//           {headers.map((header, index) => (
-//           <TableHead key={index}>{header}</TableHead>
-//           ))}
-//         </TableRow>
-//       </TableHeader>
-//       <TableBody>
-//         {data.map((row, index) => (
-//           <TableRow key={index}>
-//             {row.map((cell, index) => (
-//               <TableCell key={index}>{cell}</TableCell>
-//             ))}
-//           </TableRow>
-//         ))}
-//       </TableBody>
-//     </Table>
-//   );
-// }
