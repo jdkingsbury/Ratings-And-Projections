@@ -7,7 +7,7 @@ export default function PlayerCareerStats({
 }: {
   player: CareerStats[];
 }) {
-  const keysToOmit = [
+  const keysToOmit: (keyof CareerStats)[] = [
     "PERSON_ID",
     "SEASON_ID",
     "LEAGUE_ID",
@@ -19,8 +19,8 @@ export default function PlayerCareerStats({
   const filteredPlayerStats = player.map((obj) => omitKeys(obj, keysToOmit));
 
   return (
-      <div className="container mx-auto py-10 px-4 sm:px-6">
-        <h1 className="font-bold mb-4">Player Career Stats</h1>
+    <div className="container mx-auto py-10 px-4 sm:px-6">
+      <h1 className="font-bold mb-4">Player Career Stats</h1>
       <div className="overflow-x-auto">
         <TableComponent
           data={filteredPlayerStats}
