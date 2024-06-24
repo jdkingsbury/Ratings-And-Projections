@@ -69,7 +69,7 @@ async def get_player_career_stats(person_id: int, output_format="json"):
 
     # NOTE: Rename PLAYER_ID to PERSON_ID
     player_career_stats_df = player_career_stats_df.rename(
-        columns={"PLAYER_ID": "PERSON_ID"}
+        columns={"PLAYER_ID": "PERSON_ID", "FG_PCT": "FG%", "FG3M": "3PM", "FG3A": "3PA", "FG3_PCT": "3P%", "FT_PCT": "FT%"}
     )
 
     if output_format == "csv":
