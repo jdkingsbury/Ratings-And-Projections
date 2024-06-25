@@ -64,3 +64,7 @@ export interface CareerStats {
   PF: number;
   PTS: number;
 }
+
+export interface PlayerGameLog {
+
+}

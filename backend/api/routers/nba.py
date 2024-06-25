@@ -41,7 +41,7 @@ async def all_players():
 
 
 # NOTE: This function will allow us to get the info of a specific player
-@router.get("/players/{person_id}")
+@router.get("/players/{person_id}/player-info")
 async def get_player_info(person_id: int, output_format="json"):
     player_info = commonplayerinfo.CommonPlayerInfo(player_id=person_id)
     player_info_df = player_info.get_data_frames()[0]
@@ -83,7 +83,7 @@ async def get_player_career_stats(person_id: int, output_format="json"):
 
 
 # NOTE: Get players game for the season
-@router.get("/players/{person_id}/{season_year}/{games}")
+@router.get("/players/{person_id}/{season_year}/{games}/player-game-log")
 async def get_player_game_log(
     person_id: int, season_year: str, games: int, output_format="json"
 ):

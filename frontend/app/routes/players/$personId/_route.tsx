@@ -15,9 +15,9 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   try {
     const [playerInfoResponse, careerStatsResponse, lastFiveGamesResponse] =
       await Promise.all([
-        fetch(`http://127.0.0.1:8000/nba/players/${personId}`),
+        fetch(`http://127.0.0.1:8000/nba/players/${personId}/player-info`),
         fetch(`http://127.0.0.1:8000/nba/players/${personId}/career-stats`),
-        fetch(`http://127.0.0.1:8000/nba/players/${personId}/2023-24/5`),
+        fetch(`http://127.0.0.1:8000/nba/players/${personId}/2023-24/5/player-game-log`),
       ]);
 
     if (
