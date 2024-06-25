@@ -67,9 +67,16 @@ async def get_player_career_stats(person_id: int, output_format="json"):
     player_career_stats = playercareerstats.PlayerCareerStats(player_id=person_id)
     player_career_stats_df = player_career_stats.get_data_frames()[0]
 
-    # NOTE: Rename PLAYER_ID to PERSON_ID
+    # NOTE: Rename Columns
     player_career_stats_df = player_career_stats_df.rename(
-        columns={"PLAYER_ID": "PERSON_ID", "FG_PCT": "FG%", "FG3M": "3PM", "FG3A": "3PA", "FG3_PCT": "3P%", "FT_PCT": "FT%"}
+        columns={
+            "PLAYER_ID": "PERSON_ID",
+            "FG_PCT": "FG%",
+            "FG3M": "3PM",
+            "FG3A": "3PA",
+            "FG3_PCT": "3P%",
+            "FT_PCT": "FT%",
+        }
     )
 
     if output_format == "csv":
@@ -90,6 +97,19 @@ async def get_player_game_log(
     # Gets the player game log for the season
     game_log = playergamelog.PlayerGameLog(player_id=person_id, season=season_year)
     player_game_log_df = game_log.get_data_frames()[0]
+
+    # NOTE: Rename Columns
+    player_game_log_df = player_game_log_df.rename(
+        columns={
+            "Player_ID": "PERSON_ID",
+            "Game_ID": "GAME_ID",
+            "FG_PCT": "FG%",
+            "FG3M": "3PM",
+            "FG3A": "3PA",
+            "FG3_PCT": "3P%",
+            "FT_PCT": "FT%",
+        }
+    )
 
     list_of_games = player_game_log_df.head(games)
 

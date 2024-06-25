@@ -4,7 +4,7 @@ import { Suspense } from "react";
 import Navbar from "~/components/navigation/navbar";
 import BasicInfo from "./basicInfo";
 import PlayerCareerStats from "./careerStats";
-import PreviousGames from "./previousGames";
+import RecentGames from "./recentGames";
 
 // TODO: Check to see when we should use Await and defer
 
@@ -56,7 +56,7 @@ export default function PlayerProfile() {
           {(careerStats) => <PlayerCareerStats player={careerStats} />}
         </Await>
         <Await resolve={lastFiveGames}>
-          {(lastFiveGames) => <PreviousGames games={lastFiveGames} />}
+          {(lastFiveGames) => <RecentGames games={lastFiveGames} />}
         </Await>
       </Suspense>
     </>

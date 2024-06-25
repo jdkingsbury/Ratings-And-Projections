@@ -16,14 +16,14 @@ export default function PlayerCareerStats({
     "PLAYER_AGE",
   ];
 
-  const filteredPlayerStats = player.map((obj) => omitKeys(obj, keysToOmit));
+  const filteredCareerStatColumns = player.map((obj) => omitKeys(obj, keysToOmit));
 
   return (
     <div className="container mx-auto py-10 px-4 sm:px-6">
       <h1 className="font-bold mb-4">Player Career Stats</h1>
       <div className="overflow-x-auto">
         <TableComponent
-          data={filteredPlayerStats}
+          data={filteredCareerStatColumns}
           className="min-w-full divide-y divide-gray-200"
         />
       </div>
