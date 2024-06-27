@@ -1,6 +1,7 @@
-import { Link, Outlet, useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 import Navbar from "~/components/navigation/navbar";
-import { Player } from "./types";
+import PlayersDataTable from "./dataTable";
+import { columns } from "./columns";
 
 // TODO: Work on creating a better way to display the players. Maybe a table?
 
@@ -26,15 +27,7 @@ export default function ListPlayers() {
   return (
     <div>
       <Navbar />
-      <h1>Players Page</h1>
-      <div id="players">
-        {players.map((player: Player) => (
-          <div key={player.id}>
-            <Link to={`/players/${player.id}`}>{player.full_name}</Link>
-            <Outlet />
-          </div>
-        ))}
-      </div>
+      <PlayersDataTable columns={columns} data={players} />
     </div>
   );
 }

@@ -4,12 +4,7 @@ import { PlayerInfo } from "./types";
 export default function BasicInfo({ player }: { player: PlayerInfo[] }) {
   const playerInfo = player[0];
 
-  const birthdate = new Date(playerInfo.BIRTHDATE);
-  const formattedBirthdate = birthdate.toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+  const birthdate = new Date(playerInfo.BIRTHDATE as string).toLocaleDateString();
 
   return (
     <div className="w-full bg-white p-6 rounded-lg shadow-md mb-6">
@@ -44,7 +39,7 @@ export default function BasicInfo({ player }: { player: PlayerInfo[] }) {
           </p>
           <p className="mt-1 text-gray-600 text-sm">AGE: </p>
           <p className="mt-1 text-gray-600 text-sm">
-            BORN: {formattedBirthdate}
+            BORN: {birthdate}
           </p>
           <p className="mt-1 text-gray-600 text-sm">
             COUNTRY: {playerInfo.COUNTRY}
