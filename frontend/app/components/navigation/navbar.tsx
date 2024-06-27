@@ -24,7 +24,7 @@ export default function Navbar() {
   };
 
   return (
-    <div className="flex w-full bg-white h-16 sticky top-0 border-b border-gray-100">
+    <div className="flex w-full bg-white h-16 sticky top-0 border-b border-gray-100 shadow-md p-4">
       <div className="container mx-auto px-4 h-full flex items-center justify-between">
         <div className="md:hidden flex items-center">
           <Button onClick={toggleMobileMenu} variant="ghost">

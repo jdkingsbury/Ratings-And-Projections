@@ -17,7 +17,9 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
       await Promise.all([
         fetch(`http://127.0.0.1:8000/nba/players/${personId}/player-info`),
         fetch(`http://127.0.0.1:8000/nba/players/${personId}/career-stats`),
-        fetch(`http://127.0.0.1:8000/nba/players/${personId}/2023-24/5/player-game-log`),
+        fetch(
+          `http://127.0.0.1:8000/nba/players/${personId}/2023-24/5/player-game-log`
+        ),
       ]);
 
     if (
@@ -43,22 +45,29 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 
 // NOTE: The Player component is used to render player info
 export default function PlayerProfile() {
-  const { playerInfo, careerStats, lastFiveGames } = useLoaderData<typeof loader>();
+  const { playerInfo, careerStats, lastFiveGames } =
+    useLoaderData<typeof loader>();
 
   return (
     <>
       <Navbar />
-      <Suspense fallback={<div>Loading...</div>}>
-        <Await resolve={playerInfo}>
-          {(playerInfo) => <BasicInfo player={playerInfo} />}
-        </Await>
-        <Await resolve={careerStats}>
-          {(careerStats) => <PlayerCareerStats player={careerStats} />}
-        </Await>
-        <Await resolve={lastFiveGames}>
-          {(lastFiveGames) => <RecentGames games={lastFiveGames} />}
-        </Await>
-      </Suspense>
+        <Suspense fallback={<div>Loading...</div>}>
+          <Await resolve={playerInfo}>
+            {(playerInfo) => <BasicInfo player={playerInfo} />}
+          </Await>
+        </Suspense>
+      <div className="container mx-auto p-4">
+        <Suspense>
+          <Await resolve={careerStats}>
+            {(careerStats) => <PlayerCareerStats player={careerStats} />}
+          </Await>
+        </Suspense>
+        <Suspense>
+          <Await resolve={lastFiveGames}>
+            {(lastFiveGames) => <RecentGames games={lastFiveGames} />}
+          </Await>
+        </Suspense>
+      </div>
     </>
   );
 }
