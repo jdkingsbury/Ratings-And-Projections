@@ -1,4 +1,4 @@
-export interface PlayerInfo {
+export type PlayerInfo = {
   PERSON_ID: number;
   FIRST_NAME: string;
   LAST_NAME: string;
@@ -33,9 +33,9 @@ export interface PlayerInfo {
   DRAFT_NUMBER: string;
   GREATEST_75_FLAG: string;
   IMAGE_URL: string;
-}
+};
 
-export interface CareerStats {
+export type CareerStats = {
   PERSON_ID: number;
   SEASON_ID: string;
   LEAGUE_ID: string;
@@ -63,9 +63,9 @@ export interface CareerStats {
   TOV: number;
   PF: number;
   PTS: number;
-}
+};
 
-export interface PlayerGameLog {
+export type PlayerGameLog = {
   SEASON_ID: string;
   PERSON_ID: number;
   GAME_ID: string;
@@ -93,4 +93,4 @@ export interface PlayerGameLog {
   PTS: number;
   PLUS_MINUS: number;
   VIDEO_AVAILABLE: Boolean;
-}
+};

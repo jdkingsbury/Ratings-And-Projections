@@ -37,6 +37,7 @@ def get_player_id(player_name: str):
 async def all_players():
     nba_players = players.get_players()
     active_players = [player for player in nba_players if player["is_active"] == True]
+
     return JSONResponse(content=active_players)
 
 

@@ -1,15 +1,8 @@
 import { Link, Outlet, useLoaderData } from "@remix-run/react";
 import Navbar from "~/components/navigation/navbar";
+import { Player } from "./types";
 
-// NOTE: Used to define the shape of the data that will be fetched from the
-interface Player {
-  id: number;
-  full_name: string;
-  first_name: string;
-  last_name: string;
-  is_active: boolean;
-  playerId: number;
-}
+// TODO: Work on creating a better way to display the players. Maybe a table?
 
 // NOTE: the loader function is used to fetch all players
 export const loader = async () => {
@@ -26,6 +19,7 @@ export const loader = async () => {
 };
 
 // NOTE: The ListPlayers component is used to render all players
+
 export default function ListPlayers() {
   const players = useLoaderData<typeof loader>();
 
