@@ -3,8 +3,6 @@ import Navbar from "@/components/navbar-menu";
 
 export default function Home() {
   return (
-    <div>
-      <Navbar />
-    </div>
+      <h1>Home Page</h1>
   );
 }
