@@ -2,7 +2,7 @@ import Navbar from "@/components/navbar-menu";
 import { PlayersDataTable } from "./data-table";
 import { columns } from "./columns";
 
-const fetchPlayers = async () => {
+async function fetchPlayers() {
   const response = await fetch("http://127.0.0.1:8000/nba/players");
   if (!response.ok) {
     throw new Error("Failed to fetch players");
