@@ -1,4 +1,4 @@
-import PlayerBio from "./basic-info.tsx"
+import { PlayerBio } from "./player-info.tsx";
 
 async function PlayerInfo(personId) {
   const response = await fetch(
@@ -28,7 +28,7 @@ export default async function PlayerProfile({
 
   return (
     <div>
-      <h1>Player Profile</h1>
+      <PlayerBio params={playerInfo} />
     </div>
   );
 }

@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button"
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { Menu } from "lucide-react";
 
@@ -22,28 +23,32 @@ export default function Component() {
           <div className="hidden md:flex gap-4">
             <Link
               href="/"
-              className="font-medium flex items-center text-sm transition-colors hover:underline"
+              // className="font-medium flex items-center text-sm transition-colors hover:underline"
+              className={buttonVariants({ variant: "ghost" })}
               prefetch={false}
             >
               Home
             </Link>
             <Link
               href="/players"
-              className="font-medium flex items-center text-sm transition-colors hover:underline"
+              // className="font-medium flex items-center text-sm transition-colors hover:underline"
+              className={buttonVariants({ variant: "ghost" })}
               prefetch={false}
             >
               Players
             </Link>
             <Link
               href="/nba"
-              className="font-medium flex items-center text-sm transition-colors hover:underline"
+              // className="font-medium flex items-center text-sm transition-colors hover:underline"
+              className={buttonVariants({ variant: "ghost" })}
               prefetch={false}
             >
               NBA
             </Link>
             <Link
               href="about"
-              className="font-medium flex items-center text-sm transition-colors hover:underline"
+              // className="font-medium flex items-center text-sm transition-colors hover:underline"
+              className={buttonVariants({ variant: "ghost" })}
               prefetch={false}
             >
               About
