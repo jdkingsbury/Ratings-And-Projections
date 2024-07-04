@@ -1,8 +1,8 @@
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
-export function PlayerBio({ params }) {
-  const playerInfo = params[0];
+export function PlayerBio({ data }) {
+  const playerInfo = data[0];
 
   const birthdate = new Date(
     playerInfo.BIRTHDATE as string,
@@ -11,9 +11,9 @@ export function PlayerBio({ params }) {
   return (
     <div className="w-full p-4">
       <Card className= "gap-6 shadow-sm rounded-lg">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center text-center md:text-left">
           {/* Player Image */}
-          <div className="w-[350px] h-[190px] ">
+          <div className="w-full md:w-[350px] h-[190px] mx-auto">
             <AspectRatio ratio={16 / 9}>
               <img
                 src={playerInfo.IMAGE_URL}
@@ -22,8 +22,8 @@ export function PlayerBio({ params }) {
             </AspectRatio>
           </div>
           {/* Name Jersey and team */}
-          <div className="md-col-span-1 text-left">
-            <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
+          <div className="md:col-span-1 px-4 md:px-0">
+            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
               {playerInfo.DISPLAY_FIRST_LAST}
             </h2>
             <p className="mt-1 text-gray-700 text-sm dark:text-white">
@@ -38,7 +38,7 @@ export function PlayerBio({ params }) {
             </p>
           </div>
           {/* Player Info including weight height draft */}
-          <div className="md:col-span-1 text-left border-l pl-6 dark:text-white">
+          <div className="md:col-span-1 pl-0 md:pl-6 border-t md:border-t-0 pt-4 md:pt-0 dark:text-white">
             <p className="mt-2 text-gray-700 text-sm dark:text-white">
               HEIGHT: {playerInfo.HEIGHT}
             </p>

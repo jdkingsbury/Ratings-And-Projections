@@ -1,4 +1,7 @@
-import { PlayerBio } from "./player-info.tsx";
+import { Suspense } from "react";
+import { PlayerBio } from "./player-info";
+import { PlayerCareerStats } from "./player-career-stats";
+import Loading from "@/app/loading";
 
 async function PlayerInfo(personId) {
   const response = await fetch(
@@ -24,11 +27,14 @@ export default async function PlayerProfile({
     CareerStats(params.personId),
   ]);
 
-  console.log(playerInfo);
-
   return (
     <div>
-      <PlayerBio params={playerInfo} />
+      <Suspense fallback={<Loading />}>
+        <PlayerBio data={playerInfo} />
+      </Suspense>
+      <Suspense fallback={<Loading />}>
+        <PlayerCareerStats data={careerStats} />
+      </Suspense>
     </div>
   );
 }
