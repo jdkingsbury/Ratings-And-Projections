@@ -6,6 +6,17 @@ import { Button } from "@/components/ui/button";
 import { buttonVariants } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { Menu } from "lucide-react";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuIndicator,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  NavigationMenuViewport,
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu";
 
 export default function Component() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -18,12 +29,14 @@ export default function Component() {
     <nav className="fixed inset-x-0 top-0 z-50 border-b">
       <div className="w-full max-w-7xl mx-auto px-4">
         <div className="flex justify-between h-14 items-center">
+          {/* Logo: Link to Home */}
           <Link href="/" className="flex items-center gap-2" prefetch={false}>
             <TestTubeIcon className="h-6 w-6 text-primary" />
             <span className="text-lg font-semibold">Sports Predictions</span>
           </Link>
           {/* Desktop Navigation */}
           <div className="hidden md:flex gap-4">
+            {/* Link to Home */}
             <Link
               href="/"
               // className="font-medium flex items-center text-sm transition-colors hover:underline"
@@ -32,22 +45,25 @@ export default function Component() {
             >
               Home
             </Link>
-            <Link
-              href="/players"
-              // className="font-medium flex items-center text-sm transition-colors hover:underline"
-              className={buttonVariants({ variant: "ghost" })}
-              prefetch={false}
-            >
-              Players
-            </Link>
-            <Link
-              href="/nba"
-              // className="font-medium flex items-center text-sm transition-colors hover:underline"
-              className={buttonVariants({ variant: "ghost" })}
-              prefetch={false}
-            >
-              NBA
-            </Link>
+            {/* Drop Down for NBA */}
+            <NavigationMenu>
+              <NavigationMenuList>
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger>NBA</NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    {/* Link to Player Page */}
+                    <Link href="/players" prefetch={false}>
+                      <NavigationMenuLink
+                        className={navigationMenuTriggerStyle()}
+                      >
+                        Players
+                      </NavigationMenuLink>
+                    </Link>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+              </NavigationMenuList>
+            </NavigationMenu>
+            {/* Link to About */}
             <Link
               href="about"
               // className="font-medium flex items-center text-sm transition-colors hover:underline"
@@ -69,6 +85,7 @@ export default function Component() {
           {isMobileMenuOpen && (
             <div className="md:hidden absolute top-14 left-0 right-0 bg-white dark:bg-gray-950/90 shadow-sm z-50">
               <div className="flex flex-col gap-4 p-4">
+                {/* Link to Home */}
                 <Link
                   href="/"
                   className="font-medium text-sm transition-colors hover:underline"
@@ -77,6 +94,7 @@ export default function Component() {
                 >
                   Home
                 </Link>
+                {/* Link to Players */}
                 <Link
                   href="/players"
                   className="font-medium text-sm transition-colors hover:underline"
@@ -85,6 +103,7 @@ export default function Component() {
                 >
                   Players
                 </Link>
+                {/* Link to NBA */}
                 <Link
                   href="/nba"
                   className="font-medium text-sm transition-colors hover:underline"
@@ -93,6 +112,7 @@ export default function Component() {
                 >
                   NBA
                 </Link>
+                {/* Link to About */}
                 <Link
                   href="/about"
                   className="font-medium text-sm transition-colors hover:underline"

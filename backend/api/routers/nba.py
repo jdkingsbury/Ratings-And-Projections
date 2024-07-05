@@ -1,5 +1,5 @@
 import pandas as pd
-from fastapi import APIRouter, Response
+from fastapi import APIRouter, Response, HTTPException
 from fastapi.responses import JSONResponse
 from nba_api.stats.endpoints import (
     commonplayerinfo,
@@ -34,11 +34,15 @@ def get_player_id(player_name: str):
 # NOTE: Static function that gets basic info for all players
 # Might change how I retrieve all players
 @router.get("/players")
-async def all_players():
+async def get_all_players(active=True):
     nba_players = players.get_players()
-    active_players = [player for player in nba_players if player["is_active"] == True]
-
-    return JSONResponse(content=active_players)
+    if active:
+        active_players = [
+            player for player in nba_players if player["is_active"] == True
+        ]
+        return JSONResponse(content=active_players)
+    else:
+        return JSONResponse(content=nba_players)
 
 
 # NOTE: This function will allow us to get the info of a specific player
@@ -90,30 +94,29 @@ async def get_player_career_stats(person_id: int, output_format="json"):
 async def get_player_game_log(
     person_id: int, season_year: str, games: int, output_format="json"
 ):
-    # Gets the player game log for the season
-    game_log = playergamelog.PlayerGameLog(player_id=person_id, season=season_year)
-    player_game_log_df = game_log.get_data_frames()[0]
+    try:
+        # Gets the player game log for the season
+        game_log = playergamelog.PlayerGameLog(player_id=person_id, season=season_year)
+        player_game_log_df = game_log.get_data_frames()[0]
 
-    # NOTE: Rename Columns
-    player_game_log_df = player_game_log_df.rename(
-        columns={
-            "Player_ID": "PERSON_ID",
-            "Game_ID": "GAME_ID",
-            "FG_PCT": "FG%",
-            "FG3M": "3PM",
-            "FG3A": "3PA",
-            "FG3_PCT": "3P%",
-            "FT_PCT": "FT%",
-        }
-    )
+        # NOTE: Rename Columns
+        player_game_log_df = player_game_log_df.rename(
+            columns={
+                "Player_ID": "PERSON_ID",
+                "Game_ID": "GAME_ID",
+            }
+        )
 
-    list_of_games = player_game_log_df.head(games)
+        list_of_games = player_game_log_df.head(games)
 
-    if output_format == "csv":
-        player_game_log_csv = list_of_games.to_csv(index=False)
-        return Response(content=player_game_log_csv, media_type="text/csv")
-    elif output_format == "json":
-        player_game_log_dict = list_of_games.to_dict(orient="records")
-        return JSONResponse(content=player_game_log_dict)
-    else:
-        raise ValueError("Unsupported format. Please choose 'json' or 'csv'.")
+        if output_format == "csv":
+            player_game_log_csv = list_of_games.to_csv(index=False)
+            return Response(content=player_game_log_csv, media_type="text/csv")
+        elif output_format == "json":
+            player_game_log_dict = list_of_games.to_dict(orient="records")
+            return JSONResponse(content=player_game_log_dict)
+        else:
+            raise ValueError("Unsupported format. Please choose 'json' or 'csv'.")
+    except Exception as e:
+        print(f"Error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))

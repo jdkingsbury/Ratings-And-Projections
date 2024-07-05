@@ -1,5 +1,5 @@
-import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import Image from "next/image";
 
 export function PlayerBio({ data }) {
   const playerInfo = data[0];
@@ -10,16 +10,18 @@ export function PlayerBio({ data }) {
 
   return (
     <div className="w-full p-4">
-      <Card className= "gap-6 shadow-sm rounded-lg">
+      <Card className="gap-6 shadow-sm rounded-lg">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-center text-center md:text-left">
           {/* Player Image */}
-          <div className="w-full md:w-[350px] h-[190px] mx-auto">
-            <AspectRatio ratio={16 / 9}>
-              <img
-                src={playerInfo.IMAGE_URL}
-                className="rounded-md object-cover mr-6"
-              />
-            </AspectRatio>
+          <div className="w-full md:w-[380px] h-[175px] mx-auto">
+            <Image
+              src={playerInfo.IMAGE_URL}
+              alt={playerInfo.DISPLAY_FIRST_LAST}
+              quality={100}
+              width={240}
+              height={200}
+              className="rounded-md object-cover mr-6"
+            />
           </div>
           {/* Name Jersey and team */}
           <div className="md:col-span-1 px-4 md:px-0">

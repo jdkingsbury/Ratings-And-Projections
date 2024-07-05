@@ -1,7 +1,15 @@
 import { Suspense } from "react";
 import { PlayerBio } from "./player-info";
 import { PlayerCareerStats } from "./player-career-stats";
+import { PlayerLast5Games } from "./last-5-games.tsx";
 import Loading from "@/app/loading";
+
+async function Last5Games(personId) {
+  const response = await fetch(
+    `http://127.0.0.1:8000/nba/players/${personId}/2023-24/5/player-game-log`,
+  );
+  return response.json();
+}
 
 async function PlayerInfo(personId) {
   const response = await fetch(
@@ -22,9 +30,10 @@ export default async function PlayerProfile({
 }: {
   params: { personId: string };
 }) {
-  const [playerInfo, careerStats] = await Promise.all([
+  const [playerInfo, careerStats, last5Games] = await Promise.all([
     PlayerInfo(params.personId),
     CareerStats(params.personId),
+    Last5Games(params.personId),
   ]);
 
   return (
@@ -34,6 +43,9 @@ export default async function PlayerProfile({
       </Suspense>
       <Suspense fallback={<Loading />}>
         <PlayerCareerStats data={careerStats} />
+      </Suspense>
+      <Suspense fallback={<Loading />}>
+        <PlayerLast5Games data={last5Games} />
       </Suspense>
     </div>
   );
