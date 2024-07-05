@@ -8,18 +8,23 @@
 - [Installation](#installation)
 - [Usage](#usage)
 - [Creating JSON and CSV Files](#creating-json-and-csv-files)
+- [Known Issues](#known-issues)
 
 ## Overview
 
-This project aims to provide player and team grades and their future projections from data retrieved from [nba_api](https://github.com/swar/nba_api/tree/master). 
+This project aims to provide player and team grades and their future projections from data retrieved from [nba_api](https://github.com/swar/nba_api/tree/master).
 
 ## Frontend
 
-The frontend is built using Remix, a React-based framework for building modern web applications.
+The frontend is built using Next.js, a React-based framework for building modern web applications.
 
 ## Backend
 
 The backend uses FastAPI and contains the API endpoints and service files.
+
+## Database
+
+The Application uses Postgres as the Database
 
 ## Installation
 
@@ -53,17 +58,6 @@ pip install -r requirements.txt
 ```bash
 cd frontend
 npm install
-```
-
-4. **Set up environment variables by creating a `.env` file in the root directory:**
-
-```env
-# .env file
-DB_USER
-DB_HOST
-DB_DATABASE
-DB_PASSWORD
-DB_PORT
 ```
 
 ## Usage
@@ -114,8 +108,25 @@ You can create JSON and CSV files for the NBA functions in `nba.py` located in t
 
 **CLI command:**
 
+Layout:
+
 ```bash
- python3 -m services.create_file get_player_game_log json 2544 2023-24
+ python3 -m services.create_file {function name} {file type} {person ID} {Season Year} {Games}
+```
+
+Example:
+
+```bash
+ python3 -m services.create_file get_player_game_log json 2544 2023-24 5
 ```
 
 - If you want the file saved as a CSV change json to csv.
+
+## Known Issues
+
+### Unable to Create JSON or CSV Files
+
+Currently, the `create_file` script is unable to create JSON or CSV files.
+
+- **Reason**: The application now uses FastAPI, and the script needs to be updated to use the API endpoints to retrieve data instead of calling the functions directly.
+- **Plan**: I plan to rewrite the `create_file` script to use the FastAPI endpoints for data retrieval.

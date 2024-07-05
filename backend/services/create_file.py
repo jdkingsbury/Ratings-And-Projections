@@ -1,3 +1,4 @@
+import asyncio
 import csv
 import json
 import os
@@ -7,16 +8,12 @@ from api.routers.nba import (
     get_all_players,
     get_player_career_stats,
     get_player_game_log,
-    get_player_stats,
-    get_player_info
+    get_player_info,
 )
 
-# # Determine if running as a script or module
-# if __name__ == "__main__" and __package__ is None:
-#     # Set the package to services to allow relative imports
-#     sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-#     __package__ = "services"
-
+# TODO: Rewrite Create File
+# Look to use the api endpoints to fetch the 
+# data rather then trying to call the function
 
 def create_file(data, file_name, output_format):
     data_directory = "../data"
@@ -43,12 +40,11 @@ function_mapping = {
     "all_players": get_all_players,
     "player_career_stats": get_player_career_stats,
     "player_game_log": get_player_game_log,
-    "player_stats": get_player_stats,
     "player_info": get_player_info,
 }
 
 
-def main():
+async def main():
     if len(sys.argv) < 3:
         print("Usage: python create_file.py <function> <file_name> [arguments]")
         sys.exit(1)
@@ -67,10 +63,10 @@ def main():
         sys.exit(1)
 
     if args:
-        data = function_mapping[function_name](*args)
+        data = await function_mapping[function_name](*args)
         file_name = f"{function_name}_{'_'.join(args)}.{output_format}"
     else:
-        data = function_mapping[function_name](output_format)
+        data = await function_mapping[function_name](output_format)
         file_name = f"{function_name}.{output_format}"
 
     if data is not None:
@@ -81,4 +77,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
