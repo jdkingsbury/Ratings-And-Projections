@@ -108,25 +108,28 @@ You can create JSON and CSV files for the NBA functions in `nba.py` located in t
 
 **CLI command:**
 
-Layout:
-
-```bash
- python3 -m services.create_file {function name} {file type} {person ID} {Season Year} {Games}
-```
-
 Example:
 
 ```bash
- python3 -m services.create_file get_player_game_log json 2544 2023-24 5
+python3 -m services.new_create_file nba players json 1630173 2023-24 5 player-game-log
+```
+
+Layout for creating player-game-log:
+
+```bash
+python3 -m services.create_file {sports league} {type of data} {file type} {person ID} {Season Year} {Games} {function_name}
+```
+
+Layout for creating career stats:
+
+```bash
+python3 -m services.create_file {sports league} {type of data} {file type} {person ID} {function_name}
+```
+
+Player Info:
+
+```bash
+python3 -m services.create_file {sports league} {type of data} {file type} {person ID} {function_name}
 ```
 
 - If you want the file saved as a CSV change json to csv.
-
-## Known Issues
-
-### Unable to Create JSON or CSV Files
-
-Currently, the `create_file` script is unable to create JSON or CSV files.
-
-- **Reason**: The application now uses FastAPI, and the script needs to be updated to use the API endpoints to retrieve data instead of calling the functions directly.
-- **Plan**: I plan to rewrite the `create_file` script to use the FastAPI endpoints for data retrieval.

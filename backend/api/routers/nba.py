@@ -1,5 +1,5 @@
 import pandas as pd
-from fastapi import APIRouter, Response, HTTPException
+from fastapi import APIRouter, HTTPException, Response
 from fastapi.responses import JSONResponse
 from nba_api.stats.endpoints import (
     commonplayerinfo,
@@ -89,34 +89,38 @@ async def get_player_career_stats(person_id: int, output_format="json"):
         raise ValueError("Unsupported format. Please choose 'json' or 'csv'.")
 
 
-# NOTE: Get players game for the season
 @router.get("/players/{person_id}/{season_year}/{games}/player-game-log")
 async def get_player_game_log(
     person_id: int, season_year: str, games: int, output_format="json"
 ):
-    try:
-        # Gets the player game log for the season
-        game_log = playergamelog.PlayerGameLog(player_id=person_id, season=season_year)
-        player_game_log_df = game_log.get_data_frames()[0]
+    """
+    Fetches the players game log for a specific season for the number of games requested
 
-        # NOTE: Rename Columns
-        player_game_log_df = player_game_log_df.rename(
-            columns={
-                "Player_ID": "PERSON_ID",
-                "Game_ID": "GAME_ID",
-            }
-        )
+    Parameters:
+    - person_id (int): The ID of the player
+    - season_year (str): The season year (e.g., 2023-24)
+    - games (int): Number of games
+    - output_format (str): format of the output, either json or csv. Defaults to json
+    """
+    # Gets the player game log for the season
+    game_log = playergamelog.PlayerGameLog(player_id=person_id, season=season_year)
+    player_game_log_df = game_log.get_data_frames()[0]
 
-        list_of_games = player_game_log_df.head(games)
+    # NOTE: Rename Columns
+    player_game_log_df = player_game_log_df.rename(
+        columns={
+            "Player_ID": "PERSON_ID",
+            "Game_ID": "GAME_ID",
+        }
+    )
 
-        if output_format == "csv":
-            player_game_log_csv = list_of_games.to_csv(index=False)
-            return Response(content=player_game_log_csv, media_type="text/csv")
-        elif output_format == "json":
-            player_game_log_dict = list_of_games.to_dict(orient="records")
-            return JSONResponse(content=player_game_log_dict)
-        else:
-            raise ValueError("Unsupported format. Please choose 'json' or 'csv'.")
-    except Exception as e:
-        print(f"Error: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
+    list_of_games = player_game_log_df.head(games)
+
+    if output_format == "csv":
+        player_game_log_csv = list_of_games.to_csv(index=False)
+        return Response(content=player_game_log_csv, media_type="text/csv")
+    elif output_format == "json":
+        player_game_log_dict = list_of_games.to_dict(orient="records")
+        return JSONResponse(content=player_game_log_dict)
+    else:
+        raise ValueError("Unsupported format. Please choose 'json' or 'csv'.")
