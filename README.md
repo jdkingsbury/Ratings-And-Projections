@@ -7,6 +7,7 @@
 - [Frontend](#frontend)
 - [Installation](#installation)
 - [Usage](#usage)
+- [Running Tests](#running-tests)
 - [Creating JSON and CSV Files](#creating-json-and-csv-files)
 
 ## Overview
@@ -99,11 +100,46 @@ To run in production mode:
 npm start
 ```
 
+## Running Tests
+
+### Testing the backend
+
+The application uses pytest to test the backend of the application.
+
+Before running the tests, ensure you have followed these steps:
+
+1. **Setup the Virtual Environment:** Ensure that you are working with the correct virtual environment where all the dependencies are installed.
+
+```bash
+source venv/bin/activate
+```
+
+2. **Install Dependencies:** Ensure all dependencies, including pytest and any other testing tools, are installed.
+
+```bash
+pip install -r requirements.txt
+```
+
+3. **Run the Backend Server:** Ensure the backend server is running since some of the test depend on the server running.
+
+```
+cd backend/api
+fastapi dev main.py
+```
+
+4. **Run Tests:** Execute pytest to run test
+
+```bash
+pytest
+```
+
 ## Creating JSON and CSV Files
 
 You can create JSON and CSV files for the NBA functions in `nba.py` located in the `routers` directory.
 
-### Example: Get Player Game Log
+**The backend server must be running to use create_file.**
+
+### Example and Layout:
 
 **CLI command:**
 
@@ -131,4 +167,4 @@ Player Info:
 python3 -m services.create_file {sports league} {type of data} {file type} {person ID} {function_name}
 ```
 
-- If you want the file saved as a CSV change json to csv.
+- CSV and JSON files are the only supported file types.
