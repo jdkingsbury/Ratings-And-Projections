@@ -7,8 +7,8 @@
 - [Frontend](#frontend)
 - [Installation](#installation)
 - [Usage](#usage)
+- [Running Tests](#running-tests)
 - [Creating JSON and CSV Files](#creating-json-and-csv-files)
-- [Known Issues](#known-issues)
 
 ## Overview
 
@@ -100,33 +100,71 @@ To run in production mode:
 npm start
 ```
 
+## Running Tests
+
+### Testing the backend
+
+The application uses pytest to test the backend of the application.
+
+Before running the tests, ensure you have followed these steps:
+
+1. **Setup the Virtual Environment:** Ensure that you are working with the correct virtual environment where all the dependencies are installed.
+
+```bash
+source venv/bin/activate
+```
+
+2. **Install Dependencies:** Ensure all dependencies, including pytest and any other testing tools, are installed.
+
+```bash
+pip install -r requirements.txt
+```
+
+3. **Run the Backend Server:** Ensure the backend server is running since some of the test depend on the server running.
+
+```
+cd backend/api
+fastapi dev main.py
+```
+
+4. **Run Tests:** Execute pytest to run test
+
+```bash
+pytest
+```
+
 ## Creating JSON and CSV Files
 
 You can create JSON and CSV files for the NBA functions in `nba.py` located in the `routers` directory.
 
-### Example: Get Player Game Log
+**The backend server must be running to use create_file.**
+
+### Example and Layout:
 
 **CLI command:**
-
-Layout:
-
-```bash
- python3 -m services.create_file {function name} {file type} {person ID} {Season Year} {Games}
-```
 
 Example:
 
 ```bash
- python3 -m services.create_file get_player_game_log json 2544 2023-24 5
+python3 -m services.create_file nba players json 1630173 2023-24 5 player-game-log
 ```
 
-- If you want the file saved as a CSV change json to csv.
+Layout for creating player-game-log:
 
-## Known Issues
+```bash
+python3 -m services.create_file {sports league} {type of data} {file type} {person ID} {Season Year} {Games} {function_name}
+```
 
-### Unable to Create JSON or CSV Files
+Layout for creating career stats:
 
-Currently, the `create_file` script is unable to create JSON or CSV files.
+```bash
+python3 -m services.create_file {sports league} {type of data} {file type} {person ID} {function_name}
+```
 
-- **Reason**: The application now uses FastAPI, and the script needs to be updated to use the API endpoints to retrieve data instead of calling the functions directly.
-- **Plan**: I plan to rewrite the `create_file` script to use the FastAPI endpoints for data retrieval.
+Player Info:
+
+```bash
+python3 -m services.create_file {sports league} {type of data} {file type} {person ID} {function_name}
+```
+
+- CSV and JSON files are the only supported file types.

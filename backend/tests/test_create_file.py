@@ -1,20 +1,41 @@
+import json
 import os
-import pytest
 import sys
+from unittest.mock import patch
+
+import pandas as pd
+import pytest
+
+from backend.services.create_file import create_file
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from services.create_file import main as create_file_main
 
-def test_create_file():
-    # Mock command line arguments
-    sys.argv = ["create_file.py", "get_player_game_log", "json", "2544", "2023-24"]
-    create_file_main()
+@pytest.fixture
+def sample_json_data():
+    return [{"key1": "value1", "key2": "value2"}]
 
-    # Check if file was created
-    file_name = "get_player_game_log_2544_2023-24.json"
-    file_path = os.path.join("data", file_name)
-    assert os.path.exists(file_path)
 
-    # Clean up
-    os.remove(file_path)
+@pytest.fixture
+def sample_csv_data():
+    return pd.DataFrame([{"key1": "value1", "key2": "value2"}])
+
+
+def test_create_json_file(tmpdir, sample_json_data):
+    file_name = "test.json"
+    file_path = os.path.join(tmpdir, file_name)
+    create_file(sample_json_data, file_path, "json")
+
+    with open(file_path, "r") as file:
+        data = json.load(file)
+        assert data == sample_json_data
+
+
+def test_create_csv_file(tmpdir, sample_csv_data):
+    file_name = "test.csv"
+    file_path = os.path.join(tmpdir, file_name)
+    create_file(sample_csv_data.to_dict(orient="records"), file_path, "csv")
+
+    df = pd.read_csv(file_path)
+    assert df.equals(sample_csv_data)
+
