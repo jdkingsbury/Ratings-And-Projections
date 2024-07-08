@@ -8,7 +8,6 @@
 - [Installation](#installation)
 - [Usage](#usage)
 - [Creating JSON and CSV Files](#creating-json-and-csv-files)
-- [Known Issues](#known-issues)
 
 ## Overview
 
@@ -111,7 +110,7 @@ You can create JSON and CSV files for the NBA functions in `nba.py` located in t
 Example:
 
 ```bash
-python3 -m services.new_create_file nba players json 1630173 2023-24 5 player-game-log
+python3 -m services.create_file nba players json 1630173 2023-24 5 player-game-log
 ```
 
 Layout for creating player-game-log:

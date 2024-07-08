@@ -12,13 +12,6 @@ from nba_api.stats.static import players
 router = APIRouter(prefix="/nba", tags=["nba"])
 
 # NOTE: LeagueID: 00 = NBA, 10 = WNBA, 20 = G-League
-# person_id and player_id both represent player.
-# The endpoints don't use the same name so I might need to find how I plan to keep it consistent
-
-# NOTE: Possible endpoints
-# Draft History
-# Last 5 games
-# Player News
 
 
 # NBA PLAYERS ENDPOINTS
@@ -35,6 +28,12 @@ def get_player_id(player_name: str):
 # Might change how I retrieve all players
 @router.get("/players")
 async def get_all_players(active=True):
+    """
+    Gets all players using nba_api static function.
+
+    Parameters:
+    - active (Bool): retrieve all or only active players. Defaults to active players.
+    """
     nba_players = players.get_players()
     if active:
         active_players = [
@@ -48,6 +47,13 @@ async def get_all_players(active=True):
 # NOTE: This function will allow us to get the info of a specific player
 @router.get("/players/{person_id}/player-info")
 async def get_player_info(person_id: int, output_format="json"):
+    """
+    Fetches the players player info.
+
+    Parameters:
+    - person_id (int): The ID of the player.
+    - output_format (str): format of the output, either json or csv. Defaults to json.
+    """
     player_info = commonplayerinfo.CommonPlayerInfo(player_id=person_id)
     player_info_df = player_info.get_data_frames()[0]
 
@@ -69,6 +75,13 @@ async def get_player_info(person_id: int, output_format="json"):
 # NOTE: Get player career stats
 @router.get("/players/{person_id}/career-stats")
 async def get_player_career_stats(person_id: int, output_format="json"):
+    """
+    Fetches the players career stats
+
+    Parameters:
+    - person_id (int): The ID of the player
+    - output_format (str): format of the output, either json or csv. Defaults to json
+    """
     player_career_stats = playercareerstats.PlayerCareerStats(player_id=person_id)
     player_career_stats_df = player_career_stats.get_data_frames()[0]
 

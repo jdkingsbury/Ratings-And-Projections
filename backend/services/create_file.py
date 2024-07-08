@@ -6,8 +6,6 @@ import sys
 import httpx
 import pandas as pd
 
-from api.routers.nba import get_all_players
-
 BASE_URL = "http://127.0.0.1:8000"
 
 
@@ -35,7 +33,9 @@ async def fetch_data(endpoint, params):
 
 async def main():
     if len(sys.argv) < 4:
-        print("Usage: python create_file.py <sports_league> <type_of_data> <output_format> <args...>")
+        print(
+            "Usage: python create_file.py <sports_league> <type_of_data> <output_format> <args...>"
+        )
         sys.exit(1)
 
     sports_league = sys.argv[1]
@@ -48,7 +48,7 @@ async def main():
 
     try:
         data = await fetch_data(endpoint, params)
-        file_name = f"{type_of_data}_{'_'.join(args)}.{output_format}"
+        file_name = f"{type_of_data}_{sports_league}_{'_'.join(args)}.{output_format}"
 
         if data is not None:
             create_file(data, file_name, output_format)
