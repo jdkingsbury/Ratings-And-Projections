@@ -41,16 +41,6 @@ Thumbs.db
 log/
 logs/
 
-# Node modules (if using any frontend tools that might install packages)
-node_modules/
-
-# Data files
-*.csv
-*.dat
-*.db
-*.json
-*.sqlite
-
 # Configuration files
 .env
 *.env.local

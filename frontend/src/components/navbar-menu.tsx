@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -133,7 +134,7 @@ export default function Component() {
   );
 }
 
-function TestTubeIcon(props) {
+function TestTubeIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}
@@ -154,7 +155,7 @@ function TestTubeIcon(props) {
   );
 }
 
-function TrophyIcon(props) {
+function TrophyIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}

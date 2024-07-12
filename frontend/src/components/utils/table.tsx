@@ -8,6 +8,12 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { ColumnDef } from "@tanstack/react-table";
+
+interface Column {
+  header: string;
+  accessorKey: string;
+}
 
 interface TableProps {
   columns: Column[];
@@ -20,10 +26,8 @@ export function TableComponent({ columns, data, caption }: TableProps) {
     <div className="w-full overflow-x-auto">
       <Card className="min-w-full shadow-sm rounded-lg overflow-hidden">
         {caption && (
-          <CardHeader className= "p-4 rounded-t-lg">
-            <h3 className="text-lg font-semibold">
-              {caption}
-            </h3>
+          <CardHeader className="p-4 rounded-t-lg">
+            <h3 className="text-lg font-semibold">{caption}</h3>
           </CardHeader>
         )}
         <CardContent className="p-0">

@@ -3,12 +3,12 @@ import { PlayersDataTable } from "./data-table";
 import { columns } from "./columns";
 
 async function fetchPlayers() {
-  const response = await fetch("http://127.0.0.1:8000/nba/players");
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/nba/players`);
   if (!response.ok) {
     throw new Error("Failed to fetch players");
   }
   return response.json();
-};
+}
 
 export default async function PlayersPage() {
   const players = await fetchPlayers();

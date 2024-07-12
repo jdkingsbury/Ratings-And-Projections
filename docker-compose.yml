@@ -1,0 +1,40 @@
+services:
+  frontend:
+    container_name: nextjs_frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    environment:
+      - NEXT_PUBLIC_API_URL=http://backend:8000
+    depends_on:
+      - backend
+
+  backend:
+    container_name: fastapi_backend
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    command: "uvicorn app.main:app --reload --host 0.0.0.0 --port 8000"
+    volumes:
+      - ./backend:/code/
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+    env_file:
+      - "./backend/.env.docker"
+
+  db:
+    container_name: postgres_db
+    image: postgres
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    env_file:
+      - "./backend/.env.docker"
+
+volumes:
+  db-data: {}
