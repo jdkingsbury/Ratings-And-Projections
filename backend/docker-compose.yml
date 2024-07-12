@@ -1,0 +1,22 @@
+services:
+  app:
+    build: .
+    command: "fastapi run app/main.py --port 8000"
+    volumes:
+      - ./:/code/
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+    env_file:
+      - ".env.docker"
+
+  db:
+    image: postgres
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+volumes:
+  db-data:
