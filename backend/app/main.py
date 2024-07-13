@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Response
 
-from .routers import nba
+from .api import nba
 
 app = FastAPI()
 
