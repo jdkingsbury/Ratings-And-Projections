@@ -5,9 +5,13 @@ from nba_api.stats.endpoints import (
     commonplayerinfo,
     playercareerstats,
     playergamelog,
-    videodetails,
 )
 from nba_api.stats.static import players
+
+# from app.crud.player_crud import create_player, get_active_players
+# from app.database import get_db
+# from app.schemas.player_schemas import Player, PlayerCreate, PlayerUpdate
+# from app.services.nba_service import fetch_all_players
 
 router = APIRouter(prefix="/nba", tags=["nba"])
 

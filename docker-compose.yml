@@ -16,25 +16,30 @@ services:
     build: 
       context: ./backend
       dockerfile: Dockerfile
-    command: "uvicorn app.main:app --reload --host 0.0.0.0 --port 8000"
+    # --reload: Will reload the server  --reload-include {file type}: will reload if you change the file you specified 
+    command: "uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload --reload-include *"
     volumes:
       - ./backend:/code/
     ports:
       - 8000:8000
+    # Will reload docker container when changes are made in the code
+    volumes:
+      - .:/app
     depends_on:
       - db
     env_file:
-      - "./backend/.env.docker"
+      - "./backend/.env"
 
   db:
     container_name: postgres_db
     image: postgres
+    restart: always
     volumes:
       - db-data:/var/lib/postgresql/data
     ports:
       - 5432:5432
     env_file:
-      - "./backend/.env.docker"
+      - "./backend/.env"
 
 volumes:
   db-data: {}
