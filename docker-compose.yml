@@ -18,13 +18,11 @@ services:
       dockerfile: Dockerfile
     # --reload: Will reload the server  --reload-include {file type}: will reload if you change the file you specified 
     command: "uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload --reload-include *"
-    volumes:
-      - ./backend:/code/
     ports:
       - 8000:8000
     # Will reload docker container when changes are made in the code
     volumes:
-      - .:/app
+      - .:/backend/app
     depends_on:
       - db
     env_file:
