@@ -3,7 +3,7 @@ import { PlayersDataTable } from "./data-table";
 import { columns } from "./columns";
 
 async function fetchPlayers() {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/nba/players`);
+  const response = await fetch(`${process.env.BACKEND_API_URL}/nba/players`);
   if (!response.ok) {
     throw new Error("Failed to fetch players");
   }

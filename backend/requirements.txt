@@ -51,12 +51,15 @@ premailer==3.10.0
 psycopg2-binary==2.9.9
 pyarrow==15.0.0
 pydantic==2.7.4
+pydantic-settings==2.3.4
 pydantic_core==2.18.4
 Pygments==2.18.0
 PyJWT==2.8.0
 PyMySQL==1.1.0
 pyparsing==3.1.1
 pytest==7.4.4
+pytest-asyncio==0.23.7
+pytest-mock==3.14.0
 python-dateutil==2.8.2
 python-dotenv==1.0.0
 python-multipart==0.0.9
