@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   frontend:
     container_name: nextjs_frontend
@@ -20,11 +22,11 @@ services:
       - 8000:8000
     # Will reload docker container when changes are made in the code
     volumes:
-      - .:/backend/app
+      - ./backend:/app
     depends_on:
       - db
     env_file:
-      - "./backend/.env"
+      - .env
   db:
     container_name: postgres_db
     image: postgres
