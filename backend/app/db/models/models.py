@@ -1,18 +1,31 @@
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
+
 from app.db.database import Base
+
 
 class Player(Base):
     __tablename__ = "players"
 
-    id = Column(Integer, primary_key=True)
-    full_name = Column(String(50))
-    first_name = Column(String(25))
-    last_name = Column(String(25))
-    birth_date = Column(String(15))
-    position = Column(String(15))
+    player_id = Column(Integer, primary_key=True)
+    first_last = Column(String(50))
+    first_name = Column(String(30))
+    last_name = Column(String(30))
+    birth_date = Column(String(30))
+    school = Column(String(50))
+    country = Column(String(30))
+    height = Column(Integer)
+    weight = Column(Integer)
+    jersey = Column(Integer)
+    position = Column(String(30))
     is_active = Column(Boolean)
     team_id = Column(Integer, ForeignKey("teams.id"))
+    from_year = Column(Integer)
+    to_year = Column(Integer)
+    draft_year = Column(Integer)
+    draft_round = Column(Integer)
+    draft_number = Column(Integer)
+    image_url = Column(String(255))
 
     team = relationship("Team", back_populates="players")
 
@@ -53,5 +66,3 @@ class Team(Base):
 
     team = relationship("League", back_populates="teams")
     players = relationship("Player", back_populates="team")
-
-
