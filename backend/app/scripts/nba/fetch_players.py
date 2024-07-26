@@ -1,11 +1,11 @@
 import asyncio
 
-import pandas as pd
 from app.db.database import async_engine
-from app.db.models.models import Player
+from app.db.models.models import Player, Team
 from app.utils.fetch_utils import fetch_data_async
 from nba_api.stats.endpoints import commonplayerinfo
 from nba_api.stats.static import players
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from tqdm.asyncio import tqdm
 
@@ -80,19 +80,21 @@ def get_all_player_ids():
     return player_ids
 
 
+# Function calls fetch data async and creates a task to fetch player info for each player_id
 async def fetch_all_players_info(player_ids):
     tasks = []
     async with asyncio.TaskGroup() as tg:
         for player_id in tqdm(player_ids, desc="Fetching Player Info"):
             task = tg.create_task(fetch_data_async(fetch_player_info, player_id))
             tasks.append(task)
-            await asyncio.sleep(0.600) 
+            await asyncio.sleep(0.600)
 
     results = [await task for task in tasks]
 
     return results
 
-# FIX: Receiving an error where the team_id isn't matching the id in the teams table
+
+# Asynchronous function to inset player information
 async def insert_all_player_info(player_info_dfs):
     async with AsyncSession(async_engine) as session:
         async with session.begin():
@@ -101,6 +103,25 @@ async def insert_all_player_info(player_info_dfs):
                     player_info_dfs, desc="Inserting Players Into Player DB"
                 ):
                     player_info_dict = player_info_df.to_dict(orient="records")[0]
+                    team_id = player_info_dict.get("team_id")
+
+                    # Check if the player is part of a team
+                    if team_id == 0 or team_id is None:
+                        print(
+                            f"Invalid Team ID {team_id} for player {player_info_dict.get('first_last')}. Skipping."
+                        )
+                        continue
+
+                    result = await session.execute(select(Team).filter_by(id=team_id))
+                    team_exists = result.scalars().one_or_none()
+
+                    # Check if the team id tied to the player is valid
+                    if not team_exists:
+                        print(
+                            f"Team ID {team_id} not found for player {player_info_dict.get('first_last')}. Skipping."
+                        )
+                        continue
+
                     player = Player(**player_info_dict)
                     await session.merge(player)
 
@@ -116,7 +137,3 @@ async def main():
 
     # Insert all players info into a database
     await insert_all_player_info(all_players_info_dfs)
-
-
-if __name__ == "__main__":
-    asyncio.run(main())

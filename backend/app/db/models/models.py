@@ -2,8 +2,6 @@ from app.db.database import Base
 from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
-# League ID:
-# - NBA: 01
 
 class Player(Base):
     __tablename__ = "players"

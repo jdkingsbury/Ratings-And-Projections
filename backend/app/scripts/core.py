@@ -1,6 +1,7 @@
 from app.db.database import SessionLocal
 from app.db.models.models import League, Sport
 
+
 def insert_sports():
 
     sports_data = [
@@ -25,6 +26,7 @@ def insert_sports():
         finally:
             session.close()
 
+
 def insert_leagues():
 
     leagues_data = {
@@ -44,7 +46,6 @@ def insert_leagues():
                         League(name=league["name"], sport_id=sport.id)
                         for league in leagues_data[sport.name]
                     ]
-                    print(f"Inserting leagues for sport: {sport.name} with id: {sport.id}")
                     session.bulk_save_objects(league_instances)
 
             session.flush()
@@ -57,6 +58,7 @@ def insert_leagues():
 
         finally:
             session.close()
+
 
 def main():
     insert_sports()
