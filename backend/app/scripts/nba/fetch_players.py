@@ -1,7 +1,8 @@
 import asyncio
 
 from app.db.database import async_engine
-from app.db.models.models import Player, Team
+from app.db.models.sports.models import Team
+from app.db.models.nba.models import Player
 from app.utils.fetch_utils import fetch_data_async
 from nba_api.stats.endpoints import commonplayerinfo
 from nba_api.stats.static import players

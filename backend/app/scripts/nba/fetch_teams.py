@@ -1,9 +1,8 @@
 import pandas as pd
 from app.db.database import SessionLocal
-from app.db.models.models import League, Team
+from app.db.models.sports.models import League, Team
 from nba_api.stats.static import teams
 from sqlalchemy.exc import SQLAlchemyError
-from tqdm.asyncio import tqdm
 
 
 # Fetch all the NBA teams

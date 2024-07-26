@@ -1,5 +1,11 @@
-from nba_api.stats.static import players
+from app.db.models.nba.models import Player
+from sqlalchemy import select
+from sqlalchemy.orm import Session
 
-def fetch_all_players():
-    nba_players = players.get_players()
-    return nba_players
+
+def get_players(db: Session):
+    return db.execute(select(Player)).scalars().all()
+
+
+def get_player_info(db: Session, player_id: int):
+    return db.execute(select(Player).filter(Player.player_id == player_id)).scalar()
