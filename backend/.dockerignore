@@ -1,0 +1,48 @@
+# Python-related
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+env
+.venv
+venv
+ENV
+build
+dist
+*.egg-info
+.eggs
+develop-eggs
+
+# Docker-related
+.dockerignore
+Dockerfile
+.docker/
+
+# Version control
+.git
+.gitignore
+
+# Editors and IDEs
+.idea
+.vscode
+*.swp
+*~
+.project
+.settings
+*.sublime-workspace
+
+# Operating System generated files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+log/
+logs/
+
+# Configuration files
+.env
+*.env.local
+*.env.development.local
+*.env.test.local

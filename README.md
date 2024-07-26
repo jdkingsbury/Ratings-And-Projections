@@ -7,12 +7,11 @@
 - [Frontend](#frontend)
 - [Installation](#installation)
 - [Usage](#usage)
-- [Running Tests](#running-tests)
 - [Creating JSON and CSV Files](#creating-json-and-csv-files)
 
 ## Overview
 
-This project aims to provide player and team grades and their future projections from data retrieved from [nba_api](https://github.com/swar/nba_api/tree/master).
+This project aims to provide player and team grades and their future projections from data retrieved from APIs like [nba_api](https://github.com/swar/nba_api/tree/master) and web scraping tools.
 
 ## Frontend
 
@@ -24,7 +23,7 @@ The backend uses FastAPI and contains the API endpoints and service files.
 
 ## Database
 
-The Application uses Postgres as the Database
+The Application uses PostgreSQL as the database.
 
 ## Installation
 
@@ -34,6 +33,10 @@ The Application uses Postgres as the Database
 - Python (v.3.8 or later)
 - npm (v6 or later)
 - pip (v20 or later)
+- Docker
+- Docker Compose
+
+The application uses Docker to run the application.
 
 ### Steps
 
@@ -44,96 +47,25 @@ git clone https://github.com/jdkingsbury/NBA_Prediction.git
 cd NBA_Prediction
 ```
 
-2. **Install backend dependencies:**
+2. **Install using Docker Compose**
 
 ```sh
-python -m venv venv
-source venv/bin/activate
-cd backend
-pip install -r requirements.txt
+docker-compose up --build
 ```
 
-3. **Install frontend dependencies:**
+3. Run Python setup script
 
-```bash
-cd frontend
-npm install
+```sh
+docker-compose run backend python app/scripts/populate_db.py
 ```
 
 ## Usage
 
-You need to start both the frontend and backend servers to run the application.
-
-### Start the Backend Server
-
-The backend uses FastAPI to handle API requests from the frontend.
-
-Navigate to the `api` directory in the `backend` directory
-
-To run in a development mode:
-
-```bash
-fastapi dev main.py
-```
-
-To run in production mode:
-
-```bash
-fastapi run main.py
-```
-
-### Start the Frontend Server
-
-The frontend is built using Remix
-
-Navigate to the `frontend` directory.
-
-To run in development mode:
-
-```bash
-npm run dev
-```
-
-To run in production mode:
-
-```bash
-npm start
-```
-
-## Running Tests
-
-### Testing the backend
-
-The application uses pytest to test the backend of the application.
-
-Before running the tests, ensure you have followed these steps:
-
-1. **Setup the Virtual Environment:** Ensure that you are working with the correct virtual environment where all the dependencies are installed.
-
-```bash
-source venv/bin/activate
-```
-
-2. **Install Dependencies:** Ensure all dependencies, including pytest and any other testing tools, are installed.
-
-```bash
-pip install -r requirements.txt
-```
-
-3. **Run the Backend Server:** Ensure the backend server is running since some of the test depend on the server running.
-
-```
-cd backend/api
-fastapi dev main.py
-```
-
-4. **Run Tests:** Execute pytest to run test
-
-```bash
-pytest
-```
+Docker will build and start up the frontend, backend, and the database for the application.
 
 ## Creating JSON and CSV Files
+
+_This section will be updated since the database now is running and the routes will be changed to pull from the database._
 
 You can create JSON and CSV files for the NBA functions in `nba.py` located in the `routers` directory.
 
@@ -168,3 +100,7 @@ python3 -m services.create_file {sports league} {type of data} {file type} {pers
 ```
 
 - CSV and JSON files are the only supported file types.
+
+### Notes:
+
+- Ensure that Docker is properly set up and running on your machine before following the instructions.

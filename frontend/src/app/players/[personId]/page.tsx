@@ -1,26 +1,27 @@
-import { Suspense } from "react";
 import { PlayerBio } from "./player-info";
 import { PlayerCareerStats } from "./player-career-stats";
-import { PlayerLast5Games } from "./last-5-games.tsx";
+import { PlayerLast5Games } from "./last-5-games";
+
+import { Suspense } from "react";
 import Loading from "@/app/loading";
 
-async function Last5Games(personId) {
+async function Last5Games(personId: string) {
   const response = await fetch(
-    `http://127.0.0.1:8000/nba/players/${personId}/2023-24/5/player-game-log`,
+    `${process.env.BACKEND_API_URL}/nba/players/${personId}/2023-24/5/player-game-log`,
   );
   return response.json();
 }
 
-async function PlayerInfo(personId) {
+async function PlayerInfo(personId: string) {
   const response = await fetch(
-    `http://127.0.0.1:8000/nba/players/${personId}/player-info`,
+    `${process.env.BACKEND_API_URL}/nba/players/${personId}/player-info`,
   );
   return response.json();
 }
 
-async function CareerStats(personId) {
+async function CareerStats(personId: string) {
   const response = await fetch(
-    `http://127.0.0.1:8000/nba/players/${personId}/career-stats`,
+    `${process.env.BACKEND_API_URL}/nba/players/${personId}/career-stats`,
   );
   return response.json();
 }

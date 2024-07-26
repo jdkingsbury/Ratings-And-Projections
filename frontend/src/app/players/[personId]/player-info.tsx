@@ -1,7 +1,8 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { PlayerInfo } from "./types";
 import Image from "next/image";
 
-export function PlayerBio({ data }) {
+export function PlayerBio({ data }: { data: PlayerInfo[] }) {
   const playerInfo = data[0];
 
   const birthdate = new Date(

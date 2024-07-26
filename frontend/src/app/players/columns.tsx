@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowUpDown } from "lucide-react";
 import { ColumnDef } from "@tanstack/react-table";
-import { Player } from "./types.ts";
+import { Player } from "./types";
 
 export const columns: ColumnDef<Player>[] = [
   // Player Column

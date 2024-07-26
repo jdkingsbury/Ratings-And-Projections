@@ -1,5 +1,5 @@
 import { TableComponent } from "@/components/utils/table";
-import { CareerStats } from "./types.ts";
+import { CareerStats } from "./types";
 import { omitKeys } from "@/components/utils/omit-keys";
 
 const columns = [
