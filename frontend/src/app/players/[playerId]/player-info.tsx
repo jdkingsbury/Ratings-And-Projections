@@ -1,13 +1,14 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { PlayerInfo } from "./types";
+import { Player } from "./types";
 import Image from "next/image";
 
-export function PlayerBio({ data }: { data: PlayerInfo[] }) {
-  const playerInfo = data[0];
+export function PlayerBio({ data }: { data: Player }) {
+  const playerInfo = data;
+  console.log(playerInfo.height);
 
-  const birthdate = new Date(
-    playerInfo.BIRTHDATE as string,
-  ).toLocaleDateString();
+  const birthdate = playerInfo.birth_date
+    ? new Date(playerInfo.birth_date).toLocaleDateString()
+    : "Unknown";
 
   return (
     <div className="w-full p-4">
@@ -16,8 +17,8 @@ export function PlayerBio({ data }: { data: PlayerInfo[] }) {
           {/* Player Image */}
           <div className="w-full md:w-[380px] h-[175px] mx-auto">
             <Image
-              src={playerInfo.IMAGE_URL}
-              alt={playerInfo.DISPLAY_FIRST_LAST}
+              src={playerInfo.image_url}
+              alt={playerInfo.first_last}
               quality={100}
               width={240}
               height={200}
@@ -27,39 +28,39 @@ export function PlayerBio({ data }: { data: PlayerInfo[] }) {
           {/* Name Jersey and team */}
           <div className="md:col-span-1 px-4 md:px-0">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
-              {playerInfo.DISPLAY_FIRST_LAST}
+              {playerInfo.first_last}
             </h2>
             <p className="mt-1 text-gray-700 text-sm dark:text-white">
-              TEAM: {playerInfo.TEAM_NAME}
+              TEAM: {playerInfo.team_id}
             </p>
             <p className="mt-1 text-gray-700 text-sm dark:text-white">
               JERSEY: {"#"}
-              {playerInfo.JERSEY}
+              {playerInfo.jersey}
             </p>
             <p className="mt-1 text-gray-700 text-sm dark:text-white">
-              POSITION: {playerInfo.POSITION}
+              POSITION: {playerInfo.position}
             </p>
           </div>
           {/* Player Info including weight height draft */}
           <div className="md:col-span-1 pl-0 md:pl-6 border-t md:border-t-0 pt-4 md:pt-0 dark:text-white">
             <p className="mt-2 text-gray-700 text-sm dark:text-white">
-              HEIGHT: {playerInfo.HEIGHT}
+              HEIGHT: {playerInfo.height}
             </p>
             <p className="mt-1 text-gray-700 text-sm dark:text-white">
-              WEIGHT: {playerInfo.WEIGHT}lb
+              WEIGHT: {playerInfo.weight}lb
             </p>
             <p className="mt-1 text-gray-700 text-sm dark:text-white">AGE: </p>
             <p className="mt-1 text-gray-700 text-sm dark:text-white">
               BORN: {birthdate}
             </p>
             <p className="mt-1 text-gray-700 text-sm dark:text-white">
-              COLLEGE: {playerInfo.SCHOOL}
+              COLLEGE: {playerInfo.school}
             </p>
             <p className="mt-1 text-gray-700 text-sm dark:text-white">
-              DRAFT INFO: {playerInfo.DRAFT_YEAR} | ROUND:{" "}
-              {playerInfo.DRAFT_ROUND}, PICK: {playerInfo.DRAFT_NUMBER}
+              DRAFT INFO: {playerInfo.draft_year} | ROUND:{" "}
+              {playerInfo.draft_round}, PICK: {playerInfo.draft_number}
             </p>
-            <p className="mt-1 text-sm">STATUS: {playerInfo.ROSTERSTATUS}</p>
+            <p className="mt-1 text-sm">STATUS: {playerInfo.is_active}</p>
           </div>
           {/* Player Rating */}
         </div>

@@ -1,7 +1,8 @@
 import asyncio
+from datetime import datetime
 
 from app.db.database import async_engine
-from app.db.models.sports.nba import NBATeam, NBAPlayer
+from app.db.models.sports.nba import NBAPlayer, NBATeam
 from app.utils.fetch_utils import fetch_data_async
 from nba_api.stats.endpoints import commonplayerinfo
 from nba_api.stats.static import players
@@ -37,6 +38,7 @@ def fetch_player_info(player_id):
             "DRAFT_NUMBER": "draft_number",
         }
     )
+
     player_info_df["image_url"] = player_info_df["player_id"].apply(
         lambda x: f"https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{x}.png"
     )
@@ -105,6 +107,18 @@ async def insert_all_player_info(player_info_dfs):
                     player_info_dict = player_info_df.to_dict(orient="records")[0]
                     team_id = player_info_dict.get("team_id")
 
+                    # Convert birth_date to string in ISO format
+                    if isinstance(player_info_dict.get("birth_date"), str):
+                        try:
+                            player_info_dict["birth_date"] = datetime.fromisoformat(
+                                player_info_dict["birth_date"]
+                            ).date()
+                        except ValueError:
+                            print(
+                                f"Error parsing date: {player_info_dict.get('birth_date')}. Skipping."
+                            )
+                            continue
+
                     # Check if the player is part of a team
                     if team_id == 0 or team_id is None:
                         print(
@@ -112,7 +126,9 @@ async def insert_all_player_info(player_info_dfs):
                         )
                         continue
 
-                    result = await session.execute(select(NBATeam).filter_by(id=team_id))
+                    result = await session.execute(
+                        select(NBATeam).filter_by(id=team_id)
+                    )
                     team_exists = result.scalars().one_or_none()
 
                     # Check if the team id tied to the player is valid

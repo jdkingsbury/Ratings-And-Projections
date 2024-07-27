@@ -1,6 +1,5 @@
 from app.db.database import Base
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String
-from app.db.models.league import League
+from sqlalchemy import Boolean, Column, Date, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
 
@@ -11,7 +10,7 @@ class NBAPlayer(Base):
     first_last = Column(String(100))
     first_name = Column(String(50))
     last_name = Column(String(50))
-    birth_date = Column(String(50))
+    birth_date = Column(Date)
     school = Column(String(100))
     country = Column(String(100))
     height = Column(String(10))

@@ -26,7 +26,7 @@ export const columns: ColumnDef<Player>[] = [
     cell: ({ row }) => {
       const players = row.original;
 
-      return <Link href={`/players/${players.id}`}>{players.full_name}</Link>;
+      return <Link href={`/players/${players.player_id}`}>{players.first_last}</Link>;
     },
   },
 ];
