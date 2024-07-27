@@ -12,7 +12,7 @@ from tqdm.asyncio import tqdm
 
 
 # Synchronous function to fetch nba player info
-def fetch_player_info(player_id):
+def fetch_player_info(player_id: int):
     player_info = commonplayerinfo.CommonPlayerInfo(player_id=player_id)
 
     player_info_df = player_info.get_data_frames()[0]
@@ -83,7 +83,7 @@ def get_all_player_ids():
 
 
 # Function calls fetch data async and creates a task to fetch player info for each player_id
-async def fetch_all_players_info(player_ids):
+async def fetch_all_players_info(player_ids: list[int]):
     tasks = []
     async with asyncio.TaskGroup() as tg:
         for player_id in tqdm(player_ids, desc="Fetching Player Info"):
