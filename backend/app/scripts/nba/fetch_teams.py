@@ -1,6 +1,7 @@
 import pandas as pd
 from app.db.database import SessionLocal
-from app.db.models.sports.models import League, Team
+from app.db.models.league import League
+from app.db.models.sports.nba import NBATeam
 from nba_api.stats.static import teams
 from sqlalchemy.exc import SQLAlchemyError
 
@@ -28,7 +29,7 @@ def insert_all_teams(all_teams_df, league_id):
     with SessionLocal() as session:
         try:
             for _, row in all_teams_df.iterrows():
-                team = Team(
+                team = NBATeam(
                     id=row["id"],
                     full_name=row["full_name"],
                     abbreviation=row["abbreviation"],

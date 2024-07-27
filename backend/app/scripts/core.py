@@ -1,5 +1,6 @@
 from app.db.database import SessionLocal
-from app.db.models.sports.models import League, Sport
+from app.db.models.sport import Sport
+from app.db.models.league import League
 
 
 def insert_sports():
