@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Player } from "./types";
 import Image from "next/image";
 
-export function PlayerBio({ data }: { data: Player }) {
+export function PlayerInfo({ data }: { data: Player }) {
   const playerInfo = data;
   console.log(playerInfo.height);
 

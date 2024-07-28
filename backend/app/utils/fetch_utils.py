@@ -1,9 +1,11 @@
 import asyncio
+from collections.abc import Callable
+from typing import Any, TypeVar
 
 import aiohttp
 import async_timeout
 
-# NOTE: This will work but it is slow. It will probably change in the future once I discover a better way of doing this.
+T = TypeVar("T")
 
 # This function allows you to run a synchronous function asynchronously using threads
 # It helps improve the time and success rate for making multiple API requests concurrently by:
@@ -23,7 +25,9 @@ import async_timeout
 # - The last encountered exception if all retry attempts fail.
 
 
-async def fetch_data_async(fetch_function, *args, max_retries=5):
+async def fetch_data_async(
+    fetch_function: Callable[..., T], *args: Any, max_retries: int = 5
+) -> T:
     for attempt in range(max_retries):
         try:
             async with async_timeout.timeout(10):
@@ -35,4 +39,5 @@ async def fetch_data_async(fetch_function, *args, max_retries=5):
                 await asyncio.sleep(2**attempt)
             else:
                 print(f"Final attempt failed for {args[0]}")
-                raise
+
+    raise RuntimeError(f"Failed to fetch data fro {args} after {max_retries} attempts")

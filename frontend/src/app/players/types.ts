@@ -3,7 +3,7 @@ export type Player = {
   first_last: string;
   first_name: string;
   last_name: string;
-  birth_date: string;
+  birth_date: Date;
   school: string;
   country: string;
   height: string;

@@ -1,7 +1,8 @@
 import { BACKEND_API_BASE_URL } from "@/components/utils/constants";
-import { PlayerBio } from "./player-info";
+import { PlayerInfo } from "./player-info";
+import { RecentGames } from "./recent-games";
 
-async function PlayerInfo(playerId: string) {
+async function fetchPlayerInfo(playerId: string) {
   const response = await fetch(
     `${BACKEND_API_BASE_URL}/nba/players/${playerId}`,
   );
@@ -13,17 +14,33 @@ async function PlayerInfo(playerId: string) {
   return response.json();
 }
 
+async function fetchPlayerRecentGames(playerId: string) {
+  const response = await fetch(
+    `${BACKEND_API_BASE_URL}/nba/players/${playerId}/recent_games`,
+  );
+
+  if (!response.ok) {
+    throw new Error("Network resoponse was not ok");
+  }
+
+  return response.json();
+}
+
 export default async function PlayerProfile({
   params,
 }: {
   params: { playerId: string };
 }) {
   try {
-    const playerInfo = await PlayerInfo(params.playerId);
+    const [playerInfo, recentGames] = await Promise.all([
+      fetchPlayerInfo(params.playerId),
+      fetchPlayerRecentGames(params.playerId),
+    ]);
 
     return (
       <div>
-        <PlayerBio data={playerInfo} />
+        <PlayerInfo data={playerInfo} />
+        <RecentGames data={recentGames} />
       </div>
     );
   } catch (error) {

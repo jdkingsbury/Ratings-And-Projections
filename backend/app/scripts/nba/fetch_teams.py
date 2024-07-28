@@ -7,7 +7,7 @@ from sqlalchemy.exc import SQLAlchemyError
 
 
 # Fetch all the NBA teams
-def fetch_all_teams():
+def fetch_all_teams() -> pd.DataFrame:
     all_teams = teams.get_teams()
     all_teams_df = pd.DataFrame(all_teams)
     all_teams_df = all_teams_df[
@@ -21,11 +21,14 @@ def fetch_all_teams():
         ]
     ]
 
+    if not isinstance(all_teams_df, pd.DataFrame):
+        raise TypeError("The function fetch_all_teams must return a pandas DataFrame")
+
     return all_teams_df
 
 
 # Insert all the nba teams
-def insert_all_teams(all_teams_df, league_id):
+def insert_all_teams(all_teams_df: pd.DataFrame, league_id: int) -> None:
     with SessionLocal() as session:
         try:
             for _, row in all_teams_df.iterrows():
@@ -51,7 +54,7 @@ def insert_all_teams(all_teams_df, league_id):
             session.close()
 
 
-def main():
+def main() -> None:
     with SessionLocal() as session:
         try:
             # Fetch the League Id for NBA
@@ -61,6 +64,8 @@ def main():
                 return
 
             league_id = nba_league.id
+            if not isinstance(league_id, int):
+                raise TypeError("League ID should be an integer")
 
             all_teams_df = fetch_all_teams()
             insert_all_teams(all_teams_df, league_id)

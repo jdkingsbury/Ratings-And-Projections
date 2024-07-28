@@ -1,11 +1,13 @@
+from typing import Dict, List
+
 from app.db.database import SessionLocal
-from app.db.models.sport import Sport
 from app.db.models.league import League
+from app.db.models.sport import Sport
 
 
-def insert_sports():
+def insert_sports() -> None:
 
-    sports_data = [
+    sports_data: List[Dict[str, str]] = [
         {"name": "Basketball"},
         {"name": "Football"},
         {"name": "Baseball"},
@@ -28,9 +30,9 @@ def insert_sports():
             session.close()
 
 
-def insert_leagues():
+def insert_leagues() -> None:
 
-    leagues_data = {
+    leagues_data: Dict[str, List[Dict[str, str]]] = {
         "Basketball": [{"name": "NBA"}],
         "Football": [{"name": "NFL"}],
         "Baseball": [{"name": "MLB"}],
@@ -38,7 +40,7 @@ def insert_leagues():
 
     with SessionLocal() as session:
         try:
-            sports_instances = session.query(Sport).all()
+            sports_instances: List[Sport] = session.query(Sport).all()
 
             # Insert Leagues Data
             for sport in sports_instances:
@@ -61,6 +63,6 @@ def insert_leagues():
             session.close()
 
 
-def main():
+def main() -> None:
     insert_sports()
     insert_leagues()
