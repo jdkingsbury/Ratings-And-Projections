@@ -1,7 +1,10 @@
 import asyncio
+from datetime import datetime
+from typing import List
+import pandas as pd
 
 from app.db.database import async_engine
-from app.db.models.models import Player, Team
+from app.db.models.sports.nba import NBAPlayer, NBATeam
 from app.utils.fetch_utils import fetch_data_async
 from nba_api.stats.endpoints import commonplayerinfo
 from nba_api.stats.static import players
@@ -11,7 +14,7 @@ from tqdm.asyncio import tqdm
 
 
 # Synchronous function to fetch nba player info
-def fetch_player_info(player_id):
+def fetch_player_info(player_id: int) -> pd.DataFrame:
     player_info = commonplayerinfo.CommonPlayerInfo(player_id=player_id)
 
     player_info_df = player_info.get_data_frames()[0]
@@ -37,10 +40,13 @@ def fetch_player_info(player_id):
             "DRAFT_NUMBER": "draft_number",
         }
     )
+
+    # Add image url to get players image
     player_info_df["image_url"] = player_info_df["player_id"].apply(
         lambda x: f"https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{x}.png"
     )
 
+    # Convert to true or false
     player_info_df["is_active"] = player_info_df["is_active"].apply(
         lambda x: x == "Active"
     )
@@ -73,7 +79,7 @@ def fetch_player_info(player_id):
 
 
 # Function to get all active players IDs
-def get_all_player_ids():
+def get_all_player_ids() -> List[int]:
     all_players = players.get_players()
     active_players = [player for player in all_players if player["is_active"]]
     player_ids = [player["id"] for player in active_players]
@@ -81,7 +87,7 @@ def get_all_player_ids():
 
 
 # Function calls fetch data async and creates a task to fetch player info for each player_id
-async def fetch_all_players_info(player_ids):
+async def fetch_all_players_info(player_ids: list[int]) -> List[pd.DataFrame]:
     tasks = []
     async with asyncio.TaskGroup() as tg:
         for player_id in tqdm(player_ids, desc="Fetching Player Info"):
@@ -95,7 +101,7 @@ async def fetch_all_players_info(player_ids):
 
 
 # Asynchronous function to inset player information
-async def insert_all_player_info(player_info_dfs):
+async def insert_all_player_info(player_info_dfs: List[pd.DataFrame]):
     async with AsyncSession(async_engine) as session:
         async with session.begin():
             with session.no_autoflush:
@@ -105,30 +111,46 @@ async def insert_all_player_info(player_info_dfs):
                     player_info_dict = player_info_df.to_dict(orient="records")[0]
                     team_id = player_info_dict.get("team_id")
 
+                    # Convert birth_date to string in ISO format
+                    if isinstance(player_info_dict.get("birth_date"), str):
+                        try:
+                            player_info_dict["birth_date"] = datetime.fromisoformat(
+                                player_info_dict["birth_date"]
+                            ).date()
+                        except ValueError:
+                            print(
+                                f"Error parsing date: {player_info_dict.get('birth_date')}. Skipping."
+                            )
+                            continue
+
                     # Check if the player is part of a team
                     if team_id == 0 or team_id is None:
                         print(
-                            f"Invalid Team ID {team_id} for player {player_info_dict.get('first_last')}. Skipping."
+                            f"Invalid Team ID {team_id} for player {player_info_dict.get('first_last')}. Setting to None."
                         )
-                        continue
+                        player_info_dict["team_id"] = None
 
-                    result = await session.execute(select(Team).filter_by(id=team_id))
-                    team_exists = result.scalars().one_or_none()
+                    else:
+
+                        result = await session.execute(
+                            select(NBATeam).filter_by(id=team_id)
+                        )
+                        team_exists = result.scalars().one_or_none()
 
                     # Check if the team id tied to the player is valid
-                    if not team_exists:
-                        print(
-                            f"Team ID {team_id} not found for player {player_info_dict.get('first_last')}. Skipping."
-                        )
-                        continue
+                        if not team_exists:
+                            print(
+                                f"Team ID {team_id} not found for player {player_info_dict.get('first_last')}. Setting to None."
+                            )
+                            player_info_dict["team_id"] = None
 
-                    player = Player(**player_info_dict)
+                    player = NBAPlayer(**player_info_dict)
                     await session.merge(player)
 
         await session.commit()
 
 
-async def main():
+async def main() -> None:
     # Collect all the active player ids
     player_ids = get_all_player_ids()
 

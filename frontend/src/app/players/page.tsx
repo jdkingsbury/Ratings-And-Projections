@@ -1,9 +1,9 @@
-import Navbar from "@/components/navbar-menu";
 import { PlayersDataTable } from "./data-table";
 import { columns } from "./columns";
+import { BACKEND_API_BASE_URL } from "@/components/utils/constants"
 
 async function fetchPlayers() {
-  const response = await fetch(`${process.env.BACKEND_API_URL}/nba/players`);
+  const response = await fetch(`${BACKEND_API_BASE_URL}/nba/players`);
   if (!response.ok) {
     throw new Error("Failed to fetch players");
   }
