@@ -26,6 +26,13 @@ async function fetchPlayerRecentGames(playerId: string) {
   return response.json();
 }
 
+// async function CareerStats(personId: string) {
+//   const response = await fetch(
+//     `${process.env.BACKEND_API_URL}/nba/players/${personId}/career-stats`,
+//   );
+//   return response.json();
+// }
+
 export default async function PlayerProfile({
   params,
 }: {
