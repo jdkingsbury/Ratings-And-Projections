@@ -23,6 +23,8 @@ WORKDIR /app
 
 # Set environment to development
 ENV NODE_ENV=development
+# Ensure node_modules/.bin is in the PATH
+ENV PATH /app/node_modules/.bin:$PATH
 
 # Start the development server with hot reloading
 CMD ["yarn", "dev"]

@@ -43,21 +43,28 @@ The application uses Docker to run the application.
 1. **Clone the repository:**
 
 ```sh
-git clone https://github.com/jdkingsbury/NBA_Prediction.git
-cd NBA_Prediction
+git clone https://github.com/jdkingsbury/Sports_Prediction.git
+cd Sports_Prediction
 ```
 
-2. **Install using Docker Compose**
+2. Set environment variables in both the frontend, backend, and root directoies.
+    - backend: Provide the DB URLs for the variables DATABASE_URL and ASYNC_DATABASE_URL.
+    - frontend: Provide the URL to the backend of the application.
+    - root: Provide the database information.
+
+3. **Install using Docker Compose**
 
 ```sh
 docker-compose up --build
 ```
 
-3. Run Python setup script
+4. Run Python setup script
 
 ```sh
 docker-compose run backend python app/scripts/populate_db.py
 ```
+
+If you experience and error with shadcn when viewing a page, install shadcn.
 
 ## Usage
 
