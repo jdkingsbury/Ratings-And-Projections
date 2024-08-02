@@ -52,8 +52,8 @@ export default function Component() {
                 <NavigationMenuItem>
                   <NavigationMenuTrigger>NBA</NavigationMenuTrigger>
                   <NavigationMenuContent>
-                    {/* Link to Player Page */}
-                    <Link href="/players" prefetch={false}>
+                    {/* Link to NBA Player Page */}
+                    <Link href="/nba/players" prefetch={false}>
                       <NavigationMenuLink
                         className={navigationMenuTriggerStyle()}
                       >
@@ -97,7 +97,7 @@ export default function Component() {
                 </Link>
                 {/* Link to Players */}
                 <Link
-                  href="/players"
+                  href="/nba/players"
                   className="font-medium text-sm transition-colors hover:underline"
                   prefetch={false}
                   onClick={toggleMobileMenu}

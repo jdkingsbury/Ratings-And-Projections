@@ -40,7 +40,7 @@ export const columns: ColumnDef<Player>[] = [
           {/*   className="rounded-md object-cover mr-6" */}
           {/* /> */}
 
-          <Link href={`/players/${players.player_id}`}>
+          <Link href={`/nba/players/${players.player_id}`}>
             {players.first_last}
           </Link>
         </div>
