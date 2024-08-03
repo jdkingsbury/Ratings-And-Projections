@@ -2,9 +2,13 @@ import asyncio
 from typing import List
 
 import pandas as pd
+from app.db.database import SessionLocal
+from app.db.models.league import League
+from app.db.models.sports.nba import NBATeam
 from app.utils.fetch_utils import fetch_data_async
 from nba_api.stats.endpoints import teaminfocommon
 from nba_api.stats.static import teams
+from sqlalchemy.exc import SQLAlchemyError
 from tqdm.asyncio import tqdm
 
 
@@ -17,11 +21,11 @@ def fetch_team_info(team_id: int) -> pd.DataFrame:
         columns={
             "TEAM_ID": "team_id",
             "SEASON_YEAR": "season_year",
-            "TEAM_CITY": "team_city",
-            "TEAM_NAME": "team_name",
-            "TEAM_ABBREVIATION": "team_abbreviation",
-            "TEAM_CONFERENCE": "team_conference",
-            "TEAM_DIVISION": "team_division",
+            "TEAM_CITY": "city",
+            "TEAM_NAME": "name",
+            "TEAM_ABBREVIATION": "abbreviation",
+            "TEAM_CONFERENCE": "conference",
+            "TEAM_DIVISION": "division",
             "W": "w",
             "L": "l",
             "PCT": "pct",
@@ -59,33 +63,86 @@ def fetch_all_teams() -> pd.DataFrame:
     all_teams_df = all_teams_df.rename(
         columns={
             "id": "team_id",
-            "full_name": "team_name",
-            "abbreviation": "team_abbreviation",
-            "nickname": "team_nickname",
-            "city": "team_city",
-            "state": "team_state",
+            "full_name": "name",
         }
     )
 
     return all_teams_df
 
 
+def insert_all_teams(combined_teams_df: pd.DataFrame, league_id: int) -> None:
+    with SessionLocal() as session:
+        try:
+            for _, row in tqdm(
+                combined_teams_df.iterrows(), desc="Inserting teams into the database"
+            ):
+                team = NBATeam(
+                    team_id=row["team_id"],
+                    name=row["name"],
+                    abbreviation=row["abbreviation"],
+                    nickname=row["nickname"],
+                    city=row["city"],
+                    state=row["state"],
+                    conference=row["conference"],
+                    division=row["division"],
+                    w=row["w"],
+                    l=row["l"],
+                    pct=row["pct"],
+                    conf_rank=row["conf_rank"],
+                    div_rank=row["div_rank"],
+                    season_year=row["season_year"],
+                    league_id=league_id,
+                )
+                session.merge(team)
+            print("Successfully Inserted NBA Teams Into the Database")
+            session.flush()
+            session.commit()
+
+        except SQLAlchemyError as e:
+            session.rollback()
+            print(f"Error inserting teams: {e}")
+
+        finally:
+            session.close()
+
+
 async def main() -> None:
-    # Collect all team ids
-    team_ids = fetch_all_team_ids()
 
-    # Collect all team info dataframes
-    all_teams_info_dfs = await fetch_all_teams_info(team_ids)
+    with SessionLocal() as session:
+        try:
+            nba_league = session.query(League).filter_by(name="NBA").one_or_none()
+            if nba_league is None:
+                print("NBA league not found!")
+                return
 
-    # Combine all team infos dataframes
-    detailed_team_info = pd.concat(all_teams_info_dfs, ignore_index=True)
+            league_id = nba_league.id
+            if not isinstance(league_id, int):
+                raise TypeError("League ID should be an integer")
 
-    # Fetch all teams from the nba_api static function
-    basic_team_info = fetch_all_teams()
+            # Collect all team ids
+            team_ids = fetch_all_team_ids()
 
-    combined_teams_df = pd.merge(
-        detailed_team_info, basic_team_info, on="team_id", how="inner"
-    )
+            # Collect all team info dataframes
+            all_teams_info_dfs = await fetch_all_teams_info(team_ids)
+
+            # Combine all team infos dataframes
+            detailed_team_info = pd.concat(all_teams_info_dfs, ignore_index=True)
+
+            # Fetch all teams from the nba_api static function
+            basic_team_info = fetch_all_teams()
+
+            combined_teams_df = pd.merge(
+                detailed_team_info, basic_team_info, on="team_id", how="inner"
+            )
+
+            insert_all_teams(combined_teams_df, league_id)
+
+        except SQLAlchemyError as e:
+            session.rollback()
+            print(f"Error: {e}")
+
+        finally:
+            session.close()
 
 
 if __name__ == "__main__":
