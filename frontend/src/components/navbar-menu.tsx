@@ -60,6 +60,14 @@ export default function Component() {
                         Players
                       </NavigationMenuLink>
                     </Link>
+                    {/* Link to NBA Team Page */}
+                    <Link href="/nba/teams" prefetch={false}>
+                      <NavigationMenuLink
+                        className={navigationMenuTriggerStyle()}
+                      >
+                        Teams
+                      </NavigationMenuLink>
+                    </Link>
                   </NavigationMenuContent>
                 </NavigationMenuItem>
               </NavigationMenuList>
