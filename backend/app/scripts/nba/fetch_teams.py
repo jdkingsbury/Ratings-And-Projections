@@ -138,9 +138,11 @@ async def main() -> None:
             # Fetch all teams from the nba_api static function
             basic_team_info = fetch_all_teams()
 
+            # Combine the two dataframes
             combined_teams_df = basic_team_info.combine_first(detailed_team_info)
             print(combined_teams_df)
 
+            # Inserts all the teams and team data into the database
             insert_all_teams(combined_teams_df, league_id)
 
         except SQLAlchemyError as e:
