@@ -60,6 +60,7 @@ class NBATeam(Base):
     state = Column(String(50))
     conference = Column(String(50))
     division = Column(String(50))
+    year_founded = Column(String(25))
     w = Column(String(5))
     l = Column(String(5))
     pct = Column(Float)

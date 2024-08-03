@@ -133,7 +133,7 @@ async def insert_all_player_info(player_info_dfs: List[pd.DataFrame]):
                     else:
 
                         result = await session.execute(
-                            select(NBATeam).filter_by(id=team_id)
+                            select(NBATeam).filter_by(team_id=team_id)
                         )
                         team_exists = result.scalars().one_or_none()
 

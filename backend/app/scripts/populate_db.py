@@ -4,8 +4,7 @@ from app.db.database import Base, engine
 from app.scripts.core import main as insert_sports_and_leagues
 from app.scripts.nba.fetch_player_game_logs import main as fetch_nba_player_game_logs
 from app.scripts.nba.fetch_players import main as fetch_nba_players
-# from app.scripts.nba.fetch_teams import main as fetch_nba_teams
-from app.scripts.nba.new_fetch_teams import main as fetch_nba_teams
+from app.scripts.nba.fetch_teams import main as fetch_nba_teams
 
 
 def create_tables():
