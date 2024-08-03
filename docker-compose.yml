@@ -23,6 +23,7 @@ services:
     # Will reload docker container when changes are made in the code
     volumes:
       - ./backend:/app
+      - ./backend/output:/app/output
     depends_on:
       - db
     env_file:

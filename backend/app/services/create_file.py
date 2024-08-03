@@ -17,17 +17,18 @@ def fetch_data_from_api(endpoint_url: str) -> Any:
 
 def save_data_to_json(data: Any, filename: str) -> None:
     df = pd.json_normalize(data)
-    df.to_json(filename, orient="records", lines=True)
+    df.to_json(f"/app/output/{filename}", orient="records", lines=True)
 
 
 def save_data_to_csv(data: Any, filename: str) -> None:
     df = pd.json_normalize(data)
-    df.to_csv(filename, index=False)
+    df.to_csv(f"/app/output/{filename}", index=False)
 
 
 def generate_filename(base_name: str, extension: str) -> str:
-    current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
-    return f"{base_name}_{current_time}.{extension}"
+    # Might add current time but will need to find a nice format
+    # current_time = datetime.now().strftime("%Y%m%d_%H%M%S")
+    return f"{base_name}.{extension}"
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Fetch data from an API and save it as a JSON or CSV.")
@@ -42,11 +43,11 @@ def main() -> None:
     if args.file_type == 'json':
         filename = generate_filename(args.base_name, "json")
         save_data_to_json(data, filename)
-        print(f"Data saved to {filename}")
+        print(f"Data saved to /app/output/{filename}")
     elif args.file_type == 'csv':
         filename = generate_filename(args.base_name, "csv")
         save_data_to_csv(data, filename)
-        print(f"Data saved to {filename}")
+        print(f"Data saved to /app/output/{filename}")
     else:
         print("Invalid file type. Please enter either 'json' or 'csv'.")
 

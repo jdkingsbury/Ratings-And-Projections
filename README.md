@@ -48,9 +48,10 @@ cd Sports_Prediction
 ```
 
 2. Set environment variables in both the frontend, backend, and root directoies.
-    - backend: Provide the DB URLs for the variables DATABASE_URL and ASYNC_DATABASE_URL.
-    - frontend: Provide the URL to the backend of the application.
-    - root: Provide the database information.
+
+   - backend: Provide the DB URLs for the variables DATABASE_URL and ASYNC_DATABASE_URL.
+   - frontend: Provide the URL to the backend of the application.
+   - root: Provide the database information.
 
 3. **Install using Docker Compose**
 
@@ -72,42 +73,20 @@ Docker will build and start up the frontend, backend, and the database for the a
 
 ## Creating JSON and CSV Files
 
-_This section will be updated since the database now is running and the routes will be changed to pull from the database._
-
 You can create JSON and CSV files for the NBA functions in `nba.py` located in the `routers` directory.
 
-**The backend server must be running to use create_file.**
+**Ensure the backend server and the postgres container are running to create files from the api routes in the application.**
 
 ### Example and Layout:
 
 **CLI command:**
 
-Example:
+Example using docker-compose
 
-```bash
-python3 -m services.create_file nba players json 1630173 2023-24 5 player-game-log
+```sh
+docker-compose exec backend python app/services/create_file.py {api_url} {file_type} {file_name}
 ```
 
-Layout for creating player-game-log:
+- Note:
 
-```bash
-python3 -m services.create_file {sports league} {type of data} {file type} {person ID} {Season Year} {Games} {function_name}
-```
-
-Layout for creating career stats:
-
-```bash
-python3 -m services.create_file {sports league} {type of data} {file type} {person ID} {function_name}
-```
-
-Player Info:
-
-```bash
-python3 -m services.create_file {sports league} {type of data} {file type} {person ID} {function_name}
-```
-
-- CSV and JSON files are the only supported file types.
-
-### Notes:
-
-- Ensure that Docker is properly set up and running on your machine before following the instructions.
+* JSON and CSV files are the only file types supported
