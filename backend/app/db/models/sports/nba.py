@@ -1,5 +1,6 @@
 from app.db.database import Base
-from sqlalchemy import Boolean, Column, Date, Float, ForeignKey, Integer, String
+from sqlalchemy import (Boolean, Column, Date, Float, ForeignKey, Integer,
+                        String)
 from sqlalchemy.orm import relationship
 
 
@@ -28,25 +29,6 @@ class NBAPlayer(Base):
 
     nba_team = relationship("NBATeam", back_populates="nba_players")
     game_logs = relationship("NBAGameLog", back_populates="player")
-
-
-# class NBATeam(Base):
-#     __tablename__ = "nba_teams"
-#
-#     id = Column(Integer, primary_key=True)
-#     full_name = Column(String(100))
-#     abbreviation = Column(String(5))
-#     nickname = Column(String(50))
-#     city = Column(String(50))
-#     state = Column(String(50))
-#     country = Column(String(50))
-#     league_id = Column(Integer, ForeignKey("leagues.id"))
-#
-#     league = relationship("League", back_populates="teams")
-#     nba_players = relationship(
-#         "NBAPlayer", back_populates="nba_team", cascade="all, delete-orphan"
-#     )
-
 
 # Change to NBA teams
 class NBATeam(Base):
