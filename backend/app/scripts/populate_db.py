@@ -20,7 +20,7 @@ def create_tables():
 async def populate_db():
     try:
         insert_sports_and_leagues()
-        fetch_nba_teams()
+        await fetch_nba_teams()
         await fetch_nba_players()
         await fetch_nba_player_game_logs()
         print("Database Successfully Populated!")

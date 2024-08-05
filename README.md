@@ -11,7 +11,7 @@
 
 ## Overview
 
-This project aims to provide player and team grades and their future projections from data retrieved from APIs like [nba_api](https://github.com/swar/nba_api/tree/master) and web scraping tools.
+This project aims to provide player and team grades and future projections from data retrieved from APIs like [nba_api](https://github.com/swar/nba_api/tree/master) and web scraping tools.
 
 ## Frontend
 
@@ -19,13 +19,22 @@ The frontend is built using Next.js, a React-based framework for building modern
 
 ## Backend
 
-The backend uses FastAPI and contains the API endpoints and service files.
+The backend uses FastAPI and contains the API endpoints and service files. It handles:
+- Fetching data from external APIs
+- Processing and storing data in the PostgreSQL database
+- Generating player and team grades
+- Exposing endpoints for the frontend
 
 ## Database
 
-The Application uses PostgreSQL as the database.
+The Application uses PostgreSQL as the database. It stores detailed information about players, teams, and game logs. The schema currently includes tables for:
+- Players
+- Teams
+- Game Logs
 
 ## Installation
+
+_Currently working on improving this._
 
 ### Prerequisites
 
@@ -36,7 +45,7 @@ The Application uses PostgreSQL as the database.
 - Docker
 - Docker Compose
 
-The application uses Docker to run the application.
+The Application uses Docker to run the Application.
 
 ### Steps
 
@@ -47,10 +56,18 @@ git clone https://github.com/jdkingsbury/Sports_Prediction.git
 cd Sports_Prediction
 ```
 
-2. Set environment variables in both the frontend, backend, and root directoies.
-    - backend: Provide the DB URLs for the variables DATABASE_URL and ASYNC_DATABASE_URL.
-    - frontend: Provide the URL to the backend of the application.
-    - root: Provide the database information.
+2. Set environment variables in both the frontend, backend, and root directories.
+
+   - backend: Provide the DB URLs for the variables DATABASE_URL and ASYNC_DATABASE_URL.
+   - frontend: Provide the URL to the backend of the Application.
+   - root: Provide the database information.
+
+     Example of .env file in the backend directory:
+
+     ```env
+     DATABASE_URL=postgresql://<username>:<password>@<host>:<port>/<dbname>
+     ASYNC_DATABASE_URL=postgresql+asyncpg://<username>:<password>@<host>:<port>/<dbname>
+     ```
 
 3. **Install using Docker Compose**
 
@@ -64,50 +81,35 @@ docker-compose up --build
 docker-compose run backend python app/scripts/populate_db.py
 ```
 
-If you experience and error with shadcn when viewing a page, install shadcn.
+If you experience an error with shadcn when viewing a page, install shadcn.
 
 ## Usage
 
-Docker will build and start up the frontend, backend, and the database for the application.
+Docker will build and start up the frontend, backend, and the database for the Application. Access the frontend at [http://localhost:3000] and the backend API at [http://localhost:8000].
 
 ## Creating JSON and CSV Files
 
-_This section will be updated since the database now is running and the routes will be changed to pull from the database._
+You can create JSON and CSV files for the NBA functions in `nba.py` which is located in the `routers` directory.
 
-You can create JSON and CSV files for the NBA functions in `nba.py` located in the `routers` directory.
-
-**The backend server must be running to use create_file.**
+**Ensure the backend server and the PostgreSQL container are running to create files from the API routes in the application.**
 
 ### Example and Layout:
 
 **CLI command:**
 
+```sh
+docker-compose exec backend python app/services/create_file.py {api_url} {file_type} {file_name}
+```
+
+- `api_url`: The api endpoint from which to fetch players.
+- `file_type`: The file type to create (json or csv).
+- `file_name`: The desired name for the output file.
+
 Example:
-
-```bash
-python3 -m services.create_file nba players json 1630173 2023-24 5 player-game-log
+```sh
+docker-compose exec backend python app/services/create_file.py http://localhost:8000/nba/players json player_data
 ```
 
-Layout for creating player-game-log:
+This command will create a player_data.json file containing player information.
 
-```bash
-python3 -m services.create_file {sports league} {type of data} {file type} {person ID} {Season Year} {Games} {function_name}
-```
-
-Layout for creating career stats:
-
-```bash
-python3 -m services.create_file {sports league} {type of data} {file type} {person ID} {function_name}
-```
-
-Player Info:
-
-```bash
-python3 -m services.create_file {sports league} {type of data} {file type} {person ID} {function_name}
-```
-
-- CSV and JSON files are the only supported file types.
-
-### Notes:
-
-- Ensure that Docker is properly set up and running on your machine before following the instructions.
+- **Note**: JSON and CSV files are the only file types supported.

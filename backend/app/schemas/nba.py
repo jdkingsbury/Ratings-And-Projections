@@ -1,4 +1,5 @@
 from datetime import date
+from os import strerror
 from typing import Optional
 
 from pydantic import BaseModel
@@ -50,6 +51,27 @@ class NBAGameLogBase(BaseModel):
     tov: Optional[int]
     pf: Optional[int]
     pts: Optional[int]
+
+    class Config:
+        from_attributes = True
+
+class NBATeamBase(BaseModel):
+    team_id: int
+    name: str
+    abbreviation: str
+    nickname: str
+    city: str
+    state: str
+    conference: str
+    division: str
+    year_founded: str
+    w: str
+    l: str
+    pct: float
+    conf_rank: int
+    div_rank: int
+    season_year: str
+    league_id: int
 
     class Config:
         from_attributes = True

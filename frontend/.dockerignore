@@ -1,38 +1,9 @@
-# Node.js
+Dockerfile
+.dockerignore
 node_modules
 npm-debug.log
-yarn-error.log
-
-# Next.js
+README.md
 .next
-out
-
-# Docker-related
-.dockerignore
-Dockerfile
-.docker/
-
-# OS files
-.DS_Store
-Thumbs.db
-
-# Logs
-logs
-*.log
-
-# Editor directories and files
-.vscode
-.idea
-*.swp
-*.swo
-*.sublime-workspace
-
-# Environment files
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
-# Git
+!.next/static
+!.next/standalone
 .git
-.gitignore

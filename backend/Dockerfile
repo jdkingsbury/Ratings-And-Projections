@@ -7,6 +7,7 @@ WORKDIR /app
 COPY requirements.txt /app/
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
+
 # Set the PYTHONPATH environment variable
 ENV PYTHONPATH=/app
 

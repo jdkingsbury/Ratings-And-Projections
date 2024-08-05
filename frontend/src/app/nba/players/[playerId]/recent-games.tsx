@@ -35,7 +35,7 @@ export function RecentGames({ data }: { data: PlayerGameLog[] }) {
     "dreb",
     "video_available",
     "plus_minus",
-    "season_year"
+    "season_year",
   ];
 
   const cleanedData = data.map((item) => omitKeys(item, keysToOmit));
@@ -43,7 +43,11 @@ export function RecentGames({ data }: { data: PlayerGameLog[] }) {
   return (
     <div className="container mx-auto py-8 px-4 md:px-8">
       <div className="shadow rounded-lg p-4 md:p-6">
-        <TableComponent columns={columns} data={cleanedData} caption="Recent Games" />
+        <TableComponent
+          columns={columns}
+          data={cleanedData}
+          caption="Recent Games"
+        />
       </div>
     </div>
   );

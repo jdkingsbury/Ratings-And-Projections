@@ -79,7 +79,7 @@ def fetch_player_info(player_id: int) -> pd.DataFrame:
 
 
 # Function to get all active players IDs
-def get_all_player_ids() -> List[int]:
+def fetch_all_player_ids() -> List[int]:
     all_players = players.get_players()
     active_players = [player for player in all_players if player["is_active"]]
     player_ids = [player["id"] for player in active_players]
@@ -133,7 +133,7 @@ async def insert_all_player_info(player_info_dfs: List[pd.DataFrame]):
                     else:
 
                         result = await session.execute(
-                            select(NBATeam).filter_by(id=team_id)
+                            select(NBATeam).filter_by(team_id=team_id)
                         )
                         team_exists = result.scalars().one_or_none()
 
@@ -152,7 +152,7 @@ async def insert_all_player_info(player_info_dfs: List[pd.DataFrame]):
 
 async def main() -> None:
     # Collect all the active player ids
-    player_ids = get_all_player_ids()
+    player_ids = fetch_all_player_ids()
 
     # Collect all the DataFrames of all the players fetched
     all_players_info_dfs = await fetch_all_players_info(player_ids)

@@ -1,63 +1,36 @@
-# Node.js
-node_modules/
-npm-debug.log
-yarn-debug.log
-yarn-error.log
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# React
-build/
-dist/
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+.yarn/install-state.gz
 
-# Next.js
-.next/
-out/
+# testing
+/coverage
 
-# Logs
-logs/
-*.log
+# next.js
+/.next/
+/out/
 
-# Dependency directories
-bower_components/
+# production
+/build
 
-# Optional npm cache directory
-.npm
-
-# Optional eslint cache
-.eslintcache
-
-# Optional REPL history
-.node_repl_history
-
-# Output of 'npm pack'
-*.tgz
-
-# Yarn Integrity file
-.yarn-integrity
-
-# dotenv environment variable files
-.env
-
-# macOS
+# misc
 .DS_Store
+*.pem
 
-# Windows
-Thumbs.db
-ehthumbs.db
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
-# IDEs and Editors
-# VS Code
-.vscode/
+# local env files
+.env*.local
 
-# JetBrains IDEs (e.g., IntelliJ, PyCharm)
-.idea/
+# vercel
+.vercel
 
-# Sublime Text
-*.sublime-project
-*.sublime-workspace
-
-# Atom
-*.atom/
-
-# Emacs
-*~
-*.swp
+# typescript
+*.tsbuildinfo
+next-env.d.ts
