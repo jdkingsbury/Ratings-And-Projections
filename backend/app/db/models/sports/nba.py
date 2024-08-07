@@ -1,14 +1,22 @@
 from app.db.database import Base
-from sqlalchemy import (Boolean, Column, Date, Float, ForeignKey, Integer,
-                        String)
+from sqlalchemy import (
+    Boolean,
+    Column,
+    Date,
+    Float,
+    ForeignKey,
+    Integer,
+    String,
+    UniqueConstraint,
+)
 from sqlalchemy.orm import relationship
 
 
 class NBAPlayer(Base):
     __tablename__ = "nba_players"
 
-    player_id = Column(Integer, primary_key=True)
-    first_last = Column(String(100))
+    player_id = Column(Integer, primary_key=True, index=True)
+    first_last = Column(String(100), index=True)
     first_name = Column(String(50))
     last_name = Column(String(50))
     birth_date = Column(Date)
@@ -29,12 +37,14 @@ class NBAPlayer(Base):
 
     nba_team = relationship("NBATeam", back_populates="nba_players")
     game_logs = relationship("NBAGameLog", back_populates="player")
+    career_stats = relationship("NBACareerStats", back_populates="player")
+
 
 # Change to NBA teams
 class NBATeam(Base):
     __tablename__ = "nba_teams"
 
-    team_id = Column(Integer, primary_key=True)
+    team_id = Column(Integer, primary_key=True, index=True)
     name = Column(String(100))
     abbreviation = Column(String(5))
     nickname = Column(String(50))
@@ -91,3 +101,49 @@ class NBAGameLog(Base):
     season_year = Column(String(25), nullable=False)
 
     player = relationship("NBAPlayer", back_populates="game_logs")
+
+
+class NBACareerStats(Base):
+    __tablename__ = "nba_players_career_stats"
+    __table_args__ = (
+        UniqueConstraint(
+            "player_id",
+            "season_id",
+            "league_id",
+            "team_id",
+            name="_player_season_team_uc",
+        ),
+    )
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    player_id = Column(Integer, ForeignKey("nba_players.player_id"))
+    season_id = Column(String(50))
+    league_id = Column(Integer, ForeignKey("leagues.id"))
+    team_id = Column(Integer, ForeignKey("nba_teams.team_id"))
+    team_abbreviation = Column(String(5))
+    player_age = Column(Integer)
+    gp = Column(Integer, nullable=True)
+    gs = Column(Integer, nullable=True)
+    min = Column(Integer, nullable=True)
+    fgm = Column(Integer, nullable=True)
+    fga = Column(Integer, nullable=True)
+    fg_pct = Column(Float, nullable=True)
+    fg3m = Column(Integer, nullable=True)
+    fg3a = Column(Integer, nullable=True)
+    fg3_pct = Column(Float, nullable=True)
+    ftm = Column(Integer, nullable=True)
+    fta = Column(Integer, nullable=True)
+    ft_pct = Column(Float, nullable=True)
+    oreb = Column(Integer, nullable=True)
+    dreb = Column(Integer, nullable=True)
+    reb = Column(Integer, nullable=True)
+    ast = Column(Integer, nullable=True)
+    stl = Column(Integer, nullable=True)
+    blk = Column(Integer, nullable=True)
+    tov = Column(Integer, nullable=True)
+    pf = Column(Integer, nullable=True)
+    pts = Column(Integer, nullable=True)
+
+    player = relationship("NBAPlayer", back_populates="career_stats")
+    teams = relationship("NBATeam")
+    league = relationship("League")

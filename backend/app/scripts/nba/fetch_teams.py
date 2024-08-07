@@ -37,12 +37,14 @@ def fetch_team_info(team_id: int) -> pd.DataFrame:
     return team_info_df
 
 
+# function to fetch all team ids
 def fetch_all_team_ids() -> List[int]:
     all_teams = teams.get_teams()
     team_ids = [team["id"] for team in all_teams]
     return team_ids
 
 
+# function to fetch team info for each team
 async def fetch_all_teams_info(team_ids: List[int]) -> List[pd.DataFrame]:
     tasks = []
     async with asyncio.TaskGroup() as tg:
@@ -56,6 +58,7 @@ async def fetch_all_teams_info(team_ids: List[int]) -> List[pd.DataFrame]:
     return results
 
 
+# function to fetch all teams using the nba_api static function
 def fetch_all_teams() -> pd.DataFrame:
     all_teams = teams.get_teams()
     all_teams_df = pd.DataFrame(all_teams)
@@ -75,6 +78,7 @@ def fetch_all_teams() -> pd.DataFrame:
     return all_teams_df
 
 
+# function to insert all teams into the database
 def insert_all_teams(combined_teams_df: pd.DataFrame, league_id: int) -> None:
     with SessionLocal() as session:
         try:
@@ -116,6 +120,7 @@ async def main() -> None:
 
     with SessionLocal() as session:
         try:
+            # Fetch league ID for NBA from the database
             nba_league = session.query(League).filter_by(name="NBA").one_or_none()
             if nba_league is None:
                 print("NBA league not found!")
@@ -133,14 +138,12 @@ async def main() -> None:
 
             # Combine all team infos dataframes
             detailed_team_info = pd.concat(all_teams_info_dfs, ignore_index=True)
-            print(detailed_team_info)
 
             # Fetch all teams from the nba_api static function
             basic_team_info = fetch_all_teams()
 
             # Combine the two dataframes
             combined_teams_df = basic_team_info.combine_first(detailed_team_info)
-            print(combined_teams_df)
 
             # Inserts all the teams and team data into the database
             insert_all_teams(combined_teams_df, league_id)
