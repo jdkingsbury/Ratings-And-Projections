@@ -1,13 +1,13 @@
 import asyncio
 from datetime import datetime
 from typing import List
-import pandas as pd
 
+import pandas as pd
 from app.db.database import async_engine
 from app.db.models.sports.nba import NBAPlayer, NBATeam
 from app.utils.fetch_utils import fetch_data_async
+from app.utils.player_utils import fetch_all_player_ids_nba as fetch_all_player_ids
 from nba_api.stats.endpoints import commonplayerinfo
-from nba_api.stats.static import players
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from tqdm.asyncio import tqdm
@@ -78,14 +78,6 @@ def fetch_player_info(player_id: int) -> pd.DataFrame:
     return player_info_df
 
 
-# Function to get all active players IDs
-def fetch_all_player_ids() -> List[int]:
-    all_players = players.get_players()
-    active_players = [player for player in all_players if player["is_active"]]
-    player_ids = [player["id"] for player in active_players]
-    return player_ids
-
-
 # Function calls fetch data async and creates a task to fetch player info for each player_id
 async def fetch_all_players_info(player_ids: list[int]) -> List[pd.DataFrame]:
     tasks = []
@@ -137,7 +129,7 @@ async def insert_all_player_info(player_info_dfs: List[pd.DataFrame]):
                         )
                         team_exists = result.scalars().one_or_none()
 
-                    # Check if the team id tied to the player is valid
+                        # Check if the team id tied to the player is valid
                         if not team_exists:
                             print(
                                 f"Team ID {team_id} not found for player {player_info_dict.get('first_last')}. Setting to None."

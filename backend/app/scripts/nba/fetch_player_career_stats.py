@@ -6,12 +6,10 @@ from app.db.database import SessionLocal
 from app.db.models.league import League
 from app.db.models.sports.nba import NBACareerStats
 from app.utils.fetch_utils import fetch_data_async
+from app.utils.player_utils import fetch_all_player_ids_nba as fetch_all_player_ids
 from nba_api.stats.endpoints import playercareerstats
-from nba_api.stats.static import players
 from sqlalchemy.exc import SQLAlchemyError
 from tqdm.asyncio import tqdm
-
-# Reference fetch_teams on an example of replacing league_id
 
 
 # Synchronous function to fetch nba players career stats
@@ -58,14 +56,6 @@ def fetch_player_career_stats(player_id: int) -> pd.DataFrame:
     return player_career_stats_df
 
 
-# function to fetch all player ids
-def fetch_all_player_ids() -> list[int]:
-    all_players = players.get_players()
-    active_players = [player for player in all_players if player["is_active"]]
-    player_ids = [player["id"] for player in active_players]
-    return player_ids
-
-
 # function to fetch career stats for each player
 async def fetch_all_players_career_stats(player_ids: List[int]) -> List[pd.DataFrame]:
     tasks = []
@@ -82,7 +72,7 @@ async def fetch_all_players_career_stats(player_ids: List[int]) -> List[pd.DataF
     return results
 
 
-# TODO: Test if this works
+# FIX: Determine what to do when the team_id is 0. May need to reference or edit the model.
 
 
 # function to insert all players career stats into the database
@@ -162,8 +152,7 @@ async def main() -> None:
 
             print(merged_players_career_stats_df)
 
-            # TODO: Test if this works
-            insert_all_players_career_stats(merged_players_career_stats_df)
+            insert_all_players_career_stats(merged_players_career_stats_df, league_id)
 
         except SQLAlchemyError as e:
             session.rollback()

@@ -6,6 +6,7 @@ from app.db.database import SessionLocal
 from app.db.models.league import League
 from app.db.models.sports.nba import NBATeam
 from app.utils.fetch_utils import fetch_data_async
+from app.utils.team_utils import fetch_all_team_ids_nba as fetch_all_team_ids
 from nba_api.stats.endpoints import teaminfocommon
 from nba_api.stats.static import teams
 from sqlalchemy.exc import SQLAlchemyError
@@ -35,13 +36,6 @@ def fetch_team_info(team_id: int) -> pd.DataFrame:
     )
 
     return team_info_df
-
-
-# function to fetch all team ids
-def fetch_all_team_ids() -> List[int]:
-    all_teams = teams.get_teams()
-    team_ids = [team["id"] for team in all_teams]
-    return team_ids
 
 
 # function to fetch team info for each team

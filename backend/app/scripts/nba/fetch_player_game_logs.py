@@ -6,7 +6,7 @@ from app.db.database import async_engine
 from app.db.models.sports.nba import NBAGameLog
 from app.utils.fetch_utils import fetch_data_async
 from nba_api.stats.endpoints import playergamelog
-from nba_api.stats.static import players
+from app.utils.player_utils import fetch_all_player_ids_nba as fetch_all_player_ids
 from sqlalchemy.ext.asyncio import AsyncSession
 from tqdm.asyncio import tqdm
 
@@ -75,14 +75,6 @@ def fetch_player_game_logs(player_id: int, season_year: str) -> pd.DataFrame:
     return player_game_log_df
 
 
-# Function to get all active players IDs
-def get_all_player_ids() -> list[int]:
-    all_players = players.get_players()
-    active_players = [player for player in all_players if player["is_active"]]
-    player_ids = [player["id"] for player in active_players]
-    return player_ids
-
-
 async def fetch_all_players_game_logs(
     player_ids: list[int], season_year: str
 ) -> list[pd.DataFrame]:
@@ -125,7 +117,7 @@ async def insert_all_player_game_logs(player_game_logs_dfs: list[pd.DataFrame]):
 
 async def main() -> None:
     # Collect all the active player ids
-    player_ids = get_all_player_ids()
+    player_ids = fetch_all_player_ids()
 
     # Collect all the DataFrames of all the player game logs fetched
     all_players_game_logs_dfs = await fetch_all_players_game_logs(player_ids, "2023-24")
