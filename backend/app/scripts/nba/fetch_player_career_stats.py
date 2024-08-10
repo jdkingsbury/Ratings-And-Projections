@@ -150,9 +150,12 @@ async def main() -> None:
             # Combine all players career stats dataframes
             merged_players_career_stats_df = pd.concat(all_players_career_stats_dfs)
 
-            print(merged_players_career_stats_df)
+            # NOTE: Used for debugging purposes. Discovered that when team_id is 0 might be linked to the player playing for multiple teams due to the team abbreviation TOT.
+            merged_players_career_stats_df.to_json(
+                f"/app/output/players_career_stats.json", orient="records", index=False
+            )
 
-            insert_all_players_career_stats(merged_players_career_stats_df, league_id)
+            # insert_all_players_career_stats(merged_players_career_stats_df, league_id)
 
         except SQLAlchemyError as e:
             session.rollback()
