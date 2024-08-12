@@ -63,20 +63,22 @@ export default async function TeamsPage() {
           ) : !divisions ? (
             <p>Teams not found.</p>
           ) : (
-            divisions.map((division, index) => (
-              <div key={index} className="mt-8">
-                <h3 className="text-x1 font-semibold">
-                  {division.divisionName}
-                </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-6">
-                  {division.teams.map((team) => (
-                    <Card key={team.team_id} className="p-4">
-                      {team.name}
-                    </Card>
-                  ))}
-                </div>
-              </div>
-            ))
+            <div className="grid grid-cols-2 gap-6">
+              {divisions.map((division, index) => (
+                <Card key={index} className="p-4 rounded-md">
+                  <h2 className="text-xl font-semibold">
+                    {division.divisionName}
+                  </h2>
+                  <ul>
+                    {division.teams.map((team) => (
+                      <li key={team.team_id} className="p-4">
+                        {team.name}
+                      </li>
+                    ))}
+                  </ul>
+                </Card>
+              ))}
+            </div>
           )}
         </div>
       </Card>
