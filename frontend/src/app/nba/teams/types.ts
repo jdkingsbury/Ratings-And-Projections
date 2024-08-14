@@ -16,3 +16,8 @@ export type Team = {
   season_year: string;
   league_id: number;
 };
+
+export type Division = {
+  divisionName: string;
+  teams: Team[];
+};

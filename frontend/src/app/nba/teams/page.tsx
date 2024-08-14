@@ -1,12 +1,8 @@
 import { Card } from "@/components/ui/card";
 import { BACKEND_API_BASE_URL } from "@/components/utils/constants";
 import axios from "axios";
-import { Team } from "./types";
-
-type Division = {
-  divisionName: string;
-  teams: Team[];
-};
+import { Team, Division } from "./types";
+import DivisionTeamLists from "./divisions";
 
 type FetchTeamData = {
   data: Division[] | null;
@@ -63,22 +59,7 @@ export default async function TeamsPage() {
           ) : !divisions ? (
             <p>Teams not found.</p>
           ) : (
-            <div className="grid grid-cols-2 gap-6">
-              {divisions.map((division, index) => (
-                <Card key={index} className="p-4 rounded-md">
-                  <h2 className="text-xl font-semibold">
-                    {division.divisionName}
-                  </h2>
-                  <ul>
-                    {division.teams.map((team) => (
-                      <li key={team.team_id} className="p-4">
-                        {team.name}
-                      </li>
-                    ))}
-                  </ul>
-                </Card>
-              ))}
-            </div>
+            <DivisionTeamLists divisions={divisions} />
           )}
         </div>
       </Card>
