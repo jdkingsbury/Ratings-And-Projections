@@ -1,4 +1,4 @@
-import { Card } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BACKEND_API_BASE_URL } from "@/components/utils/constants";
 import axios from "axios";
 import { Team, Division } from "./types";
@@ -49,18 +49,20 @@ export default async function TeamsPage() {
     <div className="w-full p-4">
       <Card className="gap-6 shadow-sm rounded-lg">
         <div className="container mx-auto flex flex-col">
-          <div>
-            <h2 className="text-2xl font-bold tracking-tighter sm:text-2xl md:text-4xl">
-              Teams Page
-            </h2>
-          </div>
-          {error ? (
-            <p>Error when fetching teams: {error}</p>
-          ) : !divisions ? (
-            <p>Teams not found.</p>
-          ) : (
-            <DivisionTeamLists divisions={divisions} />
-          )}
+          <CardHeader>
+            <CardTitle className="text-2xl font-bold tracking-tighter sm:text-2xl md:text-4xl">
+              NBA Teams
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            {error ? (
+              <p>Error when fetching teams: {error}</p>
+            ) : !divisions ? (
+              <p>Teams not found.</p>
+            ) : (
+              <DivisionTeamLists divisions={divisions} />
+            )}
+          </CardContent>
         </div>
       </Card>
     </div>
