@@ -14,16 +14,16 @@ function DivisionTeamLists({ divisions }: DivisionListProps) {
   return (
     <div className="grid grid-cols-2 gap-6">
       {divisions.map((division, index) => (
-        <Card key={index} className="p-4 rounded-md">
+        <Card key={index} className="p-4 rounded-md shadow-lg">
           <CardHeader>
-            <CardTitle className="text-xl font-semibold">
+            <CardTitle className="text-xl font-semibold tracking-tighter">
               {division.divisionName}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <ul>
               {division.teams.map((team) => (
-                <li key={team.team_id} className="p-4">
+                <li key={team.team_id} className="p-2 tracking-normal">
                   <Link
                     href={`/nba/teams/${team.team_id}`}
                     className={buttonVariants({ variant: "ghost" })}

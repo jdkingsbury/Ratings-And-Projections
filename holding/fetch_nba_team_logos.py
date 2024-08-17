@@ -3,10 +3,11 @@ import os
 import requests
 from bs4 import BeautifulSoup, Tag
 
-# Currently saving gif images
-# Will probably look to fetch full size png files
+# Keeping the code as an example for fetching images.
+# May not use team logos since I am unsure if I am legally allowed to.
 
 
+# Code only fetches the team logo gifs
 def fetch_team_logos():
     url = "https://www.sportslogos.net/teams/list_by_league/6/National_Basketball_Association/NBA/logos/"
     response = requests.get(url)
