@@ -98,7 +98,7 @@ You can create JSON and CSV files for the NBA functions in `nba.py` which is loc
 **CLI command:**
 
 ```sh
-docker-compose exec backend python app/services/create_file.py {api_url} {file_type} {file_name}
+docker-compose exec backend python app/utils/create_file.py {api_url} {file_type} {file_name}
 ```
 
 - `api_url`: The api endpoint from which to fetch players.
@@ -107,7 +107,7 @@ docker-compose exec backend python app/services/create_file.py {api_url} {file_t
 
 Example:
 ```sh
-docker-compose exec backend python app/services/create_file.py http://localhost:8000/nba/players json player_data
+docker-compose exec backend python app/utils/create_file.py http://localhost:8000/nba/players json player_data
 ```
 
 This command will create a player_data.json file containing player information.

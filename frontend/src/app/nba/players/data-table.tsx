@@ -62,10 +62,10 @@ export function PlayersDataTable<TData, TValue>({
         <Input
           placeholder="Search players"
           value={
-            (table.getColumn("full_name")?.getFilterValue() as string) ?? ""
+            (table.getColumn("first_last")?.getFilterValue() as string) ?? ""
           }
           onChange={(event) => {
-            table.getColumn("full_name")?.setFilterValue(event.target.value);
+            table.getColumn("first_last")?.setFilterValue(event.target.value);
           }}
           className="max-w-sm"
         />
