@@ -29,6 +29,7 @@ class NBAPlayerBase(BaseModel):
     class Config:
         from_attributes = True
 
+
 # For Testing Recent Games
 class NBAGameLogBase(BaseModel):
     game_date: date
@@ -55,6 +56,7 @@ class NBAGameLogBase(BaseModel):
     class Config:
         from_attributes = True
 
+
 class NBATeamBase(BaseModel):
     team_id: int
     name: str
@@ -72,6 +74,16 @@ class NBATeamBase(BaseModel):
     div_rank: int
     season_year: str
     league_id: int
+
+    class Config:
+        from_attributes = True
+
+
+class NBAPlayerCardInfo(BaseModel):
+    player_id: int
+    first_last: str
+    image_url: str
+    team_name: str
 
     class Config:
         from_attributes = True
