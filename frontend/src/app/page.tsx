@@ -24,7 +24,7 @@ async function fetchPlayerCardInfo(): Promise<FetchPlayerCardInfo> {
 
 export default async function Home() {
   const { data: player, error } = await fetchPlayerCardInfo();
-  console.log(player);
+
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <main className="flex-1">

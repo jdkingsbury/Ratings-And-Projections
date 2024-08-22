@@ -4,7 +4,6 @@ import Image from "next/image";
 
 export function PlayerInfo({ data }: { data: Player }) {
   const playerInfo = data;
-  console.log(playerInfo.height);
 
   const birthdate = playerInfo.birth_date
     ? new Date(playerInfo.birth_date).toLocaleDateString()
