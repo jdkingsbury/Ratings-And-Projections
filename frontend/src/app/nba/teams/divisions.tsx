@@ -12,18 +12,18 @@ type DivisionListProps = {
 // Component display all the divisions and the teams in them and creates links to navigate to the team page
 function DivisionTeamLists({ divisions }: DivisionListProps) {
   return (
-    <div className="grid grid-cols-2 gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {divisions.map((division, index) => (
         <Card key={index} className="p-4 rounded-md shadow-lg">
           <CardHeader>
-            <CardTitle className="text-xl font-semibold tracking-tighter">
+            <CardTitle className="text-2xl font-semibold tracking-tighter">
               {division.divisionName}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <ul>
               {division.teams.map((team) => (
-                <li key={team.team_id} className="p-2 tracking-normal">
+                <li key={team.team_id} className="p-2 tracking-wide">
                   <Link
                     href={`/nba/teams/${team.team_id}`}
                     className={buttonVariants({ variant: "ghost" })}

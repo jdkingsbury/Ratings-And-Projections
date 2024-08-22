@@ -1,4 +1,3 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BACKEND_API_BASE_URL } from "@/components/utils/constants";
 import axios from "axios";
 import { Team, Division } from "./types";
@@ -41,30 +40,26 @@ async function fetchTeams(): Promise<FetchTeamData> {
   }
 }
 
-// division holds an array of all the division names and the teams in that division
 export default async function TeamsPage() {
   const { data: divisions, error } = await fetchTeams();
-
   return (
     <div className="w-full p-4">
-      <Card className="gap-6 shadow-sm rounded-lg">
-        <div className="container mx-auto flex flex-col">
-          <CardHeader>
-            <CardTitle className="text-2xl font-bold tracking-tighter sm:text-2xl md:text-4xl">
-              NBA Teams
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
+      <div className="gap-6 shadow-lg rounded-lg p-6">
+        <div className="container mx-auto flex flex-col space-y-6">
+          <h2 className="text-3xl font-bold tracking-tighter sm:text-3xl md:text-4xl mb-4">
+            NBA Teams
+          </h2>
+          <div>
             {error ? (
-              <p>Error when fetching teams: {error}</p>
+              <p className="text-red-500">Error when fetching teams: {error}</p>
             ) : !divisions ? (
-              <p>Teams not found.</p>
+              <p className="text-gray-500">Teams not found.</p>
             ) : (
               <DivisionTeamLists divisions={divisions} />
             )}
-          </CardContent>
+          </div>
         </div>
-      </Card>
+      </div>
     </div>
   );
 }
