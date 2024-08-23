@@ -30,6 +30,10 @@ class NBAPlayerBase(BaseModel):
         from_attributes = True
 
 
+class NBAPlayerWithTeamName(NBAPlayerBase):
+    team_name: Optional[str]  # Add the team_name field
+
+
 # For Testing Recent Games
 class NBAGameLogBase(BaseModel):
     game_date: date
