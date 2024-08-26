@@ -70,6 +70,7 @@ export const columns: ColumnDef<Player>[] = [
   {
     // TODO: Fetch Team Data For the Player
     header: "Team",
+    accessorKey: "team_name",
   },
   // Displays Players Jersey Number
   {

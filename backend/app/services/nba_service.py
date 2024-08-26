@@ -40,9 +40,46 @@ def fetch_player_card_info(db: Session, player_id: int) -> Optional[dict]:
 
 
 # TODO: Fetch each players team name
-def fetch_players(db: Session) -> List[NBAPlayer]:
+def fetch_players(db: Session) -> List[dict]:
     """Fetches all NBA Players from the database."""
-    return list(db.execute(select(NBAPlayer)).scalars().all())
+    query = select(NBAPlayer)
+
+    players = db.execute(query).scalars().all()
+
+    players_with_team_names = []
+
+    for player in players:
+        player_data = {
+            "player_id": player.player_id,
+            "first_last": player.first_last,
+            "first_name": player.first_name,
+            "last_name": player.last_name,
+            "birth_date": player.birth_date,
+            "school": player.school,
+            "country": player.country,
+            "height": player.height,
+            "weight": player.weight,
+            "jersey": player.jersey,
+            "position": player.position,
+            "is_active": player.is_active,
+            "team_id": player.team_id,
+            "from_year": player.from_year,
+            "to_year": player.to_year,
+            "draft_year": player.draft_year,
+            "draft_round": player.draft_round,
+            "draft_number": player.draft_number,
+            "image_url": player.image_url,
+        }
+
+        team_id = player_data["team_id"]
+
+        team_name = fetch_players_team(team_id) if team_id else None
+
+        player_data["team_name"] = team_name
+
+        players_with_team_names.append(player_data)
+
+    return players_with_team_names
 
 
 def fetch_player_info(db: Session, player_id: int) -> Optional[dict]:

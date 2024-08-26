@@ -5,7 +5,6 @@ from app.schemas.nba import (
     NBAGameLogBase,
     NBAPlayerBase,
     NBAPlayerCardInfo,
-    NBAPlayerWithTeamName,
     NBATeamBase,
 )
 from app.services.nba_service import (
@@ -48,7 +47,7 @@ def fetch_all_players(db: Session = Depends(get_db)):
     return players
 
 
-@router.get("/players/{player_id}", response_model=Optional[NBAPlayerWithTeamName])
+@router.get("/players/{player_id}", response_model=Optional[NBAPlayerBase])
 def fetch_player(player_id: int, db: Session = Depends(get_db)):
     player = fetch_player_info(db, player_id)
     if not player:

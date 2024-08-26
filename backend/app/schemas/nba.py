@@ -19,6 +19,7 @@ class NBAPlayerBase(BaseModel):
     position: Optional[str]
     is_active: bool
     team_id: Optional[int]
+    team_name: Optional[str]
     from_year: Optional[int]
     to_year: Optional[int]
     draft_year: Optional[str] = None
@@ -28,10 +29,6 @@ class NBAPlayerBase(BaseModel):
 
     class Config:
         from_attributes = True
-
-
-class NBAPlayerWithTeamName(NBAPlayerBase):
-    team_name: Optional[str]  # Add the team_name field
 
 
 # For Testing Recent Games
