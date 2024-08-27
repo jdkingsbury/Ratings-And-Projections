@@ -71,7 +71,7 @@ export default function Component() {
             </NavigationMenu>
             {/* Link to About */}
             <Link
-              href="about"
+              href="/about"
               // className="font-medium flex items-center text-sm transition-colors hover:underline"
               className={buttonVariants({ variant: "ghost" })}
               prefetch={false}

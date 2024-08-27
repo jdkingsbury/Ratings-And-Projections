@@ -1,4 +1,4 @@
-import { PlayersDataTable } from "./data-table";
+import { PlayersDataTable } from "./players-data-table";
 import { columns } from "./columns";
 import { BACKEND_API_BASE_URL } from "@/components/utils/constants";
 import { Player } from "./types";
