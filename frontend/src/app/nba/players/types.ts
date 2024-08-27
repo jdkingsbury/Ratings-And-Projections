@@ -14,8 +14,8 @@ export type Player = {
   from_year: number;
   to_year: number;
   team_id: number;
+  team_name: string;
   draft_year: string;
   draft_round: string;
   draft_number: string;
-  image_url: string;
 };

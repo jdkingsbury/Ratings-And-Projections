@@ -19,13 +19,12 @@ class NBAPlayerBase(BaseModel):
     position: Optional[str]
     is_active: bool
     team_id: Optional[int]
+    team_name: Optional[str]
     from_year: Optional[int]
     to_year: Optional[int]
     draft_year: Optional[str] = None
     draft_round: Optional[str] = None
     draft_number: Optional[str] = None
-    image_url: Optional[str]
-
     class Config:
         from_attributes = True
 
@@ -82,7 +81,6 @@ class NBATeamBase(BaseModel):
 class NBAPlayerCardInfo(BaseModel):
     player_id: int
     first_last: str
-    image_url: str
     team_name: str
 
     class Config:
