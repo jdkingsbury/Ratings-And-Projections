@@ -18,5 +18,4 @@ export type Player = {
   draft_year: string;
   draft_round: string;
   draft_number: string;
-  image_url: string;
 };

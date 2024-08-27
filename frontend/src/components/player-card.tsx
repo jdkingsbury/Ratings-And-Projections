@@ -1,7 +1,7 @@
 import { PlayerCardInfo } from "@/app/types";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 
-import Image from "next/image";
+import BasketBallIcon from "./icons/basketball";
 type PlayerCardProps = {
   player: PlayerCardInfo;
 };
@@ -13,14 +13,7 @@ export default function PlayerCard({ player }: PlayerCardProps) {
     <Card className="shadow-lg p-6">
       <div className="flex items-center space-x-6">
         <div className="flex-shrink-0">
-          <Image
-            src={player.image_url}
-            alt={player.first_last}
-            width={80}
-            height={80}
-            className="rounded-full object-cover"
-            priority
-          />
+          <BasketBallIcon color="text-primary" className="w-10 h-10" />
         </div>
         <div className="flex">
           <CardHeader>

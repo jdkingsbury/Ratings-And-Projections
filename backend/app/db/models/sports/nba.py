@@ -25,7 +25,6 @@ class NBAPlayer(Base):
     draft_year = Column(String(25), nullable=True)
     draft_round = Column(String(25), nullable=True)
     draft_number = Column(String(25), nullable=True)
-    image_url = Column(String(255))
 
     nba_team = relationship("NBATeam", back_populates="nba_players")
     game_logs = relationship("NBAGameLog", back_populates="player")

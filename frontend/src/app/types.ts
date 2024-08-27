@@ -3,7 +3,6 @@ export type PlayerCardInfo = {
   first_last: string;
   position: string;
   team_name: string;
-  image_url: string;
   // rating
   // ppg
 };

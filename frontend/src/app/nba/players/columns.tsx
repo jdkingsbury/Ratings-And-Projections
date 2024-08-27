@@ -6,6 +6,7 @@ import { Player } from "./types";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowUpDown } from "lucide-react";
+import BasketballIcon from "@/components/icons/basketball";
 
 // Starting Layout for the players page. This page will probably change when I find the layout I want.
 
@@ -13,20 +14,15 @@ export const columns: ColumnDef<Player>[] = [
   // Displays Player Image
   {
     header: "",
-    accessorKey: "image_url",
+    accessorKey: "id",
     cell: ({ row }) => {
       const players = row.original;
+
       return (
-        <div className="w-15 h-15 overflow-hidden flex items-center justify-center">
-          <Image
-            src={players.image_url}
-            alt={players.first_last}
-            width={60}
-            height={60}
-            className="rounded-md object-cover"
-            sizes="[max-width: 768px] 60px"
-            priority
-          />
+        <div className="justify-normal">
+          <Link href={`/nba/players/${players.player_id}`}>
+            <BasketballIcon color="text-primary" />
+          </Link>
         </div>
       );
     },
@@ -58,17 +54,15 @@ export const columns: ColumnDef<Player>[] = [
 
       return (
         <div className="justify-normal">
-          <div>
-            <Link href={`/nba/players/${players.player_id}`}>
-              {players.first_last}
-            </Link>
-          </div>
+          <Link href={`/nba/players/${players.player_id}`}>
+            {players.first_last}
+          </Link>
         </div>
       );
     },
   },
   {
-    // TODO: Fetch Team Data For the Player
+    // Displays Players Team
     header: "Team",
     accessorKey: "team_name",
   },

@@ -1,5 +1,4 @@
 import { buttonVariants } from "@/components/ui/button";
-import Navbar from "@/components/navbar-menu";
 import { PlayerCardInfo } from "./types";
 import axios from "axios";
 import { BACKEND_API_BASE_URL } from "@/components/utils/constants";

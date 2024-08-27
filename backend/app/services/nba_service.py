@@ -13,7 +13,6 @@ def fetch_player_card_info(db: Session, player_id: int) -> Optional[dict]:
         NBAPlayer.player_id,
         NBAPlayer.first_last,
         NBAPlayer.team_id,
-        NBAPlayer.image_url,
     ).filter(NBAPlayer.player_id == player_id)
 
     result = db.execute(query).fetchone()
@@ -23,7 +22,6 @@ def fetch_player_card_info(db: Session, player_id: int) -> Optional[dict]:
             "player_id": result[0],
             "first_last": result[1],
             "team_id": result[2],
-            "image_url": result[3],
         }
 
         team_id = card_data["team_id"]
@@ -68,7 +66,6 @@ def fetch_players(db: Session) -> List[dict]:
             "draft_year": player.draft_year,
             "draft_round": player.draft_round,
             "draft_number": player.draft_number,
-            "image_url": player.image_url,
         }
 
         team_id = player_data["team_id"]
@@ -110,7 +107,6 @@ def fetch_player_info(db: Session, player_id: int) -> Optional[dict]:
             "draft_year": player.draft_year,
             "draft_round": player.draft_round,
             "draft_number": player.draft_number,
-            "image_url": player.image_url,
         }
 
         team_id = player_data["team_id"]

@@ -1,8 +1,8 @@
 import asyncio
 from datetime import datetime
 from typing import List
-import pandas as pd
 
+import pandas as pd
 from app.db.database import async_engine
 from app.db.models.sports.nba import NBAPlayer, NBATeam
 from app.utils.fetch_utils import fetch_data_async
@@ -41,11 +41,6 @@ def fetch_player_info(player_id: int) -> pd.DataFrame:
         }
     )
 
-    # Add image url to get players image
-    player_info_df["image_url"] = player_info_df["player_id"].apply(
-        lambda x: f"https://ak-static.cms.nba.com/wp-content/uploads/headshots/nba/latest/260x190/{x}.png"
-    )
-
     # Convert to true or false
     player_info_df["is_active"] = player_info_df["is_active"].apply(
         lambda x: x == "Active"
@@ -71,7 +66,6 @@ def fetch_player_info(player_id: int) -> pd.DataFrame:
             "draft_year",
             "draft_round",
             "draft_number",
-            "image_url",
         ]
     ]
 
@@ -137,7 +131,7 @@ async def insert_all_player_info(player_info_dfs: List[pd.DataFrame]):
                         )
                         team_exists = result.scalars().one_or_none()
 
-                    # Check if the team id tied to the player is valid
+                        # Check if the team id tied to the player is valid
                         if not team_exists:
                             print(
                                 f"Team ID {team_id} not found for player {player_info_dict.get('first_last')}. Setting to None."
