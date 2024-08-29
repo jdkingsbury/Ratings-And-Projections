@@ -75,7 +75,7 @@ export default async function Home() {
               Terms of Service
             </a>
           </div>
-          <p>&copy; 2024 Sports Predictions. All rights reserved.</p>
+          <p>&copy; 2024 Ratings Projections. All rights reserved.</p>
         </div>
       </footer>
     </div>

@@ -31,7 +31,7 @@ export default function Component() {
           {/* Logo: Link to Home */}
           <Link href="/" className="flex items-center gap-2" prefetch={false}>
             <TestTubeIcon color="text-primary" className="h-6 w-6" />
-            <span className="text-lg font-semibold">Sports Predictions</span>
+            <span className="text-lg font-semibold">Ratings Projections</span>
           </Link>
           {/* Desktop Navigation */}
           <div className="hidden md:flex gap-4">
