@@ -1,4 +1,4 @@
-# Sports Prediction Application
+# Rating And Projections Application
 
 ## Table of Contents
 
@@ -20,6 +20,7 @@ The frontend is built using Next.js, a React-based framework for building modern
 ## Backend
 
 The backend uses FastAPI and contains the API endpoints and service files. It handles:
+
 - Fetching data from external APIs
 - Processing and storing data in the PostgreSQL database
 - Generating player and team grades
@@ -28,6 +29,7 @@ The backend uses FastAPI and contains the API endpoints and service files. It ha
 ## Database
 
 The Application uses PostgreSQL as the database. It stores detailed information about players, teams, and game logs. The schema currently includes tables for:
+
 - Players
 - Teams
 - Game Logs
@@ -106,6 +108,7 @@ docker-compose exec backend python app/utils/create_file.py {api_url} {file_type
 - `file_name`: The desired name for the output file.
 
 Example:
+
 ```sh
 docker-compose exec backend python app/utils/create_file.py http://localhost:8000/nba/players json player_data
 ```
