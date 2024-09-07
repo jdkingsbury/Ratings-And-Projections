@@ -12,6 +12,7 @@ from app.services.nba_service import (
     fetch_player_card_info,
     fetch_player_info,
     fetch_players,
+    fetch_team_info,
     fetch_teams,
 )
 from app.utils.nba_utils import get_current_season_year
@@ -75,3 +76,11 @@ def fetch_all_teams(db: Session = Depends(get_db)):
     if not teams:
         raise HTTPException(status_code=404, detail="No teams found")
     return teams
+
+
+@router.get("/teams/{team_id}", response_model=Optional[NBATeamBase])
+def fetch_team(team_id: int, db: Session = Depends(get_db)):
+    team = fetch_team_info(db, team_id)
+    if not team:
+        raise HTTPException(status_code=404, detail="Team not found")
+    return team
