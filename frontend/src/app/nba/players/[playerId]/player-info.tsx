@@ -1,7 +1,5 @@
 import { Player } from "./types";
 
-// TODO: Finish updating the player profile page without the players image
-// Will probably need to update the api endpoint to send the correct data
 export function PlayerInfo({ data }: { data: Player }) {
   const birthdate = data.birth_date
     ? new Date(data.birth_date).toLocaleDateString()

@@ -1,6 +1,8 @@
 import { BACKEND_API_BASE_URL } from "@/components/utils/constants";
 import { Team } from "../types";
 import axios from "axios";
+import { Card, CardContent } from "@/components/ui/card";
+import { TeamInfo } from "./team-info";
 
 // Ideas for the Team Profile Page:
 // - Team Roster
@@ -37,7 +39,21 @@ export default async function TeamProfile({
   try {
     return (
       <div className="p-6 min-h-screen">
-        <div className="mb-6">Team Page</div>
+        <div className="mb-6">
+          <Card className="p-4 shadow-md rounded-lg w-full">
+            <CardContent>
+              {teamInfo.error ? (
+                <p className="text-red-500">
+                  Error when fetching team info: {teamInfo.error}
+                </p>
+              ) : !teamInfo.data ? (
+                <p className="text-gray-500">Team not found.</p>
+              ) : (
+                <TeamInfo data={teamInfo.data} />
+              )}
+            </CardContent>
+          </Card>
+        </div>
       </div>
     );
   } catch (error) {
