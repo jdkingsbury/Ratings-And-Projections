@@ -4,10 +4,10 @@ from typing import List
 import pandas as pd
 from app.db.database import SessionLocal
 from app.db.models.league import League
-from app.db.models.sports.nba import NBATeam
 from app.utils.fetch_utils import fetch_data_async
 from nba_api.stats.endpoints import teaminfocommon
 from nba_api.stats.static import teams
+from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 from tqdm.asyncio import tqdm
 
@@ -78,30 +78,62 @@ def fetch_all_teams() -> pd.DataFrame:
 def insert_all_teams(combined_teams_df: pd.DataFrame, league_id: int) -> None:
     with SessionLocal() as session:
         try:
+            insert_query = text(
+                """
+                INSERT INTO nba_teams (
+                    team_id, name, abbreviation, nickname, city, state,
+                    conference, division, year_founded, w, l, pct, conf_rank,
+                    div_rank, season_year, league_id
+                ) VALUES (
+                    :team_id, :name, :abbreviation, :nickname, :city, :state,
+                    :conference, :division, :year_founded, :w, :l, :pct, :conf_rank,
+                    :div_rank, :season_year, :league_id
+                )
+                ON CONFLICT (team_id) DO UPDATE SET
+                    name = excluded.name,
+                    abbreviation = excluded.abbreviation,
+                    nickname = excluded.nickname,
+                    city = excluded.city,
+                    state = excluded.state,
+                    conference = excluded.conference,
+                    division = excluded.division,
+                    year_founded = excluded.year_founded,
+                    w = excluded.w,
+                    l = excluded.l,
+                    pct = excluded.pct,
+                    conf_rank = excluded.conf_rank,
+                    div_rank = excluded.div_rank,
+                    season_year = excluded.season_year,
+                    league_id = excluded.league_id
+            """
+            )
             for _, row in tqdm(
                 combined_teams_df.iterrows(), desc="Inserting teams into the database"
             ):
-                team = NBATeam(
-                    team_id=row["team_id"],
-                    name=row["name"],
-                    abbreviation=row["abbreviation"],
-                    nickname=row["nickname"],
-                    city=row["city"],
-                    state=row["state"],
-                    conference=row["conference"],
-                    division=row["division"],
-                    year_founded=row["year_founded"],
-                    w=row["w"],
-                    l=row["l"],
-                    pct=row["pct"],
-                    conf_rank=row["conf_rank"],
-                    div_rank=row["div_rank"],
-                    season_year=row["season_year"],
-                    league_id=league_id,
+                session.execute(
+                    insert_query,
+                    {
+                        "team_id": row["team_id"],
+                        "name": row["name"],
+                        "abbreviation": row["abbreviation"],
+                        "nickname": row["nickname"],
+                        "city": row["city"],
+                        "state": row["state"],
+                        "conference": row.get(
+                            "conference", None
+                        ),  # Handling possible missing values
+                        "division": row.get("division", None),
+                        "year_founded": row.get("year_founded", None),
+                        "w": row.get("w", None),
+                        "l": row.get("l", None),
+                        "pct": row.get("pct", None),
+                        "conf_rank": row.get("conf_rank", None),
+                        "div_rank": row.get("div_rank", None),
+                        "season_year": row.get("season_year", None),
+                        "league_id": league_id,
+                    },
                 )
-                session.merge(team)
             print("Successfully Inserted NBA Teams Into the Database")
-            session.flush()
             session.commit()
 
         except SQLAlchemyError as e:
@@ -133,14 +165,12 @@ async def main() -> None:
 
             # Combine all team infos dataframes
             detailed_team_info = pd.concat(all_teams_info_dfs, ignore_index=True)
-            print(detailed_team_info)
 
             # Fetch all teams from the nba_api static function
             basic_team_info = fetch_all_teams()
 
             # Combine the two dataframes
             combined_teams_df = basic_team_info.combine_first(detailed_team_info)
-            print(combined_teams_df)
 
             # Inserts all the teams and team data into the database
             insert_all_teams(combined_teams_df, league_id)

@@ -4,11 +4,10 @@ from typing import List
 
 import pandas as pd
 from app.db.database import async_engine
-from app.db.models.sports.nba import NBAPlayer, NBATeam
 from app.utils.fetch_utils import fetch_data_async
 from nba_api.stats.endpoints import commonplayerinfo
 from nba_api.stats.static import players
-from sqlalchemy import select
+from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
 from tqdm.asyncio import tqdm
 
@@ -127,9 +126,10 @@ async def insert_all_player_info(player_info_dfs: List[pd.DataFrame]):
                     else:
 
                         result = await session.execute(
-                            select(NBATeam).filter_by(team_id=team_id)
+                            text("SELECT * FROM nba_teams WHERE team_id = :team_id"),
+                            {"team_id": team_id},
                         )
-                        team_exists = result.scalars().one_or_none()
+                        team_exists = result.fetchone()
 
                         # Check if the team id tied to the player is valid
                         if not team_exists:
@@ -138,8 +138,39 @@ async def insert_all_player_info(player_info_dfs: List[pd.DataFrame]):
                             )
                             player_info_dict["team_id"] = None
 
-                    player = NBAPlayer(**player_info_dict)
-                    await session.merge(player)
+                    insert_statement = text(
+                        """
+                        INSERT INTO nba_players (
+                            player_id, first_last, first_name, last_name, birth_date,
+                            school, country, height, weight, jersey, position,
+                            is_active, team_id, from_year, to_year, draft_year,
+                            draft_round, draft_number
+                        ) VALUES (
+                            :player_id, :first_last, :first_name, :last_name, :birth_date,
+                            :school, :country, :height, :weight, :jersey, :position,
+                            :is_active, :team_id, :from_year, :to_year, :draft_year,
+                            :draft_round, :draft_number
+                        ) ON CONFLICT (player_id) DO UPDATE SET
+                            first_last = EXCLUDED.first_last,
+                            first_name = EXCLUDED.first_name,
+                            last_name = EXCLUDED.last_name,
+                            birth_date = EXCLUDED.birth_date,
+                            school = EXCLUDED.school,
+                            country = EXCLUDED.country,
+                            height = EXCLUDED.height,
+                            weight = EXCLUDED.weight,
+                            jersey = EXCLUDED.jersey,
+                            position = EXCLUDED.position,
+                            is_active = EXCLUDED.is_active,
+                            team_id = EXCLUDED.team_id,
+                            from_year = EXCLUDED.from_year,
+                            to_year = EXCLUDED.to_year,
+                            draft_year = EXCLUDED.draft_year,
+                            draft_round = EXCLUDED.draft_round,
+                            draft_number = EXCLUDED.draft_number
+                    """
+                    )
+                    await session.execute(insert_statement, player_info_dict)
 
         await session.commit()
 
