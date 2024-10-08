@@ -1,5 +1,4 @@
 from datetime import date
-from os import strerror
 from typing import Optional
 
 from pydantic import BaseModel
@@ -25,6 +24,7 @@ class NBAPlayerBase(BaseModel):
     draft_year: Optional[str] = None
     draft_round: Optional[str] = None
     draft_number: Optional[str] = None
+
     class Config:
         from_attributes = True
 

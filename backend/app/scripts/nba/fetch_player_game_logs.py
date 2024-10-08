@@ -3,10 +3,10 @@ from datetime import datetime
 
 import pandas as pd
 from app.db.database import async_engine
-from app.db.models.sports.nba import NBAGameLog
 from app.utils.fetch_utils import fetch_data_async
 from nba_api.stats.endpoints import playergamelog
 from nba_api.stats.static import players
+from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
 from tqdm.asyncio import tqdm
 
@@ -104,21 +104,82 @@ async def fetch_all_players_game_logs(
 async def insert_all_player_game_logs(player_game_logs_dfs: list[pd.DataFrame]):
     async with AsyncSession(async_engine) as session:
         async with session.begin():
-            with session.no_autoflush:
-                for player_game_logs_df in tqdm(
-                    player_game_logs_dfs, desc="Inserting Players Game Logs"
-                ):
-                    if player_game_logs_df.empty:
-                        print(f"No game logs found. Skipping.")
-                        continue
+            for player_game_logs_df in tqdm(
+                player_game_logs_dfs, desc="Inserting Players Game Logs"
+            ):
+                if player_game_logs_df.empty:
+                    print(f"No game logs found. Skipping.")
+                    continue
 
-                    player_game_log_dicts = player_game_logs_df.to_dict(
-                        orient="records"
+                player_game_log_tuples = player_game_logs_df.to_records(
+                    index=False
+                ).tolist()
+
+                if player_game_log_tuples:
+                    insert_statement = text(
+                        """
+                        INSERT INTO nba_game_logs (
+                            season_id, player_id, game_id,
+                            game_date, matchup, wl,
+                            min, fgm, fga,
+                            fg_pct, fg3m, fg3a,
+                            ftm, fta, ft_pct,
+                            oreb, dreb, reb,
+                            ast, stl, blk,
+                            tov, pf, pts,
+                            plus_minus,
+                            video_available,
+                            season_year
+                        ) VALUES (
+                            :season_id, :player_id, :game_id,
+                            :game_date, :matchup, :wl,
+                            :min, :fgm, :fga,
+                            :fg_pct, :fg3m, :fg3a,
+                            :ftm, :fta, :ft_pct,
+                            :oreb, :dreb, :reb,
+                            :ast, :stl, :blk,
+                            :tov, :pf, :pts,
+                            :plus_minus,
+                            :video_available,
+                            :season_year
+                        )                     
+                        """
                     )
 
-                    for player_game_log_dict in player_game_log_dicts:
-                        game_logs = NBAGameLog(**player_game_log_dict)
-                        await session.merge(game_logs)
+                    for record in player_game_log_tuples:
+                        await session.execute(
+                            insert_statement,
+                            {
+                                "season_id": record[0],
+                                "player_id": record[1],
+                                "game_id": record[2],
+                                "game_date": record[3],
+                                "matchup": record[4],
+                                "wl": record[5],
+                                "min": record[6],
+                                "fgm": record[7],
+                                "fga": record[8],
+                                "fg_pct": record[9],
+                                "fg3m": record[10],
+                                "fg3a": record[11],
+                                "fg3_pct": record[12],
+                                "ftm": record[13],
+                                "fta": record[14],
+                                "ft_pct": record[15],
+                                "oreb": record[16],
+                                "dreb": record[17],
+                                "reb": record[18],
+                                "ast": record[19],
+                                "stl": record[20],
+                                "blk": record[21],
+                                "tov": record[22],
+                                "pf": record[23],
+                                "pts": record[24],
+                                "plus_minus": record[25],
+                                "video_available": record[26],
+                                "season_year": record[27],
+                            },
+                        )
 
         await session.commit()
 

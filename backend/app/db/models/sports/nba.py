@@ -1,7 +1,8 @@
 from app.db.database import Base
-from sqlalchemy import (Boolean, Column, Date, Float, ForeignKey, Integer,
-                        String)
+from sqlalchemy import Boolean, Column, Date, Float, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
+
+# When adding career stats ensure that team id is not a foreign key
 
 
 class NBAPlayer(Base):
@@ -28,6 +29,7 @@ class NBAPlayer(Base):
 
     nba_team = relationship("NBATeam", back_populates="nba_players")
     game_logs = relationship("NBAGameLog", back_populates="player")
+
 
 # Change to NBA teams
 class NBATeam(Base):
